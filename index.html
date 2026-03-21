@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>职业罗盘 — AI时代志愿指导</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --border: #1e1e2e;
+  --text: #e8e8f0;
+  --muted: #6b6b8a;
+  --accent: #ff3c5f;
+  --accent2: #ffb347;
+  --accent3: #00e5ff;
+  --safe: #00c896;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Serif SC', serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none; z-index:0;
+}
+
+.container { max-width:480px; margin:0 auto; padding:0 20px; position:relative; z-index:1; }
+
+/* ── 步骤指示器 ── */
+.step-indicator {
+  display:flex; gap:6px; justify-content:center;
+  padding:24px 0 0;
+}
+.step-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--border); transition:all .3s;
+}
+.step-dot.active { background:var(--accent); width:20px; border-radius:3px; }
+.step-dot.done { background:var(--safe); }
+
+/* ── 通用屏幕 ── */
+.screen { display:none; padding:32px 0 60px; animation:fadeIn .35s ease; }
+.screen.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+.screen-label {
+  font-family:'Space Mono',monospace; font-size:11px;
+  letter-spacing:4px; color:var(--accent); text-transform:uppercase;
+  margin-bottom:12px;
+}
+.screen-title {
+  font-size:clamp(24px,7vw,32px); font-weight:900; line-height:1.2;
+  margin-bottom:8px;
+}
+.screen-title span {
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.screen-sub { font-size:14px; color:var(--muted); line-height:1.7; margin-bottom:28px; }
+
+/* ── 按钮 ── */
+.btn {
+  width:100%; padding:18px; background:var(--accent); border:none; border-radius:14px;
+  color:#fff; font-size:16px; font-family:'Noto Serif SC',serif; font-weight:700;
+  cursor:pointer; transition:opacity .15s,transform .15s; margin-top:8px;
+}
+.btn:active { opacity:.85; transform:scale(.98); }
+.btn.secondary {
+  background:transparent; border:1.5px solid var(--border); color:var(--muted);
+}
+.btn.secondary:active { border-color:var(--accent); color:var(--accent); }
+
+/* ── 选择卡片 ── */
+.choice-grid { display:flex; flex-direction:column; gap:12px; margin-bottom:24px; }
+.choice-card {
+  padding:20px; background:var(--surface); border:1.5px solid var(--border);
+  border-radius:16px; cursor:pointer; transition:all .2s;
+}
+.choice-card:hover, .choice-card.selected {
+  border-color:var(--accent); background:rgba(255,60,95,.06);
+}
+.choice-card.selected .choice-check { opacity:1; }
+.choice-head { display:flex; justify-content:space-between; align-items:center; }
+.choice-emoji { font-size:28px; margin-bottom:8px; }
+.choice-name { font-size:17px; font-weight:700; margin-bottom:4px; }
+.choice-desc { font-size:13px; color:var(--muted); line-height:1.6; }
+.choice-check { opacity:0; color:var(--accent); font-size:18px; transition:opacity .2s; }
+
+/* ── 问卷题目 ── */
+.question-wrap { margin-bottom:24px; }
+.question-num {
+  font-family:'Space Mono',monospace; font-size:11px; color:var(--muted);
+  letter-spacing:2px; margin-bottom:10px;
+}
+.question-text { font-size:18px; font-weight:700; line-height:1.5; margin-bottom:16px; }
+.options-list { display:flex; flex-direction:column; gap:10px; }
+.option-btn {
+  padding:16px 18px; background:var(--surface); border:1.5px solid var(--border);
+  border-radius:14px; text-align:left; cursor:pointer;
+  font-size:14px; font-family:'Noto Serif SC',serif; color:var(--text);
+  line-height:1.5; transition:all .15s; width:100%;
+}
+.option-btn:hover { border-color:var(--accent3); color:var(--accent3); }
+.option-btn.selected { border-color:var(--accent); background:rgba(255,60,95,.08); color:var(--text); }
+
+/* ── 进度条 ── */
+.progress-wrap { height:3px; background:var(--border); border-radius:2px; margin-bottom:28px; }
+.progress-bar { height:100%; background:var(--accent); border-radius:2px; transition:width .4s; }
+
+/* ── API Key ── */
+.api-config {
+  background:var(--surface); border:1.5px solid var(--border);
+  border-radius:16px; padding:20px; margin-bottom:24px;
+}
+.api-config-label {
+  font-size:11px; color:var(--muted); margin-bottom:10px;
+  font-family:'Space Mono',monospace; letter-spacing:2px;
+}
+.api-row { display:flex; gap:8px; }
+.api-input {
+  flex:1; background:var(--bg); border:1px solid var(--border);
+  border-radius:10px; padding:11px 14px; font-size:13px;
+  font-family:'Space Mono',monospace; color:var(--text); outline:none;
+}
+.api-input:focus { border-color:var(--accent); }
+.api-save-btn {
+  padding:11px 16px; background:var(--accent); border:none;
+  border-radius:10px; color:white; font-size:13px; cursor:pointer;
+  font-family:'Noto Serif SC',serif;
+}
+.api-status { font-size:12px; margin-top:8px; color:var(--safe); min-height:18px; }
+
+/* ── 结果卡片 ── */
+.result-section { margin-bottom:12px; }
+.result-section-label {
+  font-family:'Space Mono',monospace; font-size:11px; color:var(--muted);
+  letter-spacing:3px; text-transform:uppercase; margin-bottom:12px;
+}
+.major-card {
+  background:var(--surface); border:1.5px solid var(--border);
+  border-radius:20px; padding:24px; margin-bottom:12px;
+  animation:fadeIn .35s ease;
+}
+.major-card.top-pick { border-color:var(--accent2); }
+.major-name { font-size:20px; font-weight:700; margin-bottom:4px; }
+.major-verdict {
+  display:inline-block; padding:4px 12px; border-radius:100px;
+  font-size:12px; font-weight:700; margin-bottom:16px;
+}
+.verdict-recommend { background:rgba(0,200,150,.15); color:var(--safe); }
+.verdict-caution { background:rgba(255,179,71,.15); color:var(--accent2); }
+.verdict-avoid { background:rgba(255,60,95,.12); color:var(--accent); }
+
+/* ── 四维评分 ── */
+.scores-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+.score-item { background:var(--bg); border-radius:12px; padding:12px; }
+.score-dim { font-size:11px; color:var(--muted); margin-bottom:6px; }
+.score-stars { font-size:16px; letter-spacing:1px; margin-bottom:2px; }
+.score-val { font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); }
+
+/* ── 详情文字 ── */
+.major-detail { font-size:14px; line-height:1.8; color:#c0c0d8; margin-bottom:12px; }
+.major-pitfall {
+  font-size:13px; color:var(--accent2); line-height:1.7;
+  padding:10px 14px; background:rgba(255,179,71,.06);
+  border-left:3px solid var(--accent2); border-radius:0 8px 8px 0;
+}
+
+/* ── 模式切换 ── */
+.mode-toggle {
+  display:flex; gap:8px; margin-bottom:20px;
+  background:var(--surface); padding:4px; border-radius:12px;
+  border:1px solid var(--border);
+}
+.mode-btn {
+  flex:1; padding:10px; border:none; border-radius:9px;
+  font-size:13px; font-family:'Noto Serif SC',serif;
+  cursor:pointer; transition:all .2s; background:transparent; color:var(--muted);
+}
+.mode-btn.active { background:var(--accent); color:white; }
+
+/* ── 加载 ── */
+.loading-screen { text-align:center; padding:80px 0; }
+.loader {
+  display:inline-block; width:48px; height:48px;
+  border:3px solid var(--border); border-top-color:var(--accent);
+  border-radius:50%; animation:spin .8s linear infinite; margin-bottom:20px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading-text { color:var(--muted); font-size:15px; }
+
+/* ── 展开按钮 ── */
+.expand-btn {
+  width:100%; padding:14px; background:transparent;
+  border:1px dashed var(--border); border-radius:14px;
+  color:var(--muted); font-size:14px; cursor:pointer;
+  font-family:'Noto Serif SC',serif; margin-top:4px; transition:all .2s;
+}
+.expand-btn:hover { border-color:var(--accent3); color:var(--accent3); }
+
+/* ── Footer ── */
+footer {
+  text-align:center; padding:24px 0 48px;
+  color:var(--muted); font-size:12px; line-height:2;
+}
+footer a { color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- 步骤指示器 -->
+<div class="step-indicator" id="stepDots"></div>
+
+<!-- ══ 屏幕 0：欢迎 ══ -->
+<div class="screen active" id="screen0">
+  <div style="padding-top:40px">
+    <div class="screen-label">职业罗盘 · 2026</div>
+    <h1 class="screen-title">选对方向<br><span>比努力更重要</span></h1>
+    <p class="screen-sub">
+      四维框架评估：AI生存力 × 窗口期 × 家庭适配 × 人格匹配<br>
+      帮你在AI时代做出有预见性的专业选择
+    </p>
+
+    <div class="api-config">
+      <div class="api-config-label">DEEPSEEK API KEY（可选，用于查询未收录专业）</div>
+      <div class="api-row">
+        <input type="password" class="api-input" id="apiKeyInput" placeholder="sk-...">
+        <button class="api-save-btn" onclick="saveApiKey()">保存</button>
+      </div>
+      <div class="api-status" id="apiStatus"></div>
+      <div style="margin-top:10px;padding:10px;background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.12);border-radius:8px;font-size:12px;color:var(--muted);line-height:1.7;font-family:'Space Mono',monospace;">
+        🔒 Key仅存于本地，不上传服务器。没有Key也可使用已收录的50个专业。
+      </div>
+    </div>
+
+    <div class="choice-grid" id="modeChoice">
+      <div class="choice-card" onclick="selectMode('parent', this)">
+        <div class="choice-emoji">👨‍👩‍👧</div>
+        <div class="choice-head">
+          <div class="choice-name">我是家长</div>
+          <div class="choice-check">✓</div>
+        </div>
+        <div class="choice-desc">关注职业稳定性、收入天花板、家庭资源适配度</div>
+      </div>
+      <div class="choice-card" onclick="selectMode('student', this)">
+        <div class="choice-emoji">🎓</div>
+        <div class="choice-head">
+          <div class="choice-name">我是学生</div>
+          <div class="choice-check">✓</div>
+        </div>
+        <div class="choice-desc">关注日常工作内容、成就感来源、这条路苦不苦</div>
+      </div>
+    </div>
+    <button class="btn" onclick="goToStep(1)">开始评估 →</button>
+  </div>
+</div>
+
+<!-- ══ 屏幕 1：基本信息 ══ -->
+<div class="screen" id="screen1">
+  <div class="screen-label">第一步 · 基本信息</div>
+  <h2 class="screen-title">先说说<span>基本情况</span></h2>
+  <p class="screen-sub">帮助过滤掉不适合的方向</p>
+
+  <div style="margin-bottom:20px">
+    <div style="font-size:14px;color:var(--muted);margin-bottom:10px;font-family:'Space Mono',monospace;letter-spacing:1px;">预估分数段</div>
+    <div class="choice-grid" id="scoreChoice" style="gap:8px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="choice-card" style="padding:14px" onclick="selectScore('700+',this)"><div class="choice-name" style="font-size:15px">700+</div><div class="choice-desc">顶尖院校</div></div>
+        <div class="choice-card" style="padding:14px" onclick="selectScore('650-700',this)"><div class="choice-name" style="font-size:15px">650–700</div><div class="choice-desc">重点院校</div></div>
+        <div class="choice-card" style="padding:14px" onclick="selectScore('600-650',this)"><div class="choice-name" style="font-size:15px">600–650</div><div class="choice-desc">本科一批</div></div>
+        <div class="choice-card" style="padding:14px" onclick="selectScore('550-600',this)"><div class="choice-name" style="font-size:15px">550–600</div><div class="choice-desc">本科二批</div></div>
+        <div class="choice-card" style="padding:14px" onclick="selectScore('500-550',this)"><div class="choice-name" style="font-size:15px">500–550</div><div class="choice-desc">本科院校</div></div>
+        <div class="choice-card" style="padding:14px" onclick="selectScore('500以下',this)"><div class="choice-name" style="font-size:15px">500以下</div><div class="choice-desc">专科/冲刺</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:24px">
+    <div style="font-size:14px;color:var(--muted);margin-bottom:10px;font-family:'Space Mono',monospace;letter-spacing:1px;">文理科</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+      <div class="choice-card" style="padding:14px;text-align:center" onclick="selectType('理科',this)"><div class="choice-name" style="font-size:15px">理科</div></div>
+      <div class="choice-card" style="padding:14px;text-align:center" onclick="selectType('文科',this)"><div class="choice-name" style="font-size:15px">文科</div></div>
+      <div class="choice-card" style="padding:14px;text-align:center" onclick="selectType('不限',this)"><div class="choice-name" style="font-size:15px">不限</div></div>
+    </div>
+  </div>
+
+  <button class="btn" onclick="goToStep(2)">下一步 →</button>
+  <button class="btn secondary" onclick="goToStep(0)">← 返回</button>
+</div>
+
+<!-- ══ 屏幕 2：家庭背景（5题） ══ -->
+<div class="screen" id="screen2">
+  <div class="screen-label">第二步 · 家庭背景</div>
+  <h2 class="screen-title">家庭情况<span>影响路径</span></h2>
+  <p class="screen-sub">这是所有测评工具都忽略的维度，也是中国职业选择的现实</p>
+
+  <div class="progress-wrap"><div class="progress-bar" id="familyProgress" style="width:20%"></div></div>
+  <div id="familyQuestion"></div>
+  <div style="display:flex;gap:10px;margin-top:16px">
+    <button class="btn secondary" onclick="prevFamily()" id="familyPrevBtn">← 上一题</button>
+  </div>
+</div>
+
+<!-- ══ 屏幕 3：人格测评（10题） ══ -->
+<div class="screen" id="screen3">
+  <div class="screen-label">第三步 · 人格测评</div>
+  <h2 class="screen-title">你在什么时候<span>忘记时间？</span></h2>
+  <p class="screen-sub">10道行为选择题，判断你的主导工作风格</p>
+
+  <div class="progress-wrap"><div class="progress-bar" id="personalityProgress" style="width:10%"></div></div>
+  <div id="personalityQuestion"></div>
+  <div style="display:flex;gap:10px;margin-top:16px">
+    <button class="btn secondary" onclick="prevPersonality()" id="personalityPrevBtn">← 上一题</button>
+  </div>
+</div>
+
+<!-- ══ 屏幕 4：计算中 ══ -->
+<div class="screen" id="screen4">
+  <div class="loading-screen">
+    <div class="loader"></div>
+    <div class="loading-text" id="loadingText">正在加载职业数据库…</div>
+  </div>
+</div>
+
+<!-- ══ 屏幕 5：结果 ══ -->
+<div class="screen" id="screen5">
+  <div class="screen-label">评估结果</div>
+  <h2 class="screen-title">你的<span>专业罗盘</span></h2>
+  <p class="screen-sub" id="resultSummary"></p>
+
+  <div class="mode-toggle">
+    <button class="mode-btn active" id="parentModeBtn" onclick="setResultMode('parent')">👨‍👩‍👧 家长视角</button>
+    <button class="mode-btn" id="studentModeBtn" onclick="setResultMode('student')">🎓 学生视角</button>
+  </div>
+
+  <div class="result-section">
+    <div class="result-section-label">强烈推荐</div>
+    <div id="topResults"></div>
+  </div>
+
+  <div class="result-section" id="cautionSection" style="display:none">
+    <div class="result-section-label">谨慎考虑</div>
+    <div id="cautionResults"></div>
+  </div>
+
+  <button class="expand-btn" id="showAllBtn" onclick="showAllMajors()">查看全部评估结果 ↓</button>
+
+  <div class="result-section" id="allResultsSection" style="display:none;margin-top:16px">
+    <div class="result-section-label">全部专业</div>
+    <div id="allResults"></div>
+  </div>
+
+  <button class="btn secondary" onclick="restart()" style="margin-top:24px">重新评估</button>
+
+  <footer>
+    数据来源：<a href="https://ai.zhexueyuan.com" target="_blank">职业AI风险数据库</a>（389个职业）<br>
+    方法论：Karpathy/jobs × 三维择业框架<br>
+    <span style="color:#3a3a5a">本工具仅供参考，不构成志愿填报建议</span><br><br>
+    <span style="color:#3a3a5a;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;">
+      哲学园出品 · 2026.03 · v1.0
+    </span>
+  </footer>
+</div>
+
+</div><!-- /container -->
+
+<script>
+// ══════════════════════════════════════════════════════
+// 数据层
+// ══════════════════════════════════════════════════════
+
+// 窗口期分数映射
+const WINDOW_SCORE = { '上升':9, '平稳':6, '饱和':3, '太早':5, '稳定':6 };
+
+// 人格类型索引：0=系统 1=表达 2=执行 3=创造
+const P_NAMES = ['系统型','表达型','执行型','创造型'];
+
+// 50个专业数据
+// 格式: [name, aliases, window, [personality], [occupation_keys], ai_default,
+//        grad_req(0/1), stability(H/M/L), industry_tag, years_to_income,
+//        city_req(any/t12/t1), subject(理/文/兼), rationale_short, pitfall_short]
+const MAJORS_RAW = [
+  ["计算机科学与技术",["计算机","CS","软件工程","码农"],"平稳",[0,3],["软件工程师","程序员","系统架构师"],6,0,"M","tech",4,"t12","理","系统设计能力是护城河，AI时代放大优秀工程师的产出","只学框架不够，核心是系统设计和用AI解决复杂问题"],
+  ["人工智能",["AI","机器学习","深度学习"],"上升",[0,3],["人工智能工程师","算法工程师","数据科学家"],6,0,"M","tech",4,"t12","理","训练模型被自动化，但架构设计和落地判断仍稀缺","别只学调包，有价值的是理解模型原理并转化为业务"],
+  ["软件工程",["软件","开发","程序员"],"平稳",[0,2],["软件工程师","测试工程师","项目经理"],6,0,"M","tech",4,"t12","理","工程能力在AI时代更值钱，系统架构师需求持续","工程两字是重点，不只是写代码，还有测试和维护"],
+  ["数据科学与大数据技术",["数据","大数据","数据分析"],"平稳",[0,1],["数据分析师","数据科学家","商业分析师"],5,0,"M","tech",4,"t12","理","提问和解读数据的能力是AI做不好的","别以为学会SQL就是数据科学家，核心是业务理解"],
+  ["网络安全",["安全","信息安全","黑客"],"上升",[0,3],["网络安全工程师","渗透测试工程师","安全架构师"],8,0,"M","tech",4,"t12","理","攻防对抗的本质是创造性思维，AI极难替代","需要持续自学，漏洞和技术每年都在更新"],
+  ["电子信息工程",["电子","信息","通信电子"],"平稳",[0,2],["电子工程师","嵌入式工程师","硬件工程师"],6,0,"M","tech",5,"t12","理","硬件设计和嵌入式需要物理直觉，AI难以完全替代","毕业去向分化极大，学校和项目经验决定赛道"],
+  ["通信工程",["通信","5G","网络"],"平稳",[0,2],["通信工程师","网络工程师","无线电工程师"],5,0,"M","tech",4,"t12","理","新技术标准研究和系统级设计有真正价值","运营商招聘趋于保守，路径相对窄"],
+  ["自动化",["自动化","控制","PLC"],"上升",[0,2],["自动化工程师","控制工程师","机器人工程师"],6,0,"M","mfg",5,"t12","理","工业控制和机器人需要物理直觉和现场经验","进高端制造薪资很好，进传统工厂则很普通"],
+  ["机械工程",["机械","制造","机械设计"],"平稳",[0,2],["机械工程师","制造工程师","工艺工程师"],5,0,"M","mfg",5,"any","理","产品结构设计需要物理直觉，标准化设计被压缩","追求高薪需要明确转向新能源汽车或机器人赛道"],
+  ["土木工程",["土木","建筑施工","结构"],"饱和",[2,0],["土木工程师","结构工程师","施工管理工程师"],4,0,"H","cons",5,"any","理","现场管理和复杂项目综合判断需要经验积累","就业压力最大的工科之一，不热爱建造要慎重"],
+  ["建筑学",["建筑设计","设计院","建筑师"],"饱和",[3,0],["建筑师","室内设计师","规划师"],6,0,"M","cons",6,"t12","兼","空间叙事和建筑意图表达仍需创造力","爱建筑本身才能撑过低谷，爱title的会后悔"],
+  ["化学工程与工艺",["化工","化学"],"上升",[0,2],["化工工程师","工艺工程师","研发工程师"],5,1,"M","chem",5,"any","理","锂电池产业链对化工人才需求持续旺盛","行业选择决定上限，新能源和传统石化是两个世界"],
+  ["生物工程",["生物","生命科学","生物技术"],"上升",[0,3],["生物工程师","研发工程师","生物技术员"],5,1,"L","bio",7,"t12","理","合成生物和基因编辑是近5年最热科技赛道","本科直接就业出路窄，做好读研准备"],
+  ["环境科学与工程",["环境","环保"],"上升",[0,2],["环境工程师","环保工程师","碳排放核查员"],6,0,"M","env",5,"any","理","双碳目标下碳排放核查是近年新兴方向","体制内和头部企业差异大，行业选择决定上限"],
+  ["材料科学与工程",["材料","新材料"],"上升",[0,2],["材料工程师","研发工程师","质量工程师"],6,1,"M","mfg",5,"any","理","半导体材料是国家卡脖子领域，政策重点支持","进半导体新能源薪资很好，进传统材料增长慢"],
+  ["电气工程及其自动化",["电气","强电","电力"],"上升",[0,2],["电气工程师","电力工程师","新能源工程师"],7,0,"H","energy",4,"any","理","新能源革命直接拉动电气人才需求，国家电网大量校招","两条路差异大：国网稳定但慢，新能源快但压力大"],
+  ["新能源科学与工程",["新能源","光伏","储能","风电"],"上升",[0,2],["新能源工程师","储能工程师","光伏工程师"],7,0,"M","energy",4,"any","理","国家战略核心赛道，2030年前人才需求持续旺盛","光伏已开始价格战，方向要往系统集成和储能走"],
+  ["智能制造工程",["智能制造","工业4.0"],"上升",[0,2],["智能制造工程师","工业互联网工程师","自动化工程师"],6,0,"M","mfg",5,"t12","理","懂工艺又懂数字化的复合型人才极度稀缺","课程体系还不成熟，挑有工厂合作的学校"],
+  ["临床医学",["医学","学医","医生"],"上升",[2,0],["医生","临床医师","外科医生"],9,1,"H","medical",8,"any","兼","医生是AI时代最安全职业之一，老龄化驱动需求","学制长，前期收入低，家庭要做好长期投入准备"],
+  ["口腔医学",["牙医","口腔","牙科"],"上升",[2,0],["口腔科医生","牙科医生","口腔外科医生"],9,0,"H","medical",6,"any","兼","口腔是AI时代最安全的医学方向，创业空间大","打工薪资中等，真正回报在自己开诊所"],
+  ["药学",["药学","制药","药剂"],"上升",[0,2],["药剂师","研发工程师","临床药师"],6,1,"M","medical",6,"any","理","创新药和CXO产业扩张，对药学人才需求大","本科就业出路窄薪资不高，做好读研准备"],
+  ["护理学",["护士","护理"],"上升",[2,1],["护士","护理师","养老护理师"],7,0,"H","medical",4,"any","兼","老龄化驱动需求，人文关怀AI无法替代","高强度情感消耗，入行前去医院体验再决定"],
+  ["中医学",["中医","中医药"],"上升",[0,2],["中医师","针灸师","中药师"],7,0,"H","medical",8,"any","兼","非标准化判断AI难学习，国医馆消费方向快速增长","通常需15-20年形成独立临床判断力，需终身学习"],
+  ["生物医学工程",["生医","医疗器械","BME"],"上升",[0,3],["生物医学工程师","医疗器械工程师","研发工程师"],7,1,"M","medical",6,"t12","理","国产医疗器械替代进口是国家战略","听上去厉害就业难对口，大部分人转医疗销售或IT"],
+  ["公共卫生与预防医学",["公卫","疾控","流行病学"],"上升",[0,2],["公共卫生医师","流行病学家","疾控医师"],7,1,"H","medical",6,"any","理","新冠后国家大幅增加疾控体系投入","主要是体制内，稳定但薪资有限"],
+  ["工商管理",["管理","MBA方向","商科"],"平稳",[1,2],["企业管理人员","运营经理","总监"],4,0,"M","biz",4,"any","文","管理的价值在人和组织判断，但基础工具已自动化","本科没有技术壁垒，靠实习经历和辅修技能弥补"],
+  ["金融学",["金融","投行","基金","银行"],"饱和",[0,1],["金融分析师","投资银行家","基金经理"],5,0,"L","finance",4,"t1","文","高端金融仍依赖人脉和判断，基础分析被AI替代","金融神话破灭，大部分毕业生进普通银行薪资落差大"],
+  ["会计学",["会计","财务","CPA"],"饱和",[2,0],["会计师","财务经理","审计师"],3,0,"H","finance",4,"any","文","AI会计风险最高，注册会计师仍有价值但考证难","不考CPA就业风险极高，考证是硬指标"],
+  ["经济学",["经济","宏观经济","经济研究"],"平稳",[0,1],["经济学家","分析师","政策研究员"],5,1,"M","finance",5,"t12","文","思维框架的价值在AI时代反而上升","本科就业窄，需要辅修数学或编程才有竞争力"],
+  ["国际经济与贸易",["国贸","外贸","跨境电商"],"平稳",[1,2],["国际贸易员","跨境电商运营","供应链经理"],4,0,"M","trade",4,"any","文","跨境电商仍有增量，懂外语+运营+数据最稀缺","纯国贸竞争力一般，需叠加运营或垂直行业知识"],
+  ["市场营销",["营销","市场","品牌"],"平稳",[1,3],["市场经理","品牌经理","营销策划"],5,0,"M","media",4,"t12","文","用户洞察仍需直觉，但内容生产被AI工具替代","只会做PPT的营销人在快速贬值，需要数据能力"],
+  ["人力资源管理",["HR","人力资源"],"平稳",[1,2],["人力资源经理","招聘专员","HRBP"],4,0,"M","biz",4,"any","文","高层HR依赖经验积累，标准化流程已自动化","最难量化价值的岗位，初期待遇偏低"],
+  ["电子商务",["电商","运营","直播电商"],"平稳",[2,3],["电商运营","直播运营","新媒体运营"],5,0,"M","media",4,"any","兼","内容电商仍有增量，内卷激烈","实战大于学历，大一就开始做真实项目"],
+  ["物流管理",["物流","供应链","仓储"],"上升",[0,2],["物流经理","供应链经理","仓储管理员"],5,0,"M","trade",4,"any","文","跨境电商驱动供应链升级，系统化人才缺口大","顶级物流公司和普通物流公司是两个职业"],
+  ["法学",["法律","律师","检察院"],"平稳",[0,1],["律师","法官","检察官"],8,0,"M","legal",5,"any","文","法律判断细节权衡和客户关系AI无法替代","越顶尖越值钱，非985难进顶级律所"],
+  ["心理学",["心理","心理咨询","心理健康"],"上升",[1,0],["心理咨询师","心理治疗师","心理研究员"],9,1,"M","health",7,"any","文","人际信任和共情AI最难触及，需求爆发式增长","本科不能做咨询，需读研积累大量督导时数"],
+  ["社会工作",["社工","社会服务"],"上升",[1,2],["社会工作者","社区工作者","公益项目经理"],6,0,"H","health",4,"any","文","个案管理和社区关系建立需情感投入","有意义但收入有限，薪资由政府购买服务支撑"],
+  ["教育学",["教育","教师","教培"],"平稳",[1,2],["教师","教育管理者","培训师"],6,0,"H","edu",4,"any","文","因材施教仍需人，但知识传授标准化部分被替代","教师编制竞争激烈，热门城市基本要求985硕士"],
+  ["学前教育",["幼教","幼儿教师","早教"],"上升",[1,2],["幼儿教师","早教老师","儿童教育顾问"],6,0,"H","edu",4,"any","文","儿童情感安全感高度依赖真实人类互动","薪资普遍偏低，公立园编制较好，真心喜欢孩子是前提"],
+  ["汉语言文学",["中文","中国文学","语文"],"平稳",[1,3],["编辑","文案策划","语文教师"],4,0,"M","media",4,"any","文","审美判断仍需人，但大量文字生产被AI替代","主要靠转型，需提前明确去教育媒体还是品牌"],
+  ["英语",["英语","外语","英文"],"平稳",[1,2],["英语教师","翻译","商务代表"],4,0,"M","trade",4,"t12","文","跨文化理解有价值，纯语言壁垒在下降","必须叠加第二技能，法律英语或科技翻译更有竞争力"],
+  ["翻译",["翻译","口译","笔译"],"饱和",[1,2],["翻译","同声传译","本地化工程师"],3,0,"M","media",4,"t12","文","机器翻译在大部分商业场景已足够用","AI冲击最直接的专业，除非目标是顶级同传"],
+  ["新闻传播学",["新闻","传媒","记者","主播"],"饱和",[1,3],["记者","编辑","新媒体运营"],3,0,"M","media",4,"t12","文","内容生产被AI深度渗透，主流媒体连续缩编","不要因为喜欢写作就报考，要做会用AI做内容的人"],
+  ["视觉传达设计",["视觉","平面设计","UI设计"],"平稳",[3,0],["平面设计师","UI设计师","品牌设计师"],4,0,"M","media",4,"t12","兼","用户体验判断仍需审美直觉，执行性设计被AI替代","会用AI设计工具的设计师效率是不会的10倍"],
+  ["产品设计",["产品设计","工业设计","ID"],"上升",[3,0],["产品设计师","工业设计师","交互设计师"],6,0,"M","mfg",5,"t12","兼","新能源汽车内饰和智能硬件需求旺盛","找工作时作品集比学校名气更重要，大一就开始做项目"],
+  ["数字媒体艺术",["数媒","游戏设计","动画"],"上升",[3,0],["游戏策划","动画师","特效师"],6,0,"M","media",5,"t12","兼","游戏出海是文化产业最大增量，国际市场需求旺","爱玩游戏不等于能做游戏，需要系统思维和设计能力"],
+  ["历史学",["历史","考古","文博"],"平稳",[0,1],["历史研究员","博物馆管理员","中学历史教师"],5,1,"H","edu",5,"any","文","文化遗产解读需长期积累的人文判断","读研才能发挥价值，本科主要出路是历史老师"],
+  ["哲学",["哲学"],"平稳",[0,1],["哲学研究员","咨询顾问","政策分析师"],6,1,"M","edu",5,"any","文","批判性思维在AI时代是稀缺元能力","最难直接就业，需要强烈自我驱动和转化能力"],
+  ["数字经济",["数字经济","互联网经济"],"上升",[0,1],["数字经济研究员","产业分析师","平台运营"],5,0,"M","tech",4,"t12","兼","国家战略核心词，政府咨询平台企业均有需求","新专业课程良莠不齐，提前看课程设置避免踩坑"],
+  ["金融科技",["金融科技","Fintech"],"上升",[0,2],["金融科技工程师","量化分析师","风控工程师"],6,0,"M","finance",4,"t1","兼","懂金融又懂编程的复合人才稀缺","双重门槛，两条线都要够得上才能真正发挥价值"],
+];
+
+// 构建专业数据字典
+const MAJORS = {};
+MAJORS_RAW.forEach(m => {
+  MAJORS[m[0]] = {
+    name: m[0], alias: m[1], window: m[2],
+    personality: m[3], occs: m[4], ai_default: m[5],
+    grad_req: m[6], stability: m[7], industry: m[8],
+    years: m[9], city: m[10], subject: m[11],
+    rationale: m[12], pitfall: m[13]
+  };
+});
+
+// 家庭背景问题
+const FAMILY_QS = [
+  {
+    text: "家里的经济情况，能支持孩子读到什么程度？",
+    options: [
+      { text: "本科毕业就要工作，不太能支持读研", value: 1 },
+      { text: "可以支持读研究生（国内）", value: 2 },
+      { text: "可以支持出国留学或长期深造", value: 3 }
+    ], key: "economic"
+  },
+  {
+    text: "父母在哪个行业工作？（选最相关的）",
+    options: [
+      { text: "医疗卫生（医生/护士/药剂）", value: "medical" },
+      { text: "技术/互联网/工程", value: "tech" },
+      { text: "金融/法律/教育", value: "finance" },
+      { text: "制造/建筑/能源", value: "mfg" },
+      { text: "其他或自由职业", value: "other" }
+    ], key: "industry"
+  },
+  {
+    text: "家里对孩子职业选择的风险偏好是？",
+    options: [
+      { text: "稳定最重要，公务员/事业单位/国企优先", value: 1 },
+      { text: "稳定和发展都要，接受一定压力", value: 2 },
+      { text: "愿意冒险，支持孩子去有挑战的行业或创业", value: 3 }
+    ], key: "risk"
+  },
+  {
+    text: "家庭所在城市/地区？",
+    options: [
+      { text: "北上广深", value: 1 },
+      { text: "省会城市或新一线城市", value: 2 },
+      { text: "地级市或县城", value: 3 }
+    ], key: "city"
+  },
+  {
+    text: "家里期望孩子大约多久后能经济独立？",
+    options: [
+      { text: "本科毕业就需要独立（4年内）", value: 1 },
+      { text: "可以等到读研毕业（6-7年）", value: 2 },
+      { text: "没关系，深造多久都支持", value: 3 }
+    ], key: "time"
+  }
+];
+
+// 人格测评题目（A→类型索引）
+const PERSONALITY_QS = [
+  { text:"放学后有2小时自由时间，你更可能：", a:"研究一个让你好奇的问题（为什么这件事会发生？）", b:"找人聊天，或者想办法说服朋友去做某件事", at:0, bt:1 },
+  { text:"小组作业时，你更喜欢：", a:"认领一个具体任务，把它做到最好", b:"负责创意方向，提出别人没想到的方案", at:2, bt:3 },
+  { text:"书店里你最可能拿起哪类书：", a:"科普类——解释世界运作规律的", b:"设计/艺术类——关于创作和审美的", at:0, bt:3 },
+  { text:"你最享受哪种感觉：", a:"成功说服了一个人，让他改变了想法", b:"把一件事从头到尾做完，清单全部打勾", at:1, bt:2 },
+  { text:"面对一个新任务，你的第一反应：", a:"先想清楚底层逻辑，再动手", b:"先行动，边做边调整", at:0, bt:2 },
+  { text:"你更享受哪种被认可：", a:"你说的话影响了别人的决定", b:"你做出来的东西让人眼前一亮", at:1, bt:3 },
+  { text:"班里出了一个复杂问题，你更倾向：", a:"独自分析，找出根本原因", b:"召集大家讨论，推动团队解决", at:0, bt:1 },
+  { text:"理想工作状态是：", a:"清晰目标+可执行计划，每天都有进展", b:"没有固定流程，可以随时尝试新方向", at:2, bt:3 },
+  { text:"老师让你二选一，你选：", a:"做一个演讲，说服全班支持你的观点", b:"做一个研究报告，深入分析一个问题", at:1, bt:0 },
+  { text:"更适合描述你的是：", a:"我是把事情做成的人，靠谱、有执行力", b:"我总能想到别人没想到的角度", at:2, bt:3 }
+];
+
+// ══════════════════════════════════════════════════════
+// 状态管理
+// ══════════════════════════════════════════════════════
+let state = {
+  mode: 'parent',       // parent / student
+  scoreRange: '',
+  subject: '',
+  family: {},           // family answers
+  personality: [],      // personality answers [type_index, ...]
+  familyStep: 0,
+  personalityStep: 0,
+  apiKey: '',
+  occupationsDB: {},    // loaded from ai-career-risk
+  results: [],
+  resultMode: 'parent'
+};
+
+// ══════════════════════════════════════════════════════
+// 初始化
+// ══════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  state.apiKey = localStorage.getItem('deepseek_api_key') || '';
+  if (state.apiKey) {
+    document.getElementById('apiKeyInput').value = state.apiKey;
+    document.getElementById('apiStatus').textContent = '✓ API Key 已保存';
+  }
+  updateStepDots(0);
+  renderFamilyQuestion();
+  renderPersonalityQuestion();
+});
+
+// ══════════════════════════════════════════════════════
+// 导航
+// ══════════════════════════════════════════════════════
+function goToStep(n) {
+  if (n === 5) { runCalculation(); return; }
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen' + n).classList.add('active');
+  updateStepDots(n);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function updateStepDots(current) {
+  const total = 6;
+  const el = document.getElementById('stepDots');
+  el.innerHTML = Array.from({length:total}, (_,i) => {
+    let cls = i < current ? 'done' : (i === current ? 'active' : '');
+    return `<div class="step-dot ${cls}"></div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// 屏幕0：模式选择
+// ══════════════════════════════════════════════════════
+function selectMode(mode, el) {
+  document.querySelectorAll('#modeChoice .choice-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.mode = mode;
+  state.resultMode = mode;
+}
+
+// ══════════════════════════════════════════════════════
+// 屏幕1：基本信息
+// ══════════════════════════════════════════════════════
+function selectScore(val, el) {
+  document.querySelectorAll('#screen1 .choice-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.scoreRange = val;
+}
+function selectType(val, el) {
+  const grid = el.parentElement;
+  grid.querySelectorAll('.choice-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.subject = val;
+}
+
+// ══════════════════════════════════════════════════════
+// 屏幕2：家庭背景
+// ══════════════════════════════════════════════════════
+function renderFamilyQuestion() {
+  const i = state.familyStep;
+  const q = FAMILY_QS[i];
+  const pct = ((i+1) / FAMILY_QS.length) * 100;
+  document.getElementById('familyProgress').style.width = pct + '%';
+  document.getElementById('familyPrevBtn').style.display = i === 0 ? 'none' : '';
+
+  const saved = state.family[q.key];
+  const html = `
+    <div class="question-wrap">
+      <div class="question-num">第 ${i+1} 题 / 共 ${FAMILY_QS.length} 题</div>
+      <div class="question-text">${q.text}</div>
+      <div class="options-list">
+        ${q.options.map(o => `
+          <button class="option-btn ${saved === o.value ? 'selected' : ''}"
+            onclick="answerFamily('${q.key}', ${JSON.stringify(o.value)}, this)">
+            ${o.text}
+          </button>
+        `).join('')}
+      </div>
+    </div>`;
+  document.getElementById('familyQuestion').innerHTML = html;
+}
+
+function answerFamily(key, value, el) {
+  state.family[key] = value;
+  el.parentElement.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  setTimeout(() => {
+    if (state.familyStep < FAMILY_QS.length - 1) {
+      state.familyStep++;
+      renderFamilyQuestion();
+    } else {
+      goToStep(3);
+    }
+  }, 300);
+}
+
+function prevFamily() {
+  if (state.familyStep > 0) { state.familyStep--; renderFamilyQuestion(); }
+}
+
+// ══════════════════════════════════════════════════════
+// 屏幕3：人格测评
+// ══════════════════════════════════════════════════════
+function renderPersonalityQuestion() {
+  const i = state.personalityStep;
+  const q = PERSONALITY_QS[i];
+  const pct = ((i+1) / PERSONALITY_QS.length) * 100;
+  document.getElementById('personalityProgress').style.width = pct + '%';
+  document.getElementById('personalityPrevBtn').style.display = i === 0 ? 'none' : '';
+
+  const saved = state.personality[i];
+  const html = `
+    <div class="question-wrap">
+      <div class="question-num">第 ${i+1} 题 / 共 ${PERSONALITY_QS.length} 题</div>
+      <div class="question-text">${q.text}</div>
+      <div class="options-list">
+        <button class="option-btn ${saved === q.at ? 'selected' : ''}"
+          onclick="answerPersonality(${q.at}, this)">
+          A. ${q.a}
+        </button>
+        <button class="option-btn ${saved === q.bt ? 'selected' : ''}"
+          onclick="answerPersonality(${q.bt}, this)">
+          B. ${q.b}
+        </button>
+      </div>
+    </div>`;
+  document.getElementById('personalityQuestion').innerHTML = html;
+}
+
+function answerPersonality(typeIdx, el) {
+  state.personality[state.personalityStep] = typeIdx;
+  el.parentElement.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  setTimeout(() => {
+    if (state.personalityStep < PERSONALITY_QS.length - 1) {
+      state.personalityStep++;
+      renderPersonalityQuestion();
+    } else {
+      goToStep(5);
+    }
+  }, 300);
+}
+
+function prevPersonality() {
+  if (state.personalityStep > 0) { state.personalityStep--; renderPersonalityQuestion(); }
+}
+
+// ══════════════════════════════════════════════════════
+// 计算逻辑
+// ══════════════════════════════════════════════════════
+async function runCalculation() {
+  goToStep(4);
+  document.getElementById('loadingText').textContent = '正在加载职业数据库…';
+
+  // 加载 occupations_scored.json（3秒超时，国内网络无法访问GitHub时快速降级）
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 3000);
+    const res = await fetch('https://raw.githubusercontent.com/dunwood/ai-career-risk/main/occupations_scored.json', { signal: controller.signal });
+    clearTimeout(timer);
+    if (res.ok) {
+      const arr = await res.json();
+      arr.forEach(item => { state.occupationsDB[item.occupation] = item; });
+    }
+  } catch(e) { /* 离线模式，使用默认分数 */ }
+
+  document.getElementById('loadingText').textContent = '正在计算四维评分…';
+
+  // 计算人格主导类型
+  const pCount = [0,0,0,0];
+  state.personality.forEach(t => { if(t !== undefined) pCount[t]++; });
+  const primaryType = pCount.indexOf(Math.max(...pCount));
+  const tempCount = [...pCount];
+  tempCount[primaryType] = -1;
+  const secondaryType = tempCount.indexOf(Math.max(...tempCount));
+
+  // 为每个专业计算四维分数
+  const scored = Object.values(MAJORS).map(m => {
+    const aiScore = calcAIScore(m);
+    const windowScore = WINDOW_SCORE[m.window] || 6;
+    const familyScore = calcFamilyScore(m);
+    const personalityScore = calcPersonalityScore(m, primaryType, secondaryType);
+    const combined = aiScore * 0.35 + windowScore * 0.30 + familyScore * 0.20 + personalityScore * 0.15;
+
+    // 科目过滤权重
+    let subjectPenalty = 0;
+    if (state.subject === '理科' && m.subject === '文') subjectPenalty = 3;
+    if (state.subject === '文科' && m.subject === '理') subjectPenalty = 3;
+
+    return {
+      ...m,
+      aiScore: Math.round(aiScore * 10) / 10,
+      windowScore,
+      familyScore: Math.round(familyScore * 10) / 10,
+      personalityScore,
+      combined: Math.max(0, combined - subjectPenalty),
+      primaryType,
+      personalityMismatch: !m.personality.includes(primaryType) && !m.personality.includes(secondaryType)
+    };
+  });
+
+  scored.sort((a,b) => b.combined - a.combined);
+  state.results = scored;
+
+  document.getElementById('loadingText').textContent = '生成报告中…';
+  await new Promise(r => setTimeout(r, 600));
+
+  renderResults();
+  goToStep(5);
+}
+
+function calcAIScore(m) {
+  const scores = m.occs.map(occ => {
+    const found = findInDB(occ);
+    return found ? (10 - found.score) : null;
+  }).filter(s => s !== null);
+  if (!scores.length) return m.ai_default;
+  return scores.reduce((a,b) => a+b, 0) / scores.length;
+}
+
+function findInDB(query) {
+  if (state.occupationsDB[query]) return state.occupationsDB[query];
+  const keys = Object.keys(state.occupationsDB);
+  const match = keys.find(k =>
+    k.includes(query) || query.includes(k) ||
+    k.replace(/[（(）)\/\s]/g,'').includes(query.replace(/[（(）)\/\s]/g,''))
+  );
+  return match ? state.occupationsDB[match] : null;
+}
+
+function calcFamilyScore(m) {
+  let score = 7;
+  const f = state.family;
+  if (!Object.keys(f).length) return score;
+
+  // 经济支持
+  if (m.grad_req && (f.economic||2) < 2) score -= 3;
+  else if (m.grad_req && f.economic === 2) score -= 1;
+  if (f.economic === 3) score += 1;
+
+  // 父母行业资源
+  const industryMatch = {tech:'tech', medical:'medical', finance:'finance', mfg:'mfg'};
+  if (f.industry && industryMatch[f.industry] === m.industry) score += 2;
+
+  // 风险偏好
+  const riskVal = f.risk || 2;
+  if (riskVal === 1 && m.stability === 'L') score -= 2;
+  if (riskVal === 1 && m.stability === 'H') score += 2;
+  if (riskVal === 3 && m.stability === 'H') score -= 1;
+
+  // 城市层级
+  const cityVal = f.city || 2;
+  if (m.city === 't1' && cityVal === 3) score -= 2;
+  if (m.city === 't12' && cityVal === 3) score -= 1;
+
+  // 时间偏好
+  const timeVal = f.time || 2;
+  if (timeVal === 1 && m.years > 5) score -= 2;
+  if (timeVal === 2 && m.years > 7) score -= 1;
+
+  return Math.max(1, Math.min(10, score));
+}
+
+function calcPersonalityScore(m, primary, secondary) {
+  if (m.personality.includes(primary)) return 9;
+  if (m.personality.includes(secondary)) return 6;
+  return 3;
+}
+
+// ══════════════════════════════════════════════════════
+// 结果渲染
+// ══════════════════════════════════════════════════════
+function renderResults() {
+  const primary = state.results[0]?.primaryType;
+  const pName = P_NAMES[primary] || '';
+  document.getElementById('resultSummary').textContent =
+    `人格主导类型：${pName} · 共评估 ${state.results.length} 个专业`;
+
+  const top = state.results.filter(r => r.combined >= 7);
+  const caution = state.results.filter(r => r.combined >= 5.5 && r.combined < 7);
+
+  document.getElementById('topResults').innerHTML = top.slice(0,5).map((r,i) =>
+    renderMajorCard(r, i === 0)
+  ).join('');
+
+  if (caution.length) {
+    document.getElementById('cautionResults').innerHTML = caution.slice(0,3).map(r =>
+      renderMajorCard(r, false)
+    ).join('');
+    document.getElementById('cautionSection').style.display = 'block';
+  }
+
+  document.getElementById('allResults').innerHTML = state.results.map(r =>
+    renderMajorCard(r, false)
+  ).join('');
+}
+
+function renderMajorCard(r, isTop) {
+  const verdict = r.combined >= 7 ? '建议报考' : r.combined >= 5.5 ? '谨慎考虑' : '不推荐';
+  const vClass = r.combined >= 7 ? 'verdict-recommend' : r.combined >= 5.5 ? 'verdict-caution' : 'verdict-avoid';
+
+  const isParent = state.resultMode === 'parent';
+
+  const detail = isParent
+    ? `AI时代这个方向${r.aiScore >= 6 ? '的核心工作AI难以替代' : '有一定AI替代风险'}。窗口期处于<strong>${r.window}期</strong>，${getWindowDesc(r.window)}你的家庭情况对这个方向${r.familyScore >= 7 ? '适配良好' : r.familyScore >= 5 ? '基本适配' : '存在一些限制'}。`
+    : `${r.rationale}。你是${P_NAMES[r.primaryType]}，${r.personality.map(p=>P_NAMES[p]).includes(P_NAMES[r.primaryType]) ? '这个方向和你的工作风格很匹配' : '这个方向需要你适应不太熟悉的工作节奏'}。`;
+
+  return `
+  <div class="major-card ${isTop ? 'top-pick' : ''}">
+    <div class="major-name">${r.name}</div>
+    <div class="major-verdict ${vClass}">${verdict}</div>
+    <div class="scores-grid">
+      ${scoreItem('AI生存', r.aiScore, 10)}
+      ${scoreItem('窗口期', r.windowScore, 10)}
+      ${scoreItem('家庭适配', r.familyScore, 10)}
+      ${scoreItem('人格匹配', r.personalityScore, 10)}
+    </div>
+    <div class="major-detail">${detail}</div>
+    <div class="major-pitfall">⚠️ ${r.pitfall}</div>
+  </div>`;
+}
+
+function scoreItem(label, val, max) {
+  const stars = Math.round(val / max * 5);
+  const filled = '★'.repeat(stars);
+  const empty = '☆'.repeat(5 - stars);
+  return `
+  <div class="score-item">
+    <div class="score-dim">${label}</div>
+    <div class="score-stars" style="color:${val>=7?'var(--safe)':val>=5?'var(--accent2)':'var(--accent)'}">${filled}${empty}</div>
+    <div class="score-val">${val}/10</div>
+  </div>`;
+}
+
+function getWindowDesc(window) {
+  const map = {
+    '上升':'预计到毕业时需求仍旺盛。',
+    '平稳':'需求稳定但竞争激烈。',
+    '饱和':'供过于求，需谨慎。',
+    '太早':'方向很新，市场还没跟上。',
+    '稳定':'长期稳定需求，不会爆发也不会消失。'
+  };
+  return map[window] || '';
+}
+
+function setResultMode(mode) {
+  state.resultMode = mode;
+  document.getElementById('parentModeBtn').classList.toggle('active', mode === 'parent');
+  document.getElementById('studentModeBtn').classList.toggle('active', mode === 'student');
+  renderResults();
+}
+
+function showAllMajors() {
+  document.getElementById('allResultsSection').style.display = 'block';
+  document.getElementById('showAllBtn').style.display = 'none';
+}
+
+function restart() {
+  state = { ...state, scoreRange:'', subject:'', family:{}, personality:[],
+    familyStep:0, personalityStep:0, results:[], resultMode: state.mode };
+  renderFamilyQuestion();
+  renderPersonalityQuestion();
+  goToStep(0);
+}
+
+// ══════════════════════════════════════════════════════
+// API Key
+// ══════════════════════════════════════════════════════
+function saveApiKey() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  if (!key) return;
+  state.apiKey = key;
+  localStorage.setItem('deepseek_api_key', key);
+  document.getElementById('apiStatus').textContent = '✓ 已保存';
+}
+</script>
+</body>
+</html>
