@@ -1,0 +1,1376 @@
+[
+  {
+    "name": "计算机科学与技术",
+    "alias": "计算机/CS/软件工程/码农",
+    "ai_score": 6,
+    "ai_reason": "核心工作正在分层——底层架构和系统设计难以替代，但初级编码已被AI大幅压缩。关键是做AI管不了的那层工作。",
+    "window_score": 8.7,
+    "policy_score": 9,
+    "intl_score": 8,
+    "employ_score": 9,
+    "salary_score": 9,
+    "talent_score": 8,
+    "window_note": "政策强推数字中国，国际技术迭代快，就业薪资双高，人才缺口仍大但供给增加",
+    "personality": [
+      "系统",
+      "创造"
+    ],
+    "rationale": "逻辑思维强、喜欢搞清楚底层原理的人在这个行业有长期优势。AI工具反而放大了这类人的产出。",
+    "pitfall": "警惕「学会框架就够了」的思维——真正的护城河是系统设计能力和用AI解决复杂问题的能力，不是语法熟练度。",
+    "last_updated": "2026-01",
+    "score_tier": 5,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "人工智能",
+    "alias": "AI/机器学习/深度学习",
+    "ai_score": 6,
+    "ai_reason": "训练模型和调参正在被自动化，但AI系统的架构设计、落地判断和业务理解仍高度依赖人。",
+    "window_score": 9.8,
+    "policy_score": 10,
+    "intl_score": 10,
+    "employ_score": 9,
+    "salary_score": 10,
+    "talent_score": 10,
+    "window_note": "国家战略核心，全球爆发期，中国加速追赶，薪资顶尖，人才极度稀缺",
+    "personality": [
+      "系统",
+      "创造"
+    ],
+    "rationale": "数学直觉强、喜欢研究系统原理的人在这个领域有天然优势。能把AI能力转化为实际产品的人最稀缺。",
+    "pitfall": "不要只学调包——PyTorch调参人人会，有价值的是理解模型为什么这样设计，以及如何把AI应用到真实业务场景。",
+    "last_updated": "2026-01",
+    "score_tier": 5,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "软件工程",
+    "alias": "软件/开发/程序员",
+    "ai_score": 6,
+    "ai_reason": "与计算机科学类似，区别在于更偏工程实践。初级开发被AI替代风险高，系统架构师和全栈能力强的人仍紧缺。",
+    "window_score": 8.7,
+    "policy_score": 9,
+    "intl_score": 8,
+    "employ_score": 9,
+    "salary_score": 9,
+    "talent_score": 8,
+    "window_note": "与计算机类似，应用导向更明确，就业市场稳定广阔，高端人才需求旺盛",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "执行力强+逻辑清晰的人适合走工程路线。系统型适合走架构方向。",
+    "pitfall": "软件工程的「工程」两字是重点——毕业后做的不只是写代码，还有需求分析、测试、维护。讨厌这些环节的人会很痛苦。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "数据科学与大数据技术",
+    "alias": "数据/大数据/数据分析",
+    "ai_score": 5,
+    "ai_reason": "数据清洗和基础分析已被AI工具替代。有价值的是提出正确问题和解读数据背后的业务逻辑——这是AI做不好的。",
+    "window_score": 9.3,
+    "policy_score": 10,
+    "intl_score": 9,
+    "employ_score": 9,
+    "salary_score": 9,
+    "talent_score": 9,
+    "window_note": "数据要素国策驱动，全球需求增长，分析类岗位需求大，起薪高",
+    "personality": [
+      "系统",
+      "表达"
+    ],
+    "rationale": "系统型负责分析，表达型负责把数据故事讲给业务方听。两者结合的人最抢手。",
+    "pitfall": "千万不要以为学会SQL和Python就是数据科学家。核心价值在于业务理解和决策影响力，纯技术路线的天花板很低。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "C"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "网络安全",
+    "alias": "安全/信息安全/黑客",
+    "ai_score": 8,
+    "ai_reason": "攻防对抗的本质是创造性思维——攻击者不断创新，防御者需要预判未知威胁。这是AI极难替代的领域。",
+    "window_score": 9.3,
+    "policy_score": 10,
+    "intl_score": 9,
+    "employ_score": 9,
+    "salary_score": 9,
+    "talent_score": 9,
+    "window_note": "国家安全重中之重，全球威胁加剧催生需求，专业人才严重短缺",
+    "personality": [
+      "系统",
+      "创造"
+    ],
+    "rationale": "系统型适合安全架构和渗透测试；创造型适合漏洞挖掘和红队对抗。两类人都有广阔空间。",
+    "pitfall": "网络安全需要持续学习——漏洞和技术每年都在更新，不愿意自学的人会很快被淘汰。入门门槛高，但一旦进入，护城河极强。",
+    "last_updated": "2026-01",
+    "score_tier": 5,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "电子信息工程",
+    "alias": "电子/信息/通信电子",
+    "ai_score": 6,
+    "ai_reason": "硬件设计和嵌入式系统需要物理世界的直觉和经验积累，AI难以完全替代。但纯软件部分的壁垒在降低。",
+    "window_score": 7.7,
+    "policy_score": 8,
+    "intl_score": 7,
+    "employ_score": 8,
+    "salary_score": 8,
+    "talent_score": 7,
+    "window_note": "信息产业基础，政策支持稳定，国际竞争激烈，就业面广，高端芯片等领域缺口大",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合做芯片和底层架构；执行型适合做工程实现和测试。对硬件有天然兴趣的人在这个行业有长期优势。",
+    "pitfall": "电子信息的毕业去向分化极大——去华为中兴和去普通电子厂，薪资可以差5-10倍。学校和项目经验决定了你能进哪条赛道。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "通信工程",
+    "alias": "通信/5G/网络",
+    "ai_score": 5,
+    "ai_reason": "网络规划和运维的大量工作已被自动化。真正有价值的是新技术标准的研究和系统级设计。",
+    "window_score": 7.7,
+    "policy_score": 8,
+    "intl_score": 7,
+    "employ_score": 8,
+    "salary_score": 8,
+    "talent_score": 7,
+    "window_note": "5G/6G政策驱动，国际标准竞争，就业稳定，但部分传统领域饱和",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "适合喜欢底层技术、能接受硬核数学的人。外向型人格在售前和解决方案岗位有额外优势。",
+    "pitfall": "通信工程在外资和互联网公司不如CS抢手，毕业后路径相对窄。除非目标明确是华为/中兴/运营商，否则要想清楚。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "自动化",
+    "alias": "自动化/控制/PLC",
+    "ai_score": 6,
+    "ai_reason": "工业控制和机器人系统设计需要深厚的物理直觉和现场经验。自动化工程师负责让机器听话——这件事本身很难被机器替代。",
+    "window_score": 8.0,
+    "policy_score": 8,
+    "intl_score": 8,
+    "employ_score": 8,
+    "salary_score": 8,
+    "talent_score": 8,
+    "window_note": "智能制造与机器人核心，产业升级关键，就业良好，复合型人才紧俏",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合控制算法研究；执行型适合现场工程实施。能把理论和现场经验结合的人最值钱。",
+    "pitfall": "自动化毕业生两极分化——进高端制造业薪资很好，进传统工厂维护PLC则很普通。选实习和第一份工作时行业比职位名称重要。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "机械工程",
+    "alias": "机械/制造/机械设计",
+    "ai_score": 5,
+    "ai_reason": "产品结构设计和制造工艺优化需要大量经验积累和物理直觉。但标准化设计工作正在被AI和参数化软件压缩。",
+    "window_score": 6.7,
+    "policy_score": 7,
+    "intl_score": 6,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 6,
+    "window_note": "制造强国基石，传统领域稳定，智能装备方向窗口打开，整体竞争激烈",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "执行型在制造现场如鱼得水；系统型适合研发和工艺优化。对机械结构有天然兴趣是必要条件。",
+    "pitfall": "机械工程是「工资不高但稳定」的代名词——如果追求高薪，需要明确转向新能源汽车或机器人赛道，传统机械制造难以实现。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "R",
+      "I"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "土木工程",
+    "alias": "土木/建筑施工/结构",
+    "ai_score": 4,
+    "ai_reason": "结构计算和施工图设计已被大量软件替代。有价值的是现场管理和复杂项目的综合判断，但这些需要多年经验积累。",
+    "window_score": 5.2,
+    "policy_score": 6,
+    "intl_score": 4,
+    "employ_score": 6,
+    "salary_score": 5,
+    "talent_score": 4,
+    "window_note": "基建高峰期过，政策转向“两新一重”，国际部分饱和，国内需求放缓，竞争激烈",
+    "personality": [
+      "执行",
+      "系统"
+    ],
+    "rationale": "执行型在工地管理中有优势；系统型适合结构设计。但两类人都需要做好长期在工地的心理准备。",
+    "pitfall": "土木工程是当下就业压力最大的工科专业之一。如果不是热爱建造本身，建议慎重考虑。转行成本高，前几年薪资偏低且工作环境艰苦。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "R",
+      "C"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "建筑学",
+    "alias": "建筑设计/设计院",
+    "ai_score": 6,
+    "ai_reason": "空间叙事和建筑意图的表达仍需要人的创造力。但施工图绘制和效果图渲染已被AI工具大量替代。",
+    "window_score": 5.7,
+    "policy_score": 6,
+    "intl_score": 5,
+    "employ_score": 6,
+    "salary_score": 6,
+    "talent_score": 5,
+    "window_note": "与房地产周期相关，政策调整期，绿色建筑、城市更新提供新机会",
+    "personality": [
+      "创造",
+      "系统"
+    ],
+    "rationale": "创造型享受空间创作过程；系统型在技术图纸和规范研究上有优势。两者都需要极强的审美积累。",
+    "pitfall": "建筑学学制5年，注册建筑师考试漫长。入行前要想清楚：你爱的是建筑本身，还是「建筑师」这个title？前者能撑过低谷，后者很快会后悔。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "A",
+      "R"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "化学工程与工艺",
+    "alias": "化工/化学",
+    "ai_score": 5,
+    "ai_reason": "化工过程的本质是物质转化——核心反应机理和工艺优化需要深厚的化学直觉，AI可以加速但不能替代工程师的判断。",
+    "window_score": 6.7,
+    "policy_score": 7,
+    "intl_score": 6,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 6,
+    "window_note": "传统支柱产业，向精细化工、新材料转型，就业稳定但部分领域环境压力大",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合工艺研发；执行型适合生产管理。对化学反应有天然好奇心的人在这行有长期优势。",
+    "pitfall": "化工行业工作环境因企业差异极大——头部新能源公司和传统石化厂是两个世界。第一份工作选行业比选城市重要。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "生物工程",
+    "alias": "生物/生命科学/生物技术",
+    "ai_score": 5,
+    "ai_reason": "实验设计和数据解读需要深厚的生物学直觉，但重复性实验操作正在被自动化设备替代。真正的护城河是创新性研究能力。",
+    "window_score": 7.6,
+    "policy_score": 8,
+    "intl_score": 8,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 7,
+    "window_note": "生物经济政策支持，国际前沿，但产业化周期长，高端研发人才需求大",
+    "personality": [
+      "系统",
+      "创造"
+    ],
+    "rationale": "系统型适合研发；创造型在交叉学科创新上有优势。本科阶段只是敲门砖——这个行业几乎人人读研。",
+    "pitfall": "生物工程本科直接就业的出路很窄，薪资也不高。如果不打算读研，需要提前规划转型路径（如转生物信息/数据方向）。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "环境科学与工程",
+    "alias": "环境/环保",
+    "ai_score": 6,
+    "ai_reason": "环境治理方案的设计需要综合判断和本地化经验，AI难以替代。但常规监测和数据分析正在被自动化。",
+    "window_score": 7.4,
+    "policy_score": 8,
+    "intl_score": 7,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 7,
+    "window_note": "双碳政策强力驱动，国际共识高，就业稳步增长，但薪资涨幅相对平缓",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合环境规划和政策研究；执行型适合工程实施和现场监测。有理工背景+政策理解能力的人最稀缺。",
+    "pitfall": "环境行业薪资弹性较大——在头部环保企业或碳市场方向可以做到不错水平，但在基层环保单位薪资偏低。行业选择决定上限。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "材料科学与工程",
+    "alias": "材料/新材料",
+    "ai_score": 6,
+    "ai_reason": "新材料的研发需要大量实验验证和经验积累，AI可以加速筛选但无法替代工程师的直觉判断。",
+    "window_score": 8.1,
+    "policy_score": 9,
+    "intl_score": 8,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 8,
+    "window_note": "解决“卡脖子”关键，政策极度重视，半导体、新能源材料等方向窗口显著",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合材料研发；执行型适合材料工程和质量控制。数学物理基础扎实是必要条件。",
+    "pitfall": "材料行业两极分化——进半导体/新能源材料方向薪资很好，进传统钢铁/建材方向增长缓慢。专业方向比学校名气更决定出路。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "电气工程及其自动化",
+    "alias": "电气/强电/电力",
+    "ai_score": 7,
+    "ai_reason": "电力系统的规划和调度需要综合判断，新能源并网的复杂性反而增加了人工判断的价值。",
+    "window_score": 7.7,
+    "policy_score": 8,
+    "intl_score": 7,
+    "employ_score": 8,
+    "salary_score": 8,
+    "talent_score": 7,
+    "window_note": "新型电力系统构建核心，新能源接入带来新需求，就业稳定向好",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合电力系统研究；执行型适合变电站运维和工程实施。电气工程是「选对了绝对不愁就业」的专业。",
+    "pitfall": "电气工程有两条路：进国网/南网（稳定但成长慢）和进新能源企业（成长快但压力大）。两条路差异大，入学前想清楚更适合哪种节奏。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "R",
+      "I"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "新能源科学与工程",
+    "alias": "新能源/光伏/储能/风电",
+    "ai_score": 7,
+    "ai_reason": "新能源系统的设计和运维涉及复杂的物理判断和经验积累，AI可以优化但难以替代工程师的现场决策。",
+    "window_score": 9.1,
+    "policy_score": 10,
+    "intl_score": 9,
+    "employ_score": 8,
+    "salary_score": 8,
+    "talent_score": 9,
+    "window_note": "双碳战略核心，全球能源转型黄金期，产业高速扩张，人才需求旺盛",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合系统设计和研发；执行型适合项目管理和运维。对能源感兴趣的理工科学生的最佳选择之一。",
+    "pitfall": "新能源行业发展快但内卷也快——光伏产业2024年已开始价格战，纯组件制造端薪资下行。方向要往系统集成和储能走，不要停留在硬件制造。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "智能制造工程",
+    "alias": "智能制造/工业4.0",
+    "ai_score": 6,
+    "ai_reason": "工厂数字化改造需要同时理解制造工艺和数字技术的人——这种跨界能力目前极度稀缺，AI无法替代。",
+    "window_score": 8.8,
+    "policy_score": 10,
+    "intl_score": 8,
+    "employ_score": 8,
+    "salary_score": 8,
+    "talent_score": 9,
+    "window_note": "中国制造2025核心，政策全力推进，融合IT/OT，人才缺口明显",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型擅长数字化方案设计；执行型在车间落地上有优势。能在工厂和IT部门之间做翻译的人薪资最高。",
+    "pitfall": "这个专业新，课程体系还不成熟。建议挑选有实际工厂合作资源的学校，否则学的是概念，进不了实战。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "R",
+      "I"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "临床医学",
+    "alias": "医学/学医/医生",
+    "ai_score": 9,
+    "ai_reason": "诊断和治疗涉及大量例外情况处理、患者信任和法律责任，三者都是AI的弱项。医生是AI时代最安全的职业之一。",
+    "window_score": 8.6,
+    "policy_score": 9,
+    "intl_score": 7,
+    "employ_score": 10,
+    "salary_score": 8,
+    "talent_score": 9,
+    "window_note": "健康中国支撑，国际经验持续输入，就业刚需且对口率极高，培养周期长缺口持久",
+    "personality": [
+      "执行",
+      "系统"
+    ],
+    "rationale": "执行型在高压高责任感环境中有天然优势；系统型能快速掌握复杂的医学知识体系。",
+    "pitfall": "学制长（5+3年起步）、前期收入低、规培压力大。家长要一起做好长期投入的心理准备，不适合急于变现的家庭。",
+    "last_updated": "2026-01",
+    "score_tier": 5,
+    "holland_primary": [
+      "I",
+      "S"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "high"
+  },
+  {
+    "name": "口腔医学",
+    "alias": "牙医/口腔/牙科",
+    "ai_score": 9,
+    "ai_reason": "口腔治疗结合了精细手工技能、患者沟通和临床判断，三者缺一不可，AI机器人暂时无法整合。",
+    "window_score": 8.1,
+    "policy_score": 8,
+    "intl_score": 7,
+    "employ_score": 9,
+    "salary_score": 9,
+    "talent_score": 8,
+    "window_note": "消费升级与老龄化驱动，需求快速增长，市场化程度高，薪资吸引力强",
+    "personality": [
+      "执行",
+      "系统"
+    ],
+    "rationale": "执行型在精细操作上有天然优势；系统型在复杂病例分析上更有优势。手部灵巧度和细心程度是硬门槛。",
+    "pitfall": "口腔医学的黄金时代是「自己开诊所」——打工做牙医薪资中等，但技术积累到一定程度后，创业回报率极高。要有这个长期规划。",
+    "last_updated": "2026-01",
+    "score_tier": 5,
+    "holland_primary": [
+      "R",
+      "I"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "药学",
+    "alias": "药学/制药/药剂",
+    "ai_score": 6,
+    "ai_reason": "药物研发的核心是创新分子设计和临床试验判断，这需要人的直觉。但常规药物审核和调剂工作正在被自动化。",
+    "window_score": 7.8,
+    "policy_score": 8,
+    "intl_score": 8,
+    "employ_score": 8,
+    "salary_score": 7,
+    "talent_score": 7,
+    "window_note": "医药创新政策鼓励，国际研发活跃，创新药、临床研究等方向机会多",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合研发岗位；执行型适合生产质控和临床试验管理。读研后就业质量大幅提升。",
+    "pitfall": "药学本科就业出路相对窄——薪资不高，发展有限。如果目标是研发岗，需要做好读研的准备。不读研的话，零售药房是主要出路，但成长空间有限。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "C"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "护理学",
+    "alias": "护士/护理",
+    "ai_score": 7,
+    "ai_reason": "护理工作的核心是人文关怀、临床观察和紧急应变，这些都是AI的弱项。部分操作类工作会被自动化，但护患关系无法替代。",
+    "window_score": 8.5,
+    "policy_score": 9,
+    "intl_score": 7,
+    "employ_score": 10,
+    "salary_score": 6,
+    "talent_score": 10,
+    "window_note": "老龄化与健康中国催生巨大需求，国际人才流动，就业极易，但薪资与劳动强度需关注",
+    "personality": [
+      "执行",
+      "表达"
+    ],
+    "rationale": "执行型能在高强度工作中保持稳定；表达型在与患者沟通安抚上有优势。细心、有责任心是最重要的特质。",
+    "pitfall": "护理工作的挑战不是技术难度，而是高强度和情感消耗。入行前建议去医院志愿者体验，了解真实工作环境后再决定。",
+    "last_updated": "2026-01",
+    "score_tier": 1,
+    "holland_primary": [
+      "S",
+      "R"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "high"
+  },
+  {
+    "name": "中医学",
+    "alias": "中医/中医药",
+    "ai_score": 7,
+    "ai_reason": "中医的核心是望闻问切的综合判断和个体化调治，这种非标准化、经验性的判断AI很难学习。",
+    "window_score": 7.7,
+    "policy_score": 9,
+    "intl_score": 6,
+    "employ_score": 8,
+    "salary_score": 7,
+    "talent_score": 7,
+    "window_note": "国家政策扶持传承创新，国际影响力逐步提升，就业领域相对特定",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型在理论研究和经典研读上有优势；执行型在临床实践和针灸推拿技术上有优势。需要对中国传统文化有真实兴趣。",
+    "pitfall": "中医入门难、成才周期长——通常需要15-20年才能形成独立的临床判断力。「考上就躺平」的思维在中医行不通，需要终身学习的心态。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "I",
+      "S"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "high"
+  },
+  {
+    "name": "生物医学工程",
+    "alias": "生医/医疗器械/BME",
+    "ai_score": 7,
+    "ai_reason": "医疗器械的创新设计需要同时理解工程原理和医学需求，这种交叉能力AI难以替代。",
+    "window_score": 7.6,
+    "policy_score": 8,
+    "intl_score": 8,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 7,
+    "window_note": "医工交叉前沿，政策支持，高端医疗器械进口替代空间大，需要复合背景",
+    "personality": [
+      "系统",
+      "创造"
+    ],
+    "rationale": "系统型适合器械研发和算法；创造型适合产品创新和用户体验设计。需要同时对工程和医学都感兴趣。",
+    "pitfall": "生物医学工程是「听上去很厉害，就业很难对口」的专业——真正进入医疗器械研发的比例并不高。大部分毕业生转向医疗销售、器械注册或IT方向。",
+    "last_updated": "2026-01",
+    "score_tier": 5,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "公共卫生与预防医学",
+    "alias": "公卫/疾控/流行病学",
+    "ai_score": 7,
+    "ai_reason": "流行病学调查和公共卫生政策制定需要综合判断和社会理解，AI可以辅助分析但无法替代政策决策者。",
+    "window_score": 8.2,
+    "policy_score": 9,
+    "intl_score": 8,
+    "employ_score": 8,
+    "salary_score": 7,
+    "talent_score": 8,
+    "window_note": "疫情后全球重视，中国疾控体系改革加强，需求增长稳定",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合流行病学研究和数据分析；执行型适合基层疾控工作。对社会问题有关怀的人在这个行业找到意义感。",
+    "pitfall": "公共卫生的就业主要是体制内（疾控、卫健委）——稳定但薪资有限，职业上升通道较窄。如果追求高薪，需要走学术研究路线。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "I",
+      "S"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "工商管理",
+    "alias": "管理/MBA方向/商科",
+    "ai_score": 4,
+    "ai_reason": "管理的价值在于对人和组织的判断，这目前还依赖人类。但基础管理工具（ERP、数据分析）已高度自动化。",
+    "window_score": 5.9,
+    "policy_score": 6,
+    "intl_score": 6,
+    "employ_score": 6,
+    "salary_score": 6,
+    "talent_score": 5,
+    "window_note": "传统专业，供给量大，高端管理人才仍有市场，但初毕业生竞争激烈",
+    "personality": [
+      "表达",
+      "执行"
+    ],
+    "rationale": "表达型在领导力和沟通上有天然优势；执行型在运营管理上出色。两者在商业环境中都有发挥空间。",
+    "pitfall": "工商管理本科是「万金油学历」——优点是方向灵活，缺点是没有核心技术壁垒。竞争力需要靠实习经历、人脉和辅修技能来弥补，不能只靠专业课。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "E",
+      "C"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "金融学",
+    "alias": "金融/投行/基金/银行",
+    "ai_score": 5,
+    "ai_reason": "高端金融（投行、私募）仍高度依赖人脉和判断力，但大量基础分析岗位已被AI量化工具替代。",
+    "window_score": 6.8,
+    "policy_score": 7,
+    "intl_score": 6,
+    "employ_score": 7,
+    "salary_score": 8,
+    "talent_score": 6,
+    "window_note": "监管趋严，科技冲击，传统岗位竞争白热化，需向金融科技、绿色金融等转型",
+    "personality": [
+      "系统",
+      "表达"
+    ],
+    "rationale": "系统型适合量化和研究方向；表达型适合销售交易和关系维护。名校背景是进入顶级金融机构的门槛。",
+    "pitfall": "金融学就业的神话正在破灭——进顶级机构的比例极低，大部分毕业生进入普通银行或保险公司，薪资与预期落差大。入行前要对真实就业分布有清醒认知。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "C",
+      "I"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "会计学",
+    "alias": "会计/财务/CPA",
+    "ai_score": 3,
+    "ai_reason": "财务核算和报表编制已被财务软件和RPA高度替代。有价值的是财务决策支持和税务筹划，但这需要资深经验。",
+    "window_score": 6.5,
+    "policy_score": 7,
+    "intl_score": 5,
+    "employ_score": 8,
+    "salary_score": 7,
+    "talent_score": 5,
+    "window_note": "基础岗位面临自动化替代，但高端财务、管理会计仍有需求，政策规范行业",
+    "personality": [
+      "执行",
+      "系统"
+    ],
+    "rationale": "执行型在财务管理中表现稳定；系统型在税务筹划和审计上有优势。没有CPA等证书的纯会计本科竞争力在下降。",
+    "pitfall": "会计学是「AI时代就业风险最高的传统热门专业」之一。如果选择这个方向，必须把考CPA作为硬指标，否则毕业即失业的风险很高。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "C",
+      "I"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "经济学",
+    "alias": "经济/宏观经济/经济研究",
+    "ai_score": 5,
+    "ai_reason": "经济现象的解读和政策分析需要综合判断，但大量基础数据分析已被自动化。经济学的价值在于思维框架，不在数据处理。",
+    "window_score": 6.5,
+    "policy_score": 7,
+    "intl_score": 6,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 5,
+    "window_note": "理论性强，多进入研究、金融、政府机构，对口就业竞争激烈",
+    "personality": [
+      "系统",
+      "表达"
+    ],
+    "rationale": "系统型适合做研究和政策分析；表达型适合咨询和金融销售。两者都需要辅修数学或编程才有竞争力。",
+    "pitfall": "经济学是「好专业，难就业」的典型——思维训练极好，但本科直接就业时没有技术壁垒。建议明确是走学术还是从业路径，针对性地补充技能。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "I",
+      "C"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "国际经济与贸易",
+    "alias": "国贸/外贸/跨境电商",
+    "ai_score": 4,
+    "ai_reason": "传统外贸的标准化环节（报价、单证、跟单）已被系统替代。有价值的是市场开拓、谈判和供应链管理。",
+    "window_score": 5.7,
+    "policy_score": 6,
+    "intl_score": 5,
+    "employ_score": 6,
+    "salary_score": 6,
+    "talent_score": 5,
+    "window_note": "受国际经贸形势影响大，传统模式受挑战，需结合数字贸易等新技能",
+    "personality": [
+      "表达",
+      "执行"
+    ],
+    "rationale": "表达型在客户开发和谈判上有天然优势；执行型在供应链管理和订单跟进上出色。",
+    "pitfall": "纯国贸专业竞争力一般——外语能力要真正达到商务流利水平，同时需要叠加运营、数据或某个垂直行业的专业知识，才能在跨境电商时代找到定位。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "E",
+      "C"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "市场营销",
+    "alias": "营销/市场/品牌",
+    "ai_score": 5,
+    "ai_reason": "创意策划和用户洞察仍需要人的直觉，但内容生产、广告投放和数据分析已被AI工具大幅替代。",
+    "window_score": 6.2,
+    "policy_score": 6,
+    "intl_score": 6,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 5,
+    "window_note": "数字化营销成为绝对主流，传统理论需与数据分析结合，创意与技术复合人才缺",
+    "personality": [
+      "表达",
+      "创造"
+    ],
+    "rationale": "表达型在沟通说服和品牌叙事上有优势；创造型在创意策划上有优势。两者都需要掌握数据分析才能有竞争力。",
+    "pitfall": "营销是「门槛低、天花板高」的行业——入行不难，但做到高水平需要同时具备创意思维、数据能力和用户洞察。只会做PPT的营销人正在快速贬值。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "E",
+      "A"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "人力资源管理",
+    "alias": "HR/人力资源",
+    "ai_score": 4,
+    "ai_reason": "招聘和绩效管理的标准化流程已被HR系统替代。有价值的是组织设计和高层决策支持，这依赖经验积累。",
+    "window_score": 6.7,
+    "policy_score": 7,
+    "intl_score": 6,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 6,
+    "window_note": "组织数字化转型带来新需求，传统事务性工作可替代，战略HR人才有价值",
+    "personality": [
+      "表达",
+      "执行"
+    ],
+    "rationale": "表达型在招聘面试和员工关系上有天然优势；执行型在薪酬绩效和合规管理上出色。",
+    "pitfall": "人力资源是「最难量化价值」的岗位——初期待遇偏低，且很长时间内被视为支持部门而非核心部门。需要有长期积累的耐心。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "S",
+      "E"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "high"
+  },
+  {
+    "name": "电子商务",
+    "alias": "电商/运营/直播电商",
+    "ai_score": 5,
+    "ai_reason": "内容创作和选品判断仍需要人的直觉，但广告投放、数据分析和仓储管理已高度自动化。",
+    "window_score": 7.7,
+    "policy_score": 8,
+    "intl_score": 7,
+    "employ_score": 8,
+    "salary_score": 8,
+    "talent_score": 7,
+    "window_note": "数字经济主力，政策鼓励，直播电商、跨境电商等新模式创造持续就业",
+    "personality": [
+      "执行",
+      "创造"
+    ],
+    "rationale": "执行型在精细化运营和数据优化上有优势；创造型在内容策划和选品创新上有优势。两者在电商环境中都有价值。",
+    "pitfall": "电商运营是「实战大于学历」的行业——在校期间有实际店铺运营经验或直播经验，比课堂学的理论值钱十倍。建议大一就开始做实战项目。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "E",
+      "C"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "物流管理",
+    "alias": "物流/供应链/仓储",
+    "ai_score": 5,
+    "ai_reason": "供应链规划和异常处理需要人的判断，但仓储分拣和路线规划已被大量自动化。",
+    "window_score": 7.6,
+    "policy_score": 8,
+    "intl_score": 7,
+    "employ_score": 8,
+    "salary_score": 7,
+    "talent_score": 7,
+    "window_note": "智慧物流、供应链升级驱动，政策支持现代流通体系建设，就业稳定增长",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合供应链规划和系统优化；执行型适合仓库管理和项目落地。",
+    "pitfall": "物流管理的薪资差距很大——在顶级供应链公司（菜鸟、京东物流、顺丰）的系统岗和在普通物流公司做调度，是两个完全不同的职业。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "C",
+      "E"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "法学",
+    "alias": "法律/律师/检察院",
+    "ai_score": 8,
+    "ai_reason": "法律判断涉及大量细节权衡、道德推理和客户关系，这是AI无法替代的核心价值。",
+    "window_score": 6.0,
+    "policy_score": 7,
+    "intl_score": 5,
+    "employ_score": 6,
+    "salary_score": 6,
+    "talent_score": 5,
+    "window_note": "供给过剩，司法考试门槛，传统法律竞争激烈，涉外、知识产权、金融科技法等有窗口",
+    "personality": [
+      "系统",
+      "表达"
+    ],
+    "rationale": "系统型在法律研究和文书写作上有优势；表达型在出庭辩护和谈判上有优势。两者都需要极强的细心和逻辑能力。",
+    "pitfall": "法学是「越顶尖越值钱，越普通越难做」的行业。非985/211毕业进顶级律所几乎不可能。要么目标顶尖（高考分数+持续努力），要么走体制内路线，普通法学院毕业走私人律师路线很艰难。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "E",
+      "I"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "心理学",
+    "alias": "心理/心理咨询/心理健康",
+    "ai_score": 8,
+    "ai_reason": "心理咨询的核心是人际信任、共情和复杂的情感理解，这是AI最难触及的领域。",
+    "window_score": 6.6,
+    "policy_score": 7,
+    "intl_score": 7,
+    "employ_score": 6,
+    "salary_score": 6,
+    "talent_score": 6,
+    "window_note": "社会需求增长，但临床、咨询路径长，工业与组织心理学、用户体验等应用方向更佳",
+    "personality": [
+      "表达",
+      "系统"
+    ],
+    "rationale": "表达型在建立咨访关系和情感共鸣上有天然优势；系统型在认知行为治疗等结构化疗法上更出色。",
+    "pitfall": "心理学本科直接做咨询几乎不可能——需要读研并积累大量督导时数。本科就业主要在HR、教育、市场研究等方向。明确要做咨询，就要做好6-8年培养周期的准备。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "I",
+      "S"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "high"
+  },
+  {
+    "name": "社会工作",
+    "alias": "社工/社会服务",
+    "ai_score": 6,
+    "ai_reason": "社会工作的核心是个案管理和社区关系建立，这需要人的情感投入和信任构建，AI无法替代。",
+    "window_score": 6.9,
+    "policy_score": 8,
+    "intl_score": 6,
+    "employ_score": 7,
+    "salary_score": 5,
+    "talent_score": 7,
+    "window_note": "政策推动社会治理现代化，基层需求大，但职业化程度与薪资待遇仍待提高",
+    "personality": [
+      "表达",
+      "执行"
+    ],
+    "rationale": "表达型在个案辅导和社区动员上有优势；执行型在项目管理和资源链接上出色。有社会责任感是做好社工的前提。",
+    "pitfall": "社工是「有意义但收入有限」的职业——国内薪资普遍偏低，尤其是基层社工。如果既想做有意义的工作又想要不错的收入，需要走管理路线或机构创业路线。",
+    "last_updated": "2026-01",
+    "score_tier": 1,
+    "holland_primary": [
+      "S",
+      "E"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "high"
+  },
+  {
+    "name": "教育学",
+    "alias": "教育/教师/教培",
+    "ai_score": 6,
+    "ai_reason": "课程设计和因材施教仍需要人的判断，但知识传授的标准化部分正在被AI替代。有价值的是关系建立和个性化引导。",
+    "window_score": 7.2,
+    "policy_score": 8,
+    "intl_score": 6,
+    "employ_score": 8,
+    "salary_score": 6,
+    "talent_score": 7,
+    "window_note": "稳定需求，双减后校内教育重要性提升，教育科技、素质教育有新机会",
+    "personality": [
+      "表达",
+      "执行"
+    ],
+    "rationale": "表达型在课堂互动和启发式教学上有天然优势；执行型在课程执行和班级管理上出色。",
+    "pitfall": "教育学考编是主流路径——但教师编制竞争越来越激烈，热门城市教师招聘基本要求985/211硕士。要清楚竞争格局再做决定。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "S",
+      "A"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "high"
+  },
+  {
+    "name": "学前教育",
+    "alias": "幼教/幼儿教师/早教",
+    "ai_score": 6,
+    "ai_reason": "幼儿的情感安全感和社会化发展高度依赖真实的人类互动，AI无法替代这种关系。",
+    "window_score": 7.9,
+    "policy_score": 9,
+    "intl_score": 6,
+    "employ_score": 9,
+    "salary_score": 6,
+    "talent_score": 8,
+    "window_note": "鼓励生育政策配套，刚性需求大，人才缺口持续，但薪资待遇普遍不高",
+    "personality": [
+      "表达",
+      "执行"
+    ],
+    "rationale": "表达型在儿童沟通和活动组织上有优势；执行型在日常保育和班级管理上出色。真心喜欢孩子是必要条件。",
+    "pitfall": "学前教育薪资普遍偏低——公立园编制较好，私立园差异大。入行前要有清醒的收入预期，这个职业的回报主要在情感层面而非物质层面。",
+    "last_updated": "2026-01",
+    "score_tier": 1,
+    "holland_primary": [
+      "S",
+      "A"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "high"
+  },
+  {
+    "name": "汉语言文学",
+    "alias": "中文/中国文学/语文",
+    "ai_score": 4,
+    "ai_reason": "文学创作和文本分析中的审美判断仍需要人，但大量文字生产工作已被AI替代。核心价值在于思维训练而非技能本身。",
+    "window_score": 5.7,
+    "policy_score": 6,
+    "intl_score": 5,
+    "employ_score": 6,
+    "salary_score": 6,
+    "talent_score": 5,
+    "window_note": "基础学科，就业面广但不对口多，考公、文秘、内容创作为主要出路，竞争激烈",
+    "personality": [
+      "表达",
+      "创造"
+    ],
+    "rationale": "表达型在写作和传播上有优势；创造型在文学创作和内容策划上有优势。",
+    "pitfall": "汉语言文学是「就业靠转型」的专业——毕业后很少直接从事文学工作，大部分人转向教育、媒体或品牌。要提前想清楚具体去哪个方向，针对性地积累经验。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "A",
+      "I"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "英语",
+    "alias": "英语/外语/英文",
+    "ai_score": 4,
+    "ai_reason": "机器翻译已达到商务文本的实用水平，纯语言技能的壁垒在下降。有价值的是跨文化理解和高端翻译。",
+    "window_score": 4.7,
+    "policy_score": 5,
+    "intl_score": 4,
+    "employ_score": 5,
+    "salary_score": 5,
+    "talent_score": 4,
+    "window_note": "工具属性强，单纯语言优势下降，需结合其他专业技能，基础人才供给过剩",
+    "personality": [
+      "表达",
+      "执行"
+    ],
+    "rationale": "表达型在商务谈判和跨文化沟通上有优势；执行型在同传速记和项目管理上出色。",
+    "pitfall": "英语专业的核心风险是「技能单一」——在AI翻译时代，纯英语能力正在贬值。必须叠加第二技能（法律英语、科技翻译、商务谈判）才能保持竞争力。",
+    "last_updated": "2026-01",
+    "score_tier": 3,
+    "holland_primary": [
+      "S",
+      "A"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "翻译",
+    "alias": "翻译/口译/笔译",
+    "ai_score": 3,
+    "ai_reason": "机器翻译在大部分商业场景已足够用。人工翻译的价值正在集中于文学翻译、高端会议口译和政治外交场合，这类岗位极少。",
+    "window_score": 5.7,
+    "policy_score": 6,
+    "intl_score": 5,
+    "employ_score": 6,
+    "salary_score": 6,
+    "talent_score": 5,
+    "window_note": "机器翻译冲击大，高端会议、文学、本地化及垂直领域专业译员仍有需求",
+    "personality": [
+      "表达",
+      "执行"
+    ],
+    "rationale": "表达型在口译和跨文化沟通上有优势；执行型在精准笔译和术语管理上出色。",
+    "pitfall": "翻译是「AI冲击最直接的专业」之一。除非目标是顶级同传或文学翻译，否则建议把翻译作为辅助技能，而非主业。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "A",
+      "C"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "新闻传播学",
+    "alias": "新闻/传媒/记者/主播",
+    "ai_score": 3,
+    "ai_reason": "内容生产已被AI深度渗透。纯文字生产类岗位萎缩明显，2023-2025年主流媒体连续缩编。",
+    "window_score": 6.3,
+    "policy_score": 7,
+    "intl_score": 6,
+    "employ_score": 6,
+    "salary_score": 6,
+    "talent_score": 6,
+    "window_note": "媒体深度融合，传统媒体转型，短视频、运营、内容策划等新媒体技能关键",
+    "personality": [
+      "表达",
+      "创造"
+    ],
+    "rationale": "表达型在这个方向能找到热情，但需要叠加其他稀缺技能（如数据可视化、纪录片导演）才有竞争力。",
+    "pitfall": "不建议把「喜欢写作」作为报考理由——AI写作能力已超过大多数初级记者。如果一定要选，方向是「会用AI做内容」的生产者，而非「靠写作本身」的从业者。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "A",
+      "E"
+    ],
+    "social_demand": "high",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "视觉传达设计",
+    "alias": "视觉/平面设计/UI设计",
+    "ai_score": 4,
+    "ai_reason": "品牌策略和用户体验的核心判断仍需要人的审美直觉，但大量执行性设计工作已被AI设计工具替代。",
+    "window_score": 6.7,
+    "policy_score": 7,
+    "intl_score": 6,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 6,
+    "window_note": "数字化设计需求旺盛，UI/UX、动态设计、品牌视觉等领域机会多",
+    "personality": [
+      "创造",
+      "系统"
+    ],
+    "rationale": "创造型在概念创新和审美判断上有优势；系统型在用户研究和交互逻辑上出色。",
+    "pitfall": "设计行业正在重构——会用AI工具（Midjourney/Figma AI）产出高质量设计的设计师，效率是不会用的10倍。不会用AI工具的设计师正在快速贬值。入学就开始学AI设计工具。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "A",
+      "R"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "产品设计",
+    "alias": "产品设计/工业设计/ID",
+    "ai_score": 6,
+    "ai_reason": "工业产品的形态创新和用户体验优化需要深刻的物理直觉和使用场景理解，这种「物理+人文」的复合判断AI难以替代。",
+    "window_score": 7.4,
+    "policy_score": 8,
+    "intl_score": 7,
+    "employ_score": 7,
+    "salary_score": 7,
+    "talent_score": 7,
+    "window_note": "中国制造向中国创造转型，用户体验至关重要，智能硬件、交互设计是热点",
+    "personality": [
+      "创造",
+      "系统"
+    ],
+    "rationale": "创造型在形态创新和用户研究上有优势；系统型在工程可行性分析和结构设计上出色。",
+    "pitfall": "产品设计需要极强的作品集——找工作时，你的设计作品比你的学校名气更重要。大一就开始做真实项目，毕业时有5-8个完整案例。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "A",
+      "R"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "数字媒体艺术",
+    "alias": "数媒/游戏设计/动画",
+    "ai_score": 6,
+    "ai_reason": "游戏内容创意和交互体验设计需要人的想象力和玩家同理心，但美术执行和3D建模正在被AI大幅替代。",
+    "window_score": 8.3,
+    "policy_score": 9,
+    "intl_score": 8,
+    "employ_score": 8,
+    "salary_score": 8,
+    "talent_score": 8,
+    "window_note": "元宇宙、游戏、影视特效等数字内容产业爆发，政策支持文化科技融合",
+    "personality": [
+      "创造",
+      "系统"
+    ],
+    "rationale": "创造型在游戏策划和叙事设计上有优势；系统型在关卡设计和系统设计上出色。",
+    "pitfall": "数字媒体艺术里游戏策划方向竞争极为激烈——每年大量「热爱游戏」的学生进入，但真正能做策划的不多。「爱玩游戏」不等于「能做游戏」，需要有系统思维和设计能力作为基础。",
+    "last_updated": "2026-01",
+    "score_tier": 2,
+    "holland_primary": [
+      "A",
+      "I"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "历史学",
+    "alias": "历史/考古/文博",
+    "ai_score": 5,
+    "ai_reason": "历史研究和文化遗产解读需要长期积累的人文判断和语境理解，AI能做信息整合但无法做深层诠释。",
+    "window_score": 4.7,
+    "policy_score": 5,
+    "intl_score": 4,
+    "employ_score": 5,
+    "salary_score": 5,
+    "talent_score": 4,
+    "window_note": "基础学科，研究、教育、文博为主要方向，就业面窄，依赖个人兴趣与深造",
+    "personality": [
+      "系统",
+      "表达"
+    ],
+    "rationale": "系统型适合学术研究；表达型适合文化传播和博物馆教育。历史专业的就业核心是「去哪工作」而不是「做什么工作」。",
+    "pitfall": "历史学是「读研才能发挥价值」的专业。本科毕业直接就业的出路主要是中学历史老师。如果不打算读研且不想当老师，就业会比较困难。",
+    "last_updated": "2026-01",
+    "score_tier": 1,
+    "holland_primary": [
+      "I",
+      "A"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "哲学",
+    "alias": "哲学",
+    "ai_score": 6,
+    "ai_reason": "哲学训练的批判性思维和概念分析能力，在AI时代反而是稀缺的元能力。但这需要转化——纯哲学研究岗位极少。",
+    "window_score": 4.7,
+    "policy_score": 5,
+    "intl_score": 4,
+    "employ_score": 5,
+    "salary_score": 5,
+    "talent_score": 4,
+    "window_note": "基础学科，培养思维能力强，直接对口岗位少，多进入教育、研究、公务员等领域",
+    "personality": [
+      "系统",
+      "表达"
+    ],
+    "rationale": "系统型在逻辑分析和概念构建上有天然优势；表达型在哲学传播和公共演讲上出色。",
+    "pitfall": "哲学是「最难直接就业、最有长期价值」的专业——毕业时找工作会很困难，但10年后这个思维训练带来的竞争优势开始显现。需要有强烈的自我驱动和转化能力。",
+    "last_updated": "2026-01",
+    "score_tier": 1,
+    "holland_primary": [
+      "I",
+      "A"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "mid"
+  },
+  {
+    "name": "数字经济",
+    "alias": "数字经济/互联网经济",
+    "ai_score": 5,
+    "ai_reason": "数字经济政策分析和平台治理需要综合判断，但数据分析执行层已被工具替代。这是一个方向新、课程体系仍在摸索的专业。",
+    "window_score": 9.2,
+    "policy_score": 10,
+    "intl_score": 9,
+    "employ_score": 8,
+    "salary_score": 9,
+    "talent_score": 9,
+    "window_note": "国家顶层战略，数据要素市场化，产业数字化与数字产业化双轮驱动，新兴交叉学科",
+    "personality": [
+      "系统",
+      "表达"
+    ],
+    "rationale": "系统型适合做平台经济研究和政策分析；表达型适合产业咨询和政府对接工作。",
+    "pitfall": "数字经济是新专业，不同学校课程差异极大。建议提前看课程设置，避免选到「新瓶装旧酒」的传统经济学或管理学课程。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "E"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "金融科技",
+    "alias": "金融科技/Fintech",
+    "ai_score": 6,
+    "ai_reason": "金融产品创新和风险判断仍需要人的决策，但算法交易和信贷评分等执行层已高度自动化。这是金融+技术的交叉地带。",
+    "window_score": 9.6,
+    "policy_score": 10,
+    "intl_score": 9,
+    "employ_score": 9,
+    "salary_score": 10,
+    "talent_score": 10,
+    "window_note": "金融创新与科技监管焦点，全球发展迅猛，中国领先应用，复合型人才极度稀缺",
+    "personality": [
+      "系统",
+      "执行"
+    ],
+    "rationale": "系统型适合量化策略和风险建模；执行型适合项目管理和产品落地。需要同时有金融和编程基础。",
+    "pitfall": "金融科技是「双重门槛」的专业——你需要同时够得上金融和技术两条线的标准，只擅长其中一个会很尴尬。建议从大一就开始补强较弱的那一面。",
+    "last_updated": "2026-01",
+    "score_tier": 4,
+    "holland_primary": [
+      "I",
+      "C"
+    ],
+    "social_demand": "low",
+    "empathy_demand": "low"
+  },
+  {
+    "name": "```",
+    "alias": "",
+    "ai_score": 0,
+    "ai_reason": "",
+    "window_score": 0.0,
+    "policy_score": 0,
+    "intl_score": 0,
+    "employ_score": 0,
+    "salary_score": 0,
+    "talent_score": 0,
+    "window_note": "",
+    "personality": [],
+    "rationale": "",
+    "pitfall": "",
+    "last_updated": "",
+    "score_tier": 3,
+    "holland_primary": [
+      "I",
+      "R"
+    ],
+    "social_demand": "mid",
+    "empathy_demand": "low"
+  }
+]
