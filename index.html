@@ -449,7 +449,7 @@ footer a { color:var(--accent); text-decoration:none; }
     <button class="mode-btn" id="studentModeBtn" onclick="setResultMode('student')">🎓 学生视角</button>
   </div>
 
-  <div class="result-section">
+  <div class="result-section" id="topSection">
     <div class="result-section-label">强烈推荐</div>
     <div id="topResults"></div>
   </div>
@@ -545,8 +545,8 @@ const MAJORS_RAW = [
   ["数字媒体艺术",["数媒","游戏设计","动画"],"上升",[3,0],["游戏策划","动画师","特效师"],6,0,"M","media",5,"t12","兼","游戏出海是文化产业最大增量，国际市场需求旺","爱玩游戏不等于能做游戏，需要系统思维和设计能力",1],
   ["历史学",["历史","考古","文博"],"平稳",[0,1],["历史研究员","博物馆管理员","中学历史教师"],5,1,"H","edu",5,"any","文","文化遗产解读需长期积累的人文判断","读研才能发挥价值，本科主要出路是历史老师",2],
   ["哲学",["哲学"],"平稳",[0,1],["哲学研究员","咨询顾问","政策分析师"],6,1,"M","edu",5,"any","文","批判性思维在AI时代是稀缺元能力","最难直接就业，需要强烈自我驱动和转化能力",2],
-  ["数字经济",["数字经济","互联网经济"],"上升",[0,1],["数字经济研究员","产业分析师","平台运营"],5,0,"M","tech",4,"t12","兼","国家战略核心词，政府咨询平台企业均有需求","新专业课程良莠不齐，提前看课程设置避免踩坑",2],
-  ["金融科技",["金融科技","Fintech"],"上升",[0,2],["金融科技工程师","量化分析师","风控工程师"],6,0,"M","finance",4,"t1","兼","懂金融又懂编程的复合人才稀缺","双重门槛，两条线都要够得上才能真正发挥价值",3],
+  ["数字经济",["数字经济","互联网经济"],"上升",[0,1],["数字经济研究员","产业分析师","平台运营"],5,0,"M","tech",4,"t12","理","国家战略核心词，政府咨询平台企业均有需求","新专业课程良莠不齐，提前看课程设置避免踩坑",2],
+  ["金融科技",["金融科技","Fintech"],"上升",[0,2],["金融科技工程师","量化分析师","风控工程师"],6,0,"M","finance",4,"t1","理","懂金融又懂编程的复合人才稀缺","双重门槛，两条线都要够得上才能真正发挥价值",3],
 ];
 
 // 构建专业数据字典（已迁移至 fetch data/majors.json，见 DOMContentLoaded）
@@ -1127,15 +1127,26 @@ function renderResults() {
   const top = state.results.filter(r => r.combined >= 7);
   const caution = state.results.filter(r => r.combined >= 5.5 && r.combined < 7);
 
-  document.getElementById('topResults').innerHTML = top.slice(0,5).map((r,i) =>
-    renderMajorCard(r, i === 0)
-  ).join('');
+  if (top.length) {
+    document.getElementById('topResults').innerHTML = top.slice(0,5).map((r,i) =>
+      renderMajorCard(r, i === 0)
+    ).join('');
+    document.getElementById('topSection').style.display = 'block';
+  } else {
+    document.getElementById('topSection').style.display = 'none';
+  }
 
   if (caution.length) {
     document.getElementById('cautionResults').innerHTML = caution.slice(0,3).map(r =>
       renderMajorCard(r, false)
     ).join('');
     document.getElementById('cautionSection').style.display = 'block';
+  }
+
+  // 如果没有强烈推荐，自动展开全部结果
+  if (!top.length) {
+    document.getElementById('allResultsSection').style.display = 'block';
+    document.getElementById('showAllBtn').style.display = 'none';
   }
 
   document.getElementById('allResults').innerHTML = state.results.map(r =>
