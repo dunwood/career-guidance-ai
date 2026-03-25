@@ -119,6 +119,24 @@ body::before {
 .option-btn:hover { border-color:var(--accent3); color:var(--accent3); }
 .option-btn.selected { border-color:var(--accent); background:rgba(255,60,95,.08); color:var(--text); }
 
+/* ── SCCT 多选卡片 ── */
+.options-grid { display:flex; flex-direction:column; gap:10px; }
+.option-card {
+  position:relative; padding:16px 18px; background:var(--surface);
+  border:1.5px solid var(--border); border-radius:14px; text-align:left;
+  cursor:pointer; font-size:14px; font-family:'Noto Serif SC',serif;
+  color:var(--text); line-height:1.5; transition:all .15s;
+}
+.option-card:hover { border-color:var(--accent3); color:var(--accent3); }
+.option-card.selected {
+  border-color:var(--accent3) !important;
+  background:rgba(0,229,255,.08) !important;
+}
+.option-card.selected::after {
+  content:'✓'; position:absolute; top:8px; right:12px;
+  color:var(--accent3); font-size:14px;
+}
+
 /* ── 进度条 ── */
 .progress-wrap { height:3px; background:var(--border); border-radius:2px; margin-bottom:28px; }
 .progress-bar { height:100%; background:var(--accent); border-radius:2px; transition:width .4s; }
@@ -476,6 +494,19 @@ footer a { color:var(--accent); text-decoration:none; }
   </div>
 </div>
 
+<!-- ══ 屏幕 SCCT：自我认知问卷（5题） ══ -->
+<div class="screen" id="screen-scct">
+  <div class="screen-label">第四步 · 自我认知</div>
+  <h2 class="screen-title">了解你的<span>内在驱动</span></h2>
+  <p class="screen-sub">5 道自我认知题，帮助系统理解你真正看重什么</p>
+  <div id="scctQuestionArea"></div>
+  <div style="text-align:center;margin-top:12px;">
+    <span onclick="skipSCCT()" style="font-size:13px;color:var(--muted);cursor:pointer;text-decoration:underline;">
+      跳过这一步，使用默认设置
+    </span>
+  </div>
+</div>
+
 <!-- ══ 屏幕 4：计算中 ══ -->
 <div class="screen" id="screen4">
   <div class="loading-screen">
@@ -771,6 +802,71 @@ const PERSONALITY_QS = [
   }
 ];
 
+// SCCT 自我认知问卷（5题）
+const SCCT_QS = [
+  {
+    key: 'efficacy_domain',
+    text: '你觉得自己在哪些领域学起来最轻松？',
+    sub: '可多选，选出你真正擅长的',
+    type: 'multi',
+    options: [
+      { text: '数理逻辑（数学、物理、编程）', value: 'logic' },
+      { text: '语言文字（语文、英语、写作）', value: 'language' },
+      { text: '动手实践（实验、制作、运动）', value: 'hands_on' },
+      { text: '人际沟通（演讲、组织、说服）', value: 'social' },
+      { text: '艺术创作（绘画、音乐、设计）', value: 'creative' },
+      { text: '记忆理解（历史、政治、生物）', value: 'memory' }
+    ]
+  },
+  {
+    key: 'efficacy_confidence',
+    text: '面对一个全新的学科领域，你通常的感受是？',
+    sub: '回忆你学习新内容时的真实感受',
+    type: 'single',
+    options: [
+      { text: '有信心学好，以前也是这样过来的', value: 3 },
+      { text: '有点紧张，但相信努力就能学好', value: 2 },
+      { text: '比较担心，怕自己跟不上', value: 1 }
+    ]
+  },
+  {
+    key: 'outcome_expect',
+    text: '你期望未来的工作带给你什么？',
+    sub: '最多选 2 项，选你最看重的',
+    type: 'multi_max2',
+    options: [
+      { text: '高收入和财务自由', value: 'money' },
+      { text: '稳定安全的生活', value: 'security' },
+      { text: '社会地位和他人尊重', value: 'status' },
+      { text: '成就感和自我实现', value: 'achievement' },
+      { text: '自由和灵活的时间', value: 'freedom' },
+      { text: '帮助他人、有社会意义', value: 'meaning' }
+    ]
+  },
+  {
+    key: 'goal_clarity',
+    text: '关于未来想做什么，你现在的状态是？',
+    sub: '诚实回答，迷茫也完全没关系',
+    type: 'single',
+    options: [
+      { text: '非常清楚，有明确的职业方向', value: 3 },
+      { text: '有大致方向，但还不确定', value: 2 },
+      { text: '完全没想好，很迷茫', value: 1 }
+    ]
+  },
+  {
+    key: 'support_perception',
+    text: '你觉得周围的人对你选专业的态度是？',
+    sub: '家人、老师、朋友的整体态度',
+    type: 'single',
+    options: [
+      { text: '很支持，会帮我分析和出主意', value: 3 },
+      { text: '基本放手，让我自己决定', value: 2 },
+      { text: '有干预，我的想法不一定能实现', value: 1 }
+    ]
+  }
+];
+
 // ══════════════════════════════════════════════════════
 // 状态管理
 // ══════════════════════════════════════════════════════
@@ -782,6 +878,8 @@ let state = {
   personality: [],      // personality answers [type_index, ...]
   familyStep: 0,
   personalityStep: 0,
+  scct: {},        // SCCT 问卷答案
+  scctStep: 0,     // SCCT 当前题号
   apiKey: '',
   majorsDB: {},         // loaded from data/majors.json
   profile: null,        // personality profile from calcPersonalityProfile
@@ -987,13 +1085,112 @@ function answerPersonality(optIdx, el) {
       state.personalityStep++;
       renderPersonalityQuestion();
     } else {
-      goToStep(5);
+      // 人格问卷完成 → 跳转到 SCCT 问卷
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-scct').classList.add('active');
+      state.scctStep = 0;
+      state.scct = {};
+      renderSCCTQuestion();
+      updateStepDots(4);
+      window.scrollTo({top:0, behavior:'smooth'});
     }
   }, 300);
 }
 
 function prevPersonality() {
   if (state.personalityStep > 0) { state.personalityStep--; renderPersonalityQuestion(); }
+}
+
+// ══════════════════════════════════════════════════════
+// SCCT 自我认知问卷
+// ══════════════════════════════════════════════════════
+function renderSCCTQuestion() {
+  const i = state.scctStep;
+  const q = SCCT_QS[i];
+  const pct = ((i + 1) / SCCT_QS.length) * 100;
+  const area = document.getElementById('scctQuestionArea');
+
+  if (q.type === 'multi' || q.type === 'multi_max2') {
+    const maxSelect = q.type === 'multi_max2' ? 2 : 6;
+    const selected = state.scct[q.key] || [];
+    area.innerHTML = `
+      <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+      <div class="question-num">第 ${i + 1} 题 / 共 ${SCCT_QS.length} 题</div>
+      <div class="question-text">${q.text}</div>
+      <div class="question-sub" style="font-size:12px;color:var(--muted);margin-bottom:16px;">${q.sub || ''}</div>
+      <div class="options-grid">
+        ${q.options.map(opt => {
+          const isSelected = selected.includes(opt.value);
+          return `<div class="option-card ${isSelected ? 'selected' : ''}"
+            onclick="toggleSCCTMulti('${q.key}', '${opt.value}', ${maxSelect})">
+            ${opt.text}
+          </div>`;
+        }).join('')}
+      </div>
+      <button class="btn" onclick="nextSCCT()" style="margin-top:16px;"
+        ${selected.length === 0 ? 'disabled' : ''}>
+        ${i < SCCT_QS.length - 1 ? '下一题 →' : '开始计算 →'}
+      </button>
+    `;
+  } else {
+    area.innerHTML = `
+      <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+      <div class="question-num">第 ${i + 1} 题 / 共 ${SCCT_QS.length} 题</div>
+      <div class="question-text">${q.text}</div>
+      <div class="question-sub" style="font-size:12px;color:var(--muted);margin-bottom:16px;">${q.sub || ''}</div>
+      <div class="options-grid">
+        ${q.options.map(opt => `
+          <div class="option-card" onclick="selectSCCT('${q.key}', ${typeof opt.value === 'string' ? "'" + opt.value + "'" : opt.value})">
+            ${opt.text}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+}
+
+function selectSCCT(key, value) {
+  state.scct[key] = value;
+  nextSCCT();
+}
+
+function toggleSCCTMulti(key, value, maxSelect) {
+  if (!state.scct[key]) state.scct[key] = [];
+  const arr = state.scct[key];
+  const idx = arr.indexOf(value);
+  if (idx >= 0) {
+    arr.splice(idx, 1);
+  } else {
+    if (arr.length >= maxSelect) {
+      arr.shift();
+    }
+    arr.push(value);
+  }
+  state.scct[key] = arr;
+  renderSCCTQuestion();
+}
+
+function nextSCCT() {
+  if (state.scctStep < SCCT_QS.length - 1) {
+    state.scctStep++;
+    renderSCCTQuestion();
+    window.scrollTo({top:0, behavior:'smooth'});
+  } else {
+    console.log('[v3.0] SCCT 答案:', state.scct);
+    runCalculation();
+  }
+}
+
+function skipSCCT() {
+  state.scct = {
+    efficacy_domain: ['logic', 'memory'],
+    efficacy_confidence: 2,
+    outcome_expect: ['security', 'achievement'],
+    goal_clarity: 2,
+    support_perception: 2
+  };
+  console.log('[v3.0] SCCT 已跳过，使用默认值');
+  runCalculation();
 }
 
 // ══════════════════════════════════════════════════════
@@ -1025,6 +1222,9 @@ async function runCalculation() {
   const bigFive = calcBigFive(state.personality, profile.ei, profile.tf);
   state.bigFive = bigFive;
   console.log('[v3.0] 大五人格:', bigFive);
+
+  // SCCT 数据存储（task33 中正式接入评分，task34 中用于 Fuzzy AHP 权重推导）
+  console.log('[v3.0] SCCT 数据:', state.scct);
 
   // ── Task 25 修复：文理科硬性过滤 ──
   // 文科生不能报理科专业（这是硬约束，不能用扣分替代）
@@ -1808,7 +2008,7 @@ function showAllMajors() {
 
 function restart() {
   state = { ...state, scoreRange:'', subject:'', family:{}, personality:[],
-    familyStep:0, personalityStep:0, results:[], resultMode: 'normal', mode: 'normal',
+    familyStep:0, personalityStep:0, scct:{}, scctStep:0, results:[], resultMode: 'normal', mode: 'normal',
     reverseMajor: '' };
   renderFamilyQuestion();
   renderPersonalityQuestion();
