@@ -197,7 +197,7 @@ body::before {
 .score-val { font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); }
 .score-expand-icon { position:absolute; top:8px; right:8px; font-size:10px; color:var(--muted); }
 .score-sub { max-height:0; overflow:hidden; transition:max-height 0.3s ease; margin-top:8px; }
-.score-sub.open { max-height:300px; }
+.score-sub.open { max-height:600px; }
 .sub-row { display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--muted); padding:4px 0; border-bottom:1px solid var(--border); }
 .sub-row:last-child { border-bottom:none; }
 .sub-label { min-width:60px; }
@@ -2576,6 +2576,8 @@ function renderReverseResult() {
   const d5 = calcDimPolicy(major);
   const d6 = calcDimTransfer(major);
   const combined = aiScore * 0.35 + windowScore * 0.30 + familyScore * 0.20 + personalityScore * 0.15;
+  // 合并对象，供 sub-content 函数使用
+  const r = { ...major, aiScore, windowScore, familyScore, personalityScore };
 
   let verdict, verdictClass, verdictDesc;
   if (combined >= 7) {
@@ -2603,14 +2605,14 @@ function renderReverseResult() {
     <p class="screen-sub">${verdictDesc}</p>
 
     <div class="scores-grid" style="margin-bottom:20px;">
-      ${scoreItem('AI生存', Math.round(aiScore * 10) / 10, 10)}
-      ${scoreItem('窗口期', windowScore, 10)}
-      ${scoreItem('家庭适配', Math.round(familyScore * 10) / 10, 10)}
-      ${scoreItem('人格匹配', personalityScore, 10)}
+      ${scoreItem('AI生存', Math.round(aiScore * 10) / 10, 10, aiSubContent(r))}
+      ${scoreItem('窗口期', windowScore, 10, windowSubContent(r))}
+      ${scoreItem('家庭适配', Math.round(familyScore * 10) / 10, 10, familySubContent(r))}
+      ${scoreItem('人格匹配', personalityScore, 10, personalitySubContent(r))}
     </div>
     <div class="scores-grid" style="margin-bottom:20px;">
-      ${scoreItem('国家战略', Math.round(d5 * 10) / 10, 10)}
-      ${scoreItem('可迁移性', Math.round(d6 * 10) / 10, 10)}
+      ${scoreItem('国家战略', Math.round(d5 * 10) / 10, 10, policySubContent(r))}
+      ${scoreItem('可迁移性', Math.round(d6 * 10) / 10, 10, transferSubContent(r))}
     </div>
 
     <div class="major-card">
