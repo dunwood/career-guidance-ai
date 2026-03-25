@@ -1257,79 +1257,116 @@ async function runCalculation() {
   state.filteredCount = filteredMajors.length;
   state.totalCount = allMajors.length;
 
-  // 为每个专业计算四维分数
-  // 修复说明（Task 24）：
-  // 原权重 aiScore*0.35 + windowScore*0.30 = 65% 来自专业固有属性，与用户无关，导致所有用户推荐结果趋同。
-  // 新权重：提升用户相关维度（人格匹配+家庭适配）至 60%，降低固有属性维度至 40%。
-  // 同时加入相同分数随机打散，以及顶部推荐学科多样性保障。
-  const scored = filteredMajors.map(m => {
+  // ═══ v3.0 TOPSIS 排序（Phase4-2，替换原加权求和）═══
+
+  // Step 0：为每个专业预计算基础分数（用于展示 + TOPSIS 输入）
+  const SCORE_MAP = {'700+':5,'650-700':4,'600-650':3,'550-600':2,'500-550':1,'<500':1};
+  const studentScore = SCORE_MAP[state.scoreRange] || 2;
+
+  const preparedMajors = filteredMajors.map(m => {
     const aiScore = calcAIScore(m);
     const windowScore = m.window_score != null ? m.window_score : (WINDOW_SCORE[m.window] || 6);
     const familyScore = calcFamilyScore(m);
     const personalityScore = calcPersonalityScore(m, profile);
-    // 新权重：aiScore 20% + windowScore 20% + familyScore 25% + personalityScore 35%
-    // 用户相关维度（家庭+人格）占 60%，确保不同用户得到不同结果
-    const combined = aiScore * 0.20 + windowScore * 0.20 + familyScore * 0.25 + personalityScore * 0.35;
-
-    // v3.0 新增：SCCT 修正项（乘以 0.3 控制影响幅度）
     const scctMod = calcSCCTModifier(m);
-    const combinedWithSCCT = combined + scctMod * 0.3;
+    // SCCT 修正融入人格匹配分
+    const personalityWithSCCT = Math.max(1, Math.min(10, personalityScore + scctMod * 0.5));
 
-    // 注：文理科硬性过滤已在评分前完成（通过 track 字段），无需再扣分
-
-    // 分数适配惩罚：双向惩罚（分数不够扣分，分数远超门槛也扣分）
-    // Task 28b 修复：降低高分惩罚系数到 0.5，限制最大惩罚 2 分
-    // 原因：700+ 学生选 score_tier=1 专业，旧惩罚 (5-1-1)*1.5=4.5 过重，把所有分数压到 0
-    const SCORE_MAP = {'700+':5,'650-700':4,'600-650':3,'550-600':2,'500-550':1,'<500':1};
-    const studentScore = SCORE_MAP[state.scoreRange] || 2;
+    // 分数门槛因子（等比缩放惩罚，避免极端压分）
     const scoreTier = m.score_tier || 3;
-    const underPenalty = Math.max(0, (scoreTier - studentScore)) * 2;
-    const overPenalty = Math.min(2, Math.max(0, (studentScore - scoreTier) - 1) * 0.5);
-    const scorePenalty = underPenalty + overPenalty;
-
-    // 加入微小随机扰动，打散完全相同分数的专业排序（范围±0.05，不影响分数差异大的排名）
-    const tieBreaker = (Math.random() - 0.5) * 0.1;
+    const underPenalty = Math.max(0, (scoreTier - studentScore)) * 0.15;
+    const overPenalty = Math.min(0.15, Math.max(0, (studentScore - scoreTier) - 1) * 0.05);
+    const penaltyFactor = Math.max(0.3, 1 - underPenalty - overPenalty);
 
     return {
       ...m,
+      // 四维展示分数（向后兼容结果卡片）
       aiScore: Math.round(aiScore * 10) / 10,
-      windowScore,
+      windowScore: Math.round(windowScore * 10) / 10,
       familyScore: Math.round(familyScore * 10) / 10,
-      personalityScore,
+      personalityScore: Math.round(personalityWithSCCT * 10) / 10,
       scctModifier: Math.round(scctMod * 100) / 100,
-      combined: Math.max(0, combinedWithSCCT - scorePenalty + tieBreaker),
-      personalityMismatch: !(m.holland_primary || []).includes(profile.primary) && !(m.holland_primary || []).includes(profile.secondary)
+      personalityMismatch: !(m.holland_primary || []).includes(profile.primary) && !(m.holland_primary || []).includes(profile.secondary),
+      // TOPSIS 输入（含惩罚因子）
+      _d1: aiScore * penaltyFactor,
+      _d2: windowScore * penaltyFactor,
+      _d3: familyScore * penaltyFactor,
+      _d4: personalityWithSCCT * penaltyFactor,
+      _d5: calcDimPolicy(m),
+      _d6: calcDimTransfer(m),
+      _penaltyFactor: penaltyFactor
     };
   });
 
-  scored.sort((a,b) => b.combined - a.combined);
+  // Step 1：构建决策矩阵（归一化到 0-1）
+  const wArr = [weights.ai, weights.window, weights.family, weights.personality, weights.policy, weights.transfer];
+  const matrix = preparedMajors.map(m => ({
+    major: m,
+    scores: [m._d1/10, m._d2/10, m._d3/10, m._d4/10, m._d5/10, m._d6/10]
+  }));
 
-  // v3.0 SCCT 影响日志
-  console.log('[v3.0] SCCT 修正对 Top 10 的影响:');
-  scored.slice(0, 10).forEach((m, i) => {
-    console.log(`  ${i+1}. ${m.name}: scctMod=${m.scctModifier > 0 ? '+' : ''}${m.scctModifier}, combined=${m.combined.toFixed(3)}`);
+  // Step 2：向量归一化
+  const colNorms = Array(6).fill(0);
+  matrix.forEach(row => row.scores.forEach((s, j) => { colNorms[j] += s * s; }));
+  colNorms.forEach((v, j) => { colNorms[j] = Math.sqrt(v) || 1; });
+  matrix.forEach(row => {
+    row.normalized = row.scores.map((s, j) => s / colNorms[j]);
+    // Step 3：加权归一化
+    row.weighted = row.normalized.map((s, j) => s * wArr[j]);
   });
 
-  // 检查评分过程是否产生重复
+  // Step 4：理想解和负理想解
+  const ideal = Array(6).fill(-Infinity);
+  const antiIdeal = Array(6).fill(Infinity);
+  matrix.forEach(row => row.weighted.forEach((s, j) => {
+    if (s > ideal[j]) ideal[j] = s;
+    if (s < antiIdeal[j]) antiIdeal[j] = s;
+  }));
+
+  // Step 5-6：距离 + 综合接近度
+  matrix.forEach(row => {
+    let dP = 0, dM = 0;
+    row.weighted.forEach((s, j) => {
+      dP += (s - ideal[j]) ** 2;
+      dM += (s - antiIdeal[j]) ** 2;
+    });
+    row.dPlus = Math.sqrt(dP);
+    row.dMinus = Math.sqrt(dM);
+    row.closeness = row.dMinus / (row.dPlus + row.dMinus + 1e-10);
+    row.closeness += (Math.random() - 0.5) * 0.001; // 微扰动打散同分
+  });
+
+  // 排序
+  matrix.sort((a, b) => b.closeness - a.closeness);
+
+  // 映射为 state.results 格式（combined = closeness，保持 renderResults 兼容）
+  const scored = matrix.map(row => ({
+    ...row.major,
+    combined: row.closeness,
+    topsisCloseness: Math.round(row.closeness * 1000) / 1000,
+    topsisDimScores: {
+      ai:          Math.round(row.scores[0] * 100) / 10,
+      window:      Math.round(row.scores[1] * 100) / 10,
+      family:      Math.round(row.scores[2] * 100) / 10,
+      personality: Math.round(row.scores[3] * 100) / 10,
+      policy:      Math.round(row.scores[4] * 100) / 10,
+      transfer:    Math.round(row.scores[5] * 100) / 10
+    }
+  }));
+
+  // 去重检查
   const namesBeforeDedup = scored.map(m => m.name);
   const dupsBeforeDedup = namesBeforeDedup.filter((n, i) => namesBeforeDedup.indexOf(n) !== i);
   console.log('评分后、去重前的重复专业:', dupsBeforeDedup.length > 0 ? dupsBeforeDedup : '无重复');
-  // 诊断：前10名得分明细
-  const SCORE_MAP_DBG = {'700+':5,'650-700':4,'600-650':3,'550-600':2,'500-550':1,'<500':1};
-  const studentScoreDbg = SCORE_MAP_DBG[state.scoreRange] || 2;
-  console.log('[DEBUG] 前10名专业得分明细:');
-  scored.slice(0, 10).forEach((m, i) => {
-    const st = m.score_tier || 3;
-    const up = Math.max(0, (st - studentScoreDbg)) * 2;
-    const op = Math.min(2, Math.max(0, (studentScoreDbg - st) - 1) * 0.5);
-    console.log(`  ${i+1}. ${m.name}: combined=${m.combined.toFixed(3)}, scoreTier=${st}, penalty=${(up+op).toFixed(1)}, ai=${m.aiScore}, win=${m.windowScore}, fam=${m.familyScore}, per=${m.personalityScore}`);
-  });
+
   state.results = scored;
 
-  // v3.0 控制台验证：前5名人格得分
-  console.log('[v3.0] 大五人格对推荐的影响:');
-  state.results.slice(0, 5).forEach(r => {
-    console.log(`  ${r.name}: personalityScore=${r.personalityScore}, big5修正已包含`);
+  // TOPSIS 诊断日志
+  console.log('[v3.0] TOPSIS 排序完成:');
+  console.log('  权重:', weights);
+  scored.slice(0, 10).forEach((m, i) => {
+    const d = m.topsisDimScores;
+    console.log(`  ${i+1}. ${m.name}: closeness=${m.topsisCloseness}, 6维=[${d.ai},${d.window},${d.family},${d.personality},${d.policy},${d.transfer}], penalty=${m._penaltyFactor ? m._penaltyFactor.toFixed(2) : '1.00'}`);
   });
 
   document.getElementById('loadingText').textContent = '生成报告中…';
@@ -1881,7 +1918,8 @@ AI生存分：${major.aiScore}/10
 
 function renderMajorCard(r, isTop) {
   // 优先使用相对排名标签，没有时回退到分数判断
-  const verdict = r.recommendLabel || (r.combined >= 7 ? '建议报考' : r.combined >= 5.5 ? '谨慎考虑' : '不推荐');
+  // TOPSIS 后 combined = closeness（0-1），verdict 以 recommendLabel 为准
+  const verdict = r.recommendLabel || (r.topsisCloseness >= 0.7 ? '建议报考' : r.topsisCloseness >= 0.5 ? '谨慎考虑' : '不推荐');
   const vClassMap = { '强烈推荐': 'verdict-recommend', '建议报考': 'verdict-ok', '谨慎考虑': 'verdict-caution', '不推荐': 'verdict-avoid' };
   const vClass = vClassMap[verdict] || 'verdict-caution';
 
@@ -2305,6 +2343,8 @@ function renderReverseResult() {
   const windowScore = major.window_score != null ? major.window_score : 7;
   const familyScore = calcFamilyScore(major);
   const personalityScore = calcPersonalityScore(major, profile);
+  const d5 = calcDimPolicy(major);
+  const d6 = calcDimTransfer(major);
   const combined = aiScore * 0.35 + windowScore * 0.30 + familyScore * 0.20 + personalityScore * 0.15;
 
   let verdict, verdictClass, verdictDesc;
@@ -2337,6 +2377,10 @@ function renderReverseResult() {
       ${scoreItem('窗口期', windowScore, 10)}
       ${scoreItem('家庭适配', Math.round(familyScore * 10) / 10, 10)}
       ${scoreItem('人格匹配', personalityScore, 10)}
+    </div>
+    <div class="scores-grid" style="margin-bottom:20px;">
+      ${scoreItem('国家战略', Math.round(d5 * 10) / 10, 10)}
+      ${scoreItem('可迁移性', Math.round(d6 * 10) / 10, 10)}
     </div>
 
     <div class="major-card">
