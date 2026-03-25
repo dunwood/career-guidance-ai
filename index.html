@@ -354,11 +354,11 @@ footer a { color:var(--accent); text-decoration:none; }
     <div class="screen-label">志远 · 高考择业助手</div>
     <h1 class="screen-title">选对方向<br><span>比努力更重要</span></h1>
     <p class="screen-sub">
-      AI职业风险指数 × 四维择业框架<br>
+      六维智能评估 × 个性化权重 × AI深度分析<br>
       帮你在AI时代做出有预见性的专业选择
     </p>
     <div style="margin-top:12px; font-size:12px; color:var(--muted); letter-spacing:1px; line-height:1.8;">
-      AI生存力 × 窗口期 × 家庭适配 × 人格匹配
+      AI抗性 × 窗口期 × 家庭适配 × 人格匹配 × 国家战略 × 可迁移性
     </div>
 
     <div class="api-config">
@@ -561,11 +561,11 @@ footer a { color:var(--accent); text-decoration:none; }
   <button class="btn secondary" onclick="restart()" style="margin-top:24px">重新评估</button>
 
   <footer>
-    数据来源：<a href="https://ai.zhexueyuan.com" target="_blank">职业AI风险数据库</a>（389个职业）<br>
-    方法论：Karpathy指数 × 四维择业框架 × 霍兰德人格测评<br>
+    数据来源：职业AI风险数据库（100个专业 × 30+维度）<br>
+    方法论：TOPSIS多准则决策 × 霍兰德人格 × 大五人格 × SCCT社会认知 × Fuzzy AHP个性化权重<br>
     <span style="color:#3a3a5a">本工具仅供参考，不构成志愿填报建议</span><br><br>
     <span style="color:#3a3a5a;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;">
-      志远出品 · 2026.03 · v2.0
+      志远出品 · 2026.03 · v3.0
     </span>
   </footer>
 </div>
@@ -1217,7 +1217,7 @@ async function runCalculation() {
     }
   } catch(e) { /* 离线模式，使用默认分数 */ }
 
-  document.getElementById('loadingText').textContent = '正在计算四维评分…';
+  document.getElementById('loadingText').textContent = '正在计算六维 TOPSIS 评分…';
 
   // 计算人格画像（霍兰德 + MBTI）
   const profile = calcPersonalityProfile(state.personality);
@@ -2030,6 +2030,64 @@ ${buildMajorDataForAI(major)}
   } catch(e) { return null; }
 }
 
+function generateRiskWarnings(r) {
+  const warnings = [];
+  const ds = r.topsisDimScores;
+
+  const aiDim = ds ? ds.ai : (r.aiScore || 5);
+  if (aiDim < 4) warnings.push({ icon: '🤖', text: `AI替代风险较高（${aiDim}/10）。建议在校期间学习AI工具的使用，把AI变成你的助手而非竞争者。` });
+
+  const windowDim = ds ? ds.window : (r.windowScore || 5);
+  if (windowDim < 4) warnings.push({ icon: '⏰', text: `行业窗口期不佳（${windowDim}/10）。入行时机偏晚，建议关注该领域的细分新赛道或交叉方向。` });
+
+  const familyDim = ds ? ds.family : (r.familyScore || 5);
+  if (familyDim < 4) warnings.push({ icon: '🏠', text: `与家庭条件适配度较低（${familyDim}/10）。可能在经济支持、就业地域或时间规划上存在压力，建议和家人充分沟通。` });
+
+  const persoDim = ds ? ds.personality : (r.personalityScore || 5);
+  if (persoDim < 4) warnings.push({ icon: '🧠', text: `与你的性格特质匹配度较低（${persoDim}/10）。日常工作模式可能与你的天然偏好有冲突，入行前建议做实习体验。` });
+
+  const policyDim = ds ? ds.policy : (r.strategic_align || 5);
+  if (policyDim < 4) warnings.push({ icon: '📉', text: `该方向国家战略支持力度有限（${policyDim}/10），未来政策红利和资源倾斜可能不足。` });
+
+  const transferDim = ds ? ds.transfer : (r.transferability || 5);
+  if (transferDim < 4) warnings.push({ icon: '🔒', text: `专业可迁移性较低（${transferDim}/10），转型空间有限。建议辅修第二专业或跨学科选课，为自己多留一条路。` });
+
+  return warnings;
+}
+
+function getSCCTMatchNote(r) {
+  const scct = state.scct || {};
+  const expects = scct.outcome_expect || [];
+  const domains = scct.efficacy_domain || [];
+  const required = r.required_ability || [];
+  const notes = [];
+
+  if (domains.length > 0 && required.length > 0) {
+    const domainNames = {
+      logic:'数理逻辑', language:'语言文字', hands_on:'动手实践',
+      social:'人际沟通', creative:'艺术创作', memory:'记忆理解'
+    };
+    const matched = domains.filter(d => required.includes(d));
+    if (matched.length >= 2) {
+      notes.push(`✦ 你的核心能力（${matched.map(d => domainNames[d]).join('、')}）与该专业高度匹配`);
+    } else if (matched.length === 0) {
+      const requiredNames = required.map(d => domainNames[d] || d).join('、');
+      notes.push(`⚠ 该专业需要${requiredNames}能力，与你的擅长领域不太一致`);
+    }
+  }
+
+  if (expects.includes('money') && (r.salary_score || 5) >= 8)
+    notes.push('💰 该方向薪资水平较高，符合你对收入的期望');
+  if (expects.includes('security') && r.stability === 'H')
+    notes.push('🛡️ 该方向就业稳定性高，符合你对安全感的需求');
+  if (expects.includes('freedom') && r.social_demand === 'low')
+    notes.push('🕊️ 该方向工作自主性较强，符合你对自由的追求');
+  if (expects.includes('meaning') && r.empathy_demand === 'high')
+    notes.push('💛 该方向直接服务他人，符合你追求意义的价值观');
+
+  return notes;
+}
+
 function renderMajorCard(r, isTop) {
   // 优先使用相对排名标签，没有时回退到分数判断
   // TOPSIS 后 combined = closeness（0-1），verdict 以 recommendLabel 为准
@@ -2049,15 +2107,39 @@ function renderMajorCard(r, isTop) {
     ? `AI时代这个方向${r.aiScore >= 6 ? '的核心工作AI难以替代' : '有一定AI替代风险'}。窗口期处于<strong>${r.window}期</strong>，${getWindowDesc(r.window)}你的家庭情况对这个方向${r.familyScore >= 7 ? '适配良好' : r.familyScore >= 5 ? '基本适配' : '存在一些限制'}。`
     : `${r.rationale}。你是${pName}，${hollandMatch}。`;
 
-  let scctNote = '';
-  if (r.scctModifier > 0.5) {
-    scctNote = '<div style="font-size:12px;color:var(--accent3);margin-top:6px;">✦ 与你的自我认知高度匹配</div>';
-  } else if (r.scctModifier < -0.5) {
-    scctNote = '<div style="font-size:12px;color:var(--accent2);margin-top:6px;">⚠ 与你的自我预期有一定差距</div>';
+  // 根据推荐标签设置卡片边框
+  let cardBorderStyle = 'border:1.5px solid var(--border);';
+  if (r.recommendLabel === '强烈推荐') {
+    cardBorderStyle = 'border:1.5px solid var(--safe);box-shadow:0 0 20px rgba(0,200,150,0.08);';
+  } else if (r.recommendLabel === '建议报考') {
+    cardBorderStyle = 'border:1.5px solid var(--accent3);';
+  } else if (r.recommendLabel === '谨慎考虑') {
+    cardBorderStyle = 'border:1.5px solid var(--accent2);opacity:0.9;';
   }
 
+  // SCCT 详细匹配提示
+  const scctNotes = getSCCTMatchNote(r);
+  const scctHTML = scctNotes.length > 0 ? `
+    <div style="margin-top:8px;font-size:13px;line-height:1.8;">
+      ${scctNotes.map(n => `<div style="color:var(--muted);margin-bottom:4px;">${n}</div>`).join('')}
+    </div>
+  ` : '';
+
+  // 风险预警
+  const warnings = generateRiskWarnings(r);
+  const warningsHTML = warnings.length > 0 ? `
+    <div style="margin-top:12px;padding:12px;background:rgba(255,179,71,0.06);border:1px solid rgba(255,179,71,0.2);border-radius:12px;">
+      ${warnings.map(w => `
+        <div style="display:flex;gap:8px;margin-bottom:8px;font-size:13px;line-height:1.6;">
+          <span style="flex-shrink:0;">${w.icon}</span>
+          <span style="color:var(--accent2);">${w.text}</span>
+        </div>
+      `).join('')}
+    </div>
+  ` : '';
+
   return `
-  <div class="major-card ${isTop ? 'top-pick' : ''}">
+  <div class="major-card ${isTop ? 'top-pick' : ''}" style="${cardBorderStyle}">
     <div class="major-name">${r.name}</div>
     <div class="major-verdict ${vClass}">${verdict}</div>
     <div class="scores-grid">
@@ -2071,9 +2153,10 @@ function renderMajorCard(r, isTop) {
     <div class="major-occs">💼 ${r.occs.join(' · ')}</div>
     ${r.top_universities && r.top_universities.length ? `<div class="major-unis">🏫 <span>推荐高校：</span>${r.top_universities.join(' · ')}</div>` : ''}
     <div class="major-detail">${detail}</div>
-    ${scctNote}
+    ${scctHTML}
     <div class="major-pitfall">⚠️ ${r.pitfall}</div>
     <div class="major-summary" id="summary-${r.name}"><span class="summary-dot">···</span></div>
+    ${warningsHTML}
     <div style="display:flex; gap:8px; margin-top:12px;">
       <button class="btn-report" onclick="generateReport('${r.name.replace(/'/g,"\\'")}' )" style="flex:1; margin-top:0;">
         📄 完整报告
