@@ -531,6 +531,9 @@ footer a { color:var(--accent); text-decoration:none; }
     </div>
   </div>
 
+  <!-- v3.0 Phase4：个性化权重面板 -->
+  <div id="weightsPanel"></div>
+
   <div class="mode-toggle">
     <button class="mode-btn active" id="parentModeBtn" onclick="setResultMode('parent')">👨‍👩‍👧 家长视角</button>
     <button class="mode-btn" id="studentModeBtn" onclick="setResultMode('student')">🎓 学生视角</button>
@@ -1223,8 +1226,12 @@ async function runCalculation() {
   state.bigFive = bigFive;
   console.log('[v3.0] 大五人格:', bigFive);
 
-  // SCCT 数据存储（task33 中正式接入评分，task34 中用于 Fuzzy AHP 权重推导）
+  // SCCT 数据存储
   console.log('[v3.0] SCCT 数据:', state.scct);
+
+  // v3.0 Phase4：推导个性化权重（仅存储，task35 中用于 TOPSIS 排序）
+  const weights = deriveWeights();
+  state.weights = weights;
 
   // ── Task 25 修复：文理科硬性过滤 ──
   // 文科生不能报理科专业（这是硬约束，不能用扣分替代）
@@ -1604,6 +1611,72 @@ function calcSCCTModifier(major) {
 }
 
 // ══════════════════════════════════════════════════════
+// v3.0 TOPSIS 聚合维度计算
+// ══════════════════════════════════════════════════════
+
+// D1: AI 冲击综合分（0-10）
+function calcDimAI(m) {
+  const aiScore = m.ai_score || 5;
+  const collab = m.ai_collab_score || 5;
+  const pivot = m.ai_pivot_score || 5;
+  return aiScore * 0.5 + collab * 0.3 + pivot * 0.2;
+}
+
+// D5: 国家战略综合分（0-10）
+function calcDimPolicy(m) {
+  const strategic = m.strategic_align || 5;
+  const survival = m.major_survival || 5;
+  // talent_gap_scale 是万人单位，归一化到 0-10（最大缺口约 3000 万）
+  const gapNorm = Math.min(10, (m.talent_gap_scale || 0) / 300);
+  return strategic * 0.5 + survival * 0.3 + gapNorm * 0.2;
+}
+
+// D6: 可迁移性综合分（0-10）
+function calcDimTransfer(m) {
+  const transfer = m.transferability || 5;
+  const gradFlex = m.grad_flexibility || 5;
+  const crossPot = m.cross_potential || 5;
+  return transfer * 0.4 + gradFlex * 0.3 + crossPot * 0.3;
+}
+
+// ══════════════════════════════════════════════════════
+// v3.0 Fuzzy AHP 权重推导
+// ══════════════════════════════════════════════════════
+function deriveWeights() {
+  const s = state.scct || {};
+  const expects = s.outcome_expect || [];
+  const clarity = s.goal_clarity || 2;
+
+  // 基础权重（均匀）
+  const w = { ai: 1.0, window: 1.0, family: 1.0, personality: 1.0, policy: 1.0, transfer: 1.0 };
+
+  // 根据结果期望调整
+  if (expects.includes('money'))      { w.window += 1.5; w.policy += 0.5; }
+  if (expects.includes('security'))   { w.ai += 1.0; w.family += 1.0; w.policy += 0.5; }
+  if (expects.includes('status'))     { w.policy += 1.0; w.window += 0.5; }
+  if (expects.includes('achievement')){ w.personality += 1.5; w.ai += 0.5; }
+  if (expects.includes('freedom'))    { w.personality += 1.0; w.transfer += 0.5; }
+  if (expects.includes('meaning'))    { w.personality += 1.0; w.family += 0.5; }
+
+  // 目标清晰度调整（Super 理论）
+  if (clarity === 1) { w.transfer += 2.0; w.personality += 0.5; }
+  else if (clarity === 2) { w.transfer += 0.5; }
+
+  // 跳过 SCCT 时使用平衡默认权重
+  if (!expects.length && clarity === 2) {
+    w.ai = 1.2; w.window = 1.2; w.family = 1.5;
+    w.personality = 2.0; w.policy = 1.0; w.transfer = 1.0;
+  }
+
+  // 归一化
+  const sum = Object.values(w).reduce((a, b) => a + b, 0);
+  Object.keys(w).forEach(k => { w[k] = Math.round((w[k] / sum) * 1000) / 1000; });
+
+  console.log('[v3.0] AHP 个性化权重:', w);
+  return w;
+}
+
+// ══════════════════════════════════════════════════════
 // 结果渲染
 // ══════════════════════════════════════════════════════
 // 多样性保障：从排序结果中选出最多 maxCount 个，确保每种 Holland 主类型最多出现 maxPerType 次
@@ -1636,6 +1709,40 @@ function getRecommendLabel(rank, totalCount) {
   if (percentile <= 0.15) return '建议报考';   // 前 15%
   if (percentile <= 0.35) return '谨慎考虑';   // 前 35%
   return '不推荐';
+}
+
+function renderWeightsPanel() {
+  const w = state.weights;
+  if (!w) return '';
+
+  const dims = [
+    { key: 'ai',          name: 'AI抗性',   color: '#ff3c5f' },
+    { key: 'window',      name: '窗口期',   color: '#00e5ff' },
+    { key: 'family',      name: '家庭适配', color: '#ffb347' },
+    { key: 'personality', name: '人格匹配', color: '#4ade80' },
+    { key: 'policy',      name: '国家战略', color: '#a78bfa' },
+    { key: 'transfer',    name: '可迁移性', color: '#38bdf8' }
+  ];
+
+  return `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:16px;">
+      <div style="font-size:11px;color:var(--accent3);font-family:'Space Mono',monospace;letter-spacing:2px;margin-bottom:12px;">
+        你的个性化评估权重
+      </div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">
+        基于你的价值取向自动生成，不同的人看到不同的权重
+      </div>
+      ${dims.map(d => `
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;">
+          <span style="min-width:56px;color:var(--muted);">${d.name}</span>
+          <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;">
+            <div style="height:100%;width:${Math.round(w[d.key] * 100 * 5)}%;max-width:100%;background:${d.color};border-radius:3px;"></div>
+          </div>
+          <span style="min-width:36px;text-align:right;color:var(--text);">${Math.round(w[d.key] * 100)}%</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
 }
 
 function renderResults() {
@@ -1687,6 +1794,11 @@ function renderResults() {
     : `（共评估 ${state.results.length} 个专业）`;
   document.getElementById('resultSummary').textContent =
     `人格主导：${pName}${sName ? ' · 次导：' + sName : ''} ${filterNote}`;
+
+  // v3.0 Phase4：权重面板（插入到 resultSummary 后面的容器中）
+  const weightsHTML = renderWeightsPanel();
+  const weightsContainer = document.getElementById('weightsPanel');
+  if (weightsContainer) weightsContainer.innerHTML = weightsHTML;
 
   const top = state.results.filter(r => r.recommendLabel === '强烈推荐');
   const caution = state.results.filter(r => r.recommendLabel === '建议报考');
@@ -2113,7 +2225,7 @@ function showAllMajors() {
 
 function restart() {
   state = { ...state, scoreRange:'', subject:'', family:{}, personality:[],
-    familyStep:0, personalityStep:0, scct:{}, scctStep:0, results:[], resultMode: 'normal', mode: 'normal',
+    familyStep:0, personalityStep:0, scct:{}, scctStep:0, weights:null, results:[], resultMode: 'normal', mode: 'normal',
     reverseMajor: '' };
   renderFamilyQuestion();
   renderPersonalityQuestion();
