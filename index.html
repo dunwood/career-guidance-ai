@@ -1021,6 +1021,11 @@ async function runCalculation() {
   const profile = calcPersonalityProfile(state.personality);
   state.profile = profile;
 
+  // v3.0 新增：大五人格推导
+  const bigFive = calcBigFive(state.personality, profile.ei, profile.tf);
+  state.bigFive = bigFive;
+  console.log('[v3.0] 大五人格:', bigFive);
+
   // ── Task 25 修复：文理科硬性过滤 ──
   // 文科生不能报理科专业（这是硬约束，不能用扣分替代）
   const allMajors = Object.values(state.majorsDB);
@@ -1101,6 +1106,12 @@ async function runCalculation() {
     console.log(`  ${i+1}. ${m.name}: combined=${m.combined.toFixed(3)}, scoreTier=${st}, penalty=${(up+op).toFixed(1)}, ai=${m.aiScore}, win=${m.windowScore}, fam=${m.familyScore}, per=${m.personalityScore}`);
   });
   state.results = scored;
+
+  // v3.0 控制台验证：前5名人格得分
+  console.log('[v3.0] 大五人格对推荐的影响:');
+  state.results.slice(0, 5).forEach(r => {
+    console.log(`  ${r.name}: personalityScore=${r.personalityScore}, big5修正已包含`);
+  });
 
   document.getElementById('loadingText').textContent = '生成报告中…';
   await new Promise(r => setTimeout(r, 600));
@@ -1224,6 +1235,51 @@ function calcPersonalityProfile(answers) {
   return { holland, primary, secondary, ei, tf };
 }
 
+// v3.0 Phase3: 大五人格计算（从 Q11-Q15 推导 OCEAN）
+function calcBigFive(answers, ei, tf) {
+  // ═══ O 开放性：从 Q13（成就动机）和 Q15（长期规划）推导 ═══
+  // Q13 选项: 0=看到实际影响, 1=突破认知边界, 2=被人需要和认可, 3=创造前所未有的东西
+  // Q15 选项: 0=深耕一个领域成为专家, 1=跨领域成为多面手, 2=管理团队做领导, 3=创业或独立
+  let O = 5;
+  if (answers[12] === 1 || answers[12] === 3) O += 2;    // 突破认知/创造新东西 → 高开放性
+  if (answers[12] === 0) O -= 1;                          // 实际影响 → 偏低
+  if (answers[14] === 1 || answers[14] === 3) O += 1.5;  // 跨领域/创业 → 高开放性
+  if (answers[14] === 0) O -= 1;                          // 深耕专家 → 偏低
+
+  // ═══ C 尽责性：从 Q11（压力耐受）和 Q12（工作节奏）推导 ═══
+  // Q11 选项: 0=压力下效率更高, 1=提前规划避免, 2=有焦虑但能完成, 3=很难受影响发挥
+  // Q12 选项: 0=快节奏多变化, 1=有规律可预期, 2=项目制忙完有假, 3=弹性自由自己安排
+  let C = 5;
+  if (answers[10] === 0 || answers[10] === 1) C += 2;    // 压力高效/提前规划 → 高尽责性
+  if (answers[10] === 3) C -= 2;                          // 影响发挥 → 低尽责性
+  if (answers[11] === 1) C += 1.5;                        // 有规律可预期 → 高尽责性
+  if (answers[11] === 3) C -= 1.5;                        // 弹性自由 → 低尽责性
+
+  // ═══ E 外向性：直接映射已有的 ei 值 ═══
+  // ei 范围约 -3 到 +3（正=外向），映射到 1-10
+  let E = 5 + ei * 1.2;
+
+  // ═══ A 宜人性：从 tf 反向映射 ═══
+  // tf 正=思维型=低宜人性，tf 负=情感型=高宜人性
+  let A = 5 - tf * 1.2;
+
+  // ═══ N 情绪稳定性（反向计分，分数高=稳定）：从 Q11 推导 ═══
+  let N = 5;
+  if (answers[10] === 0) N += 2;   // 压力下效率高 → 高稳定
+  if (answers[10] === 1) N += 1;   // 提前规划 → 较稳定
+  if (answers[10] === 2) N -= 0.5; // 有焦虑 → 稍低
+  if (answers[10] === 3) N -= 2;   // 影响发挥 → 低稳定
+
+  // 限制在 1-10 范围
+  return {
+    O: Math.max(1, Math.min(10, Math.round(O * 10) / 10)),
+    C: Math.max(1, Math.min(10, Math.round(C * 10) / 10)),
+    E: Math.max(1, Math.min(10, Math.round(E * 10) / 10)),
+    A: Math.max(1, Math.min(10, Math.round(A * 10) / 10)),
+    N: Math.max(1, Math.min(10, Math.round(N * 10) / 10))
+  };
+}
+
 function calcPersonalityScore(m, profile) {
   const { primary, secondary, ei, tf } = profile;
   let score = 5;
@@ -1238,6 +1294,23 @@ function calcPersonalityScore(m, profile) {
   // T/F 修正
   if (m.empathy_demand === 'high' && tf > 0) score -= 1;
   if (m.empathy_demand === 'high' && tf < 0) score += 0.5;
+
+  // ═══ v3.0 新增：大五人格修正 ═══
+  const big5 = state.bigFive;
+  if (big5) {
+    // 开放性修正：高开放性的人更适合新兴/交叉方向
+    if (big5.O >= 7 && m.lifecycle_stage === 'emerging') score += 0.5;
+    if (big5.O >= 7 && m.cross_potential >= 8) score += 0.5;
+    if (big5.O <= 3 && m.lifecycle_stage === 'emerging') score -= 0.5;
+
+    // 尽责性修正：高尽责性的人更适合稳定、规范化的方向
+    if (big5.C >= 7 && m.stability === 'H') score += 0.5;
+    if (big5.C <= 3 && m.grad_req === true) score -= 0.5;  // 低自律+需要读研=风险
+
+    // 情绪稳定性修正：低稳定性的人不适合高压方向
+    if (big5.N <= 3 && m.social_demand === 'high') score -= 0.5;
+    if (big5.N >= 7 && m.stability === 'L') score += 0.3;  // 高抗压+不稳定行业=能扛
+  }
 
   return Math.max(1, Math.min(10, Math.round(score * 10) / 10));
 }
@@ -1372,12 +1445,14 @@ async function generateSummary(major, profile) {
   const hollandName = { R:'实用型', I:'研究型', A:'艺术型', S:'社会型', E:'企业型', C:'常规型' };
   const primaryName = hollandName[profile.primary] || '';
 
+  const big5Sum = state.bigFive;
+  const big5SumDesc = big5Sum ? `\n大五人格：O${big5Sum.O} C${big5Sum.C} E${big5Sum.E} A${big5Sum.A} N${big5Sum.N}` : '';
   const prompt = `用一句话（30字以内）总结这个专业对该学生的适合度。
 专业：${major.name}
 AI生存分：${major.aiScore}/10
 窗口期分：${major.window_score}/10
 人格匹配：${major.personalityScore}/10
-学生类型：${primaryName}
+学生类型：${primaryName}${big5SumDesc}
 只输出这一句话，不要任何其他内容。`;
 
   try {
@@ -1504,12 +1579,32 @@ function personalitySubContent(r) {
   const match = (r.holland_primary||[]).includes(p.primary) ? '高度匹配'
     : (r.holland_primary||[]).includes(p.secondary) ? '部分匹配' : '需要适应';
   const matchColor = match === '高度匹配' ? 'var(--safe)' : match === '部分匹配' ? 'var(--accent2)' : 'var(--muted)';
-  return `
+  let html = `
     <div class="sub-row"><span class="sub-label">主导型</span><span>${primName}(${p.primary||'?'})</span></div>
     <div class="sub-row"><span class="sub-label">次导型</span><span>${secName}(${p.secondary||'?'})</span></div>
     <div class="sub-row"><span class="sub-label">社交能量</span><span>${eiLabel}</span></div>
     <div class="sub-row"><span class="sub-label">决策风格</span><span>${tfLabel}</span></div>
     <div class="sub-row"><span class="sub-label">匹配程度</span><span style="color:${matchColor}">${match}</span></div>`;
+
+  // v3.0 新增：大五人格展示
+  const big5 = state.bigFive;
+  if (big5) {
+    const big5Names = { O: '开放性', C: '尽责性', E: '外向性', A: '宜人性', N: '情绪稳定' };
+    html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">';
+    html += '<div style="font-size:11px;color:var(--accent3);margin-bottom:6px;">大五人格画像</div>';
+    ['O','C','E','A','N'].forEach(key => {
+      const val = big5[key];
+      const pct = val * 10;
+      html += `<div class="sub-row">
+        <span class="sub-label">${big5Names[key]}</span>
+        <div class="sub-bar"><div class="sub-bar-fill" style="width:${pct}%"></div></div>
+        <span class="sub-val">${val}</span>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  return html;
 }
 
 function scoreItem(label, val, max, subContent) {
@@ -1564,6 +1659,9 @@ async function generateReport(majorName) {
   const primaryName = HOLLAND_NAMES[profile.primary] || '未知';
 
   const hollandSecName = HOLLAND_NAMES[profile.secondary] || '';
+  const big5 = state.bigFive;
+  const big5Desc = big5 ? `
+- 大五人格：开放性${big5.O}/10、尽责性${big5.C}/10、外向性${big5.E}/10、宜人性${big5.A}/10、情绪稳定${big5.N}/10` : '';
   const prompt = `你是一位专业的职业规划顾问，请为以下学生生成一份详细的职业规划报告。
 
 重要要求：
@@ -1576,7 +1674,7 @@ async function generateReport(majorName) {
 - 科目：${state.subject}
 - 人格主导型：${primaryName}${hollandSecName ? '，次要类型：' + hollandSecName : ''}
 - 社交能量：${(profile.ei||0) > 0 ? '偏外向（喜欢团队协作和社交场合）' : '偏内向（更适合独立思考和深度工作）'}
-- 决策风格：${(profile.tf||0) > 0 ? '逻辑思维型（重视客观数据和逻辑推导）' : '情感导向型（重视人际关系和价值观契合）'}
+- 决策风格：${(profile.tf||0) > 0 ? '逻辑思维型（重视客观数据和逻辑推导）' : '情感导向型（重视人际关系和价值观契合）'}${big5Desc}
 
 ## 目标专业：${majorName}
 
@@ -1862,6 +1960,8 @@ async function generateFuture(majorName) {
   const primaryName = hollandName[profile.primary] || '研究型';
   const isIntrovert = (profile.ei || 0) <= 0;
   const isLogical = (profile.tf || 0) >= 0;
+  const big5Future = state.bigFive;
+  const big5FutureDesc = big5Future ? `\n- 大五人格：开放性${big5Future.O}/10、尽责性${big5Future.C}/10、外向性${big5Future.E}/10、宜人性${big5Future.A}/10、情绪稳定${big5Future.N}/10` : '';
 
   const prompt = `你是一位擅长写作的职业规划师。请用第一人称，为以下学生写一段「10年后的一天」场景描述。
 
@@ -1869,7 +1969,7 @@ async function generateFuture(majorName) {
 - 现在是2026年，即将参加高考
 - 分数段：${state.scoreRange}
 - 目标专业：${majorName}
-- 人格特质：${primaryName}，${isIntrovert ? '偏内向' : '偏外向'}，${isLogical ? '逻辑思维型' : '情感导向型'}
+- 人格特质：${primaryName}，${isIntrovert ? '偏内向' : '偏外向'}，${isLogical ? '逻辑思维型' : '情感导向型'}${big5FutureDesc}
 
 ## 专业数据
 - AI生存分：${major.ai_score || major.ai_default}/10
