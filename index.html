@@ -1264,6 +1264,10 @@ async function runCalculation() {
     // 用户相关维度（家庭+人格）占 60%，确保不同用户得到不同结果
     const combined = aiScore * 0.20 + windowScore * 0.20 + familyScore * 0.25 + personalityScore * 0.35;
 
+    // v3.0 新增：SCCT 修正项（乘以 0.3 控制影响幅度）
+    const scctMod = calcSCCTModifier(m);
+    const combinedWithSCCT = combined + scctMod * 0.3;
+
     // 注：文理科硬性过滤已在评分前完成（通过 track 字段），无需再扣分
 
     // 分数适配惩罚：双向惩罚（分数不够扣分，分数远超门槛也扣分）
@@ -1285,12 +1289,20 @@ async function runCalculation() {
       windowScore,
       familyScore: Math.round(familyScore * 10) / 10,
       personalityScore,
-      combined: Math.max(0, combined - scorePenalty + tieBreaker),
+      scctModifier: Math.round(scctMod * 100) / 100,
+      combined: Math.max(0, combinedWithSCCT - scorePenalty + tieBreaker),
       personalityMismatch: !(m.holland_primary || []).includes(profile.primary) && !(m.holland_primary || []).includes(profile.secondary)
     };
   });
 
   scored.sort((a,b) => b.combined - a.combined);
+
+  // v3.0 SCCT 影响日志
+  console.log('[v3.0] SCCT 修正对 Top 10 的影响:');
+  scored.slice(0, 10).forEach((m, i) => {
+    console.log(`  ${i+1}. ${m.name}: scctMod=${m.scctModifier > 0 ? '+' : ''}${m.scctModifier}, combined=${m.combined.toFixed(3)}`);
+  });
+
   // 检查评分过程是否产生重复
   const namesBeforeDedup = scored.map(m => m.name);
   const dupsBeforeDedup = namesBeforeDedup.filter((n, i) => namesBeforeDedup.indexOf(n) !== i);
@@ -1516,6 +1528,82 @@ function calcPersonalityScore(m, profile) {
 }
 
 // ══════════════════════════════════════════════════════
+// SCCT 自我认知修正项
+// ══════════════════════════════════════════════════════
+function calcSCCTModifier(major) {
+  const s = state.scct;
+  if (!s || !Object.keys(s).length) return 0;  // 用户跳过了 SCCT，不加修正
+
+  let modifier = 0;
+
+  // ═══ 自我效能匹配 ═══
+  const domains = s.efficacy_domain || [];
+  const required = major.required_ability || [];
+  if (required.length > 0 && domains.length > 0) {
+    const matchCount = domains.filter(d => required.includes(d)).length;
+    if (matchCount >= 2) modifier += 1;
+    else if (matchCount === 1) modifier += 0.5;
+    else modifier -= 1;
+  }
+
+  // 自我效能信心 × 专业难度
+  const confidence = s.efficacy_confidence || 2;
+  const scoreTier = major.score_tier || 3;
+  if (confidence === 1 && scoreTier >= 4) modifier -= 0.5;
+  if (confidence === 3 && scoreTier >= 4) modifier += 0.3;
+
+  // ═══ 结果期望匹配 ═══
+  const expects = s.outcome_expect || [];
+
+  if (expects.includes('money')) {
+    if (major.salary_score >= 8) modifier += 0.5;
+    if (major.salary_score <= 4) modifier -= 0.3;
+  }
+
+  if (expects.includes('security')) {
+    if (major.stability === 'H') modifier += 0.5;
+    if (major.stability === 'L') modifier -= 0.5;
+  }
+
+  if (expects.includes('status')) {
+    if (major.strategic_align >= 8) modifier += 0.3;
+  }
+
+  if (expects.includes('achievement')) {
+    if (major.ai_score >= 7) modifier += 0.3;
+    if (major.cross_potential >= 8) modifier += 0.3;
+  }
+
+  if (expects.includes('freedom')) {
+    if (major.social_demand === 'low') modifier += 0.3;
+    if (major.social_demand === 'high') modifier -= 0.2;
+  }
+
+  if (expects.includes('meaning')) {
+    if (major.empathy_demand === 'high') modifier += 0.5;
+    if (major.holland_primary && major.holland_primary.includes('S')) modifier += 0.3;
+  }
+
+  // ═══ 目标清晰度 × 可迁移性 ═══
+  const clarity = s.goal_clarity || 2;
+  const transfer = major.transferability || 5;
+  if (clarity === 1) {
+    if (transfer >= 7) modifier += 0.5;
+    if (transfer <= 3) modifier -= 0.3;
+  }
+  if (clarity === 3) {
+    const matchCount = domains.filter(d => required.includes(d)).length;
+    if (matchCount >= 2) modifier += 0.3;
+  }
+
+  // ═══ 环境支持感知 ═══
+  const support = s.support_perception || 2;
+  if (support === 1 && major.stability === 'H') modifier += 0.2;
+
+  return modifier;
+}
+
+// ══════════════════════════════════════════════════════
 // 结果渲染
 // ══════════════════════════════════════════════════════
 // 多样性保障：从排序结果中选出最多 maxCount 个，确保每种 Holland 主类型最多出现 maxPerType 次
@@ -1647,12 +1735,14 @@ async function generateSummary(major, profile) {
 
   const big5Sum = state.bigFive;
   const big5SumDesc = big5Sum ? `\n大五人格：O${big5Sum.O} C${big5Sum.C} E${big5Sum.E} A${big5Sum.A} N${big5Sum.N}` : '';
+  const scctSum = state.scct || {};
+  const scctSumDesc = Object.keys(scctSum).length ? `\nSCCT修正：${major.scctModifier > 0 ? '+' : ''}${major.scctModifier || 0}（结果期望：${(scctSum.outcome_expect || []).join('、') || '未填'}）` : '';
   const prompt = `用一句话（30字以内）总结这个专业对该学生的适合度。
 专业：${major.name}
 AI生存分：${major.aiScore}/10
 窗口期分：${major.window_score}/10
 人格匹配：${major.personalityScore}/10
-学生类型：${primaryName}${big5SumDesc}
+学生类型：${primaryName}${big5SumDesc}${scctSumDesc}
 只输出这一句话，不要任何其他内容。`;
 
   try {
@@ -1695,6 +1785,13 @@ function renderMajorCard(r, isTop) {
     ? `AI时代这个方向${r.aiScore >= 6 ? '的核心工作AI难以替代' : '有一定AI替代风险'}。窗口期处于<strong>${r.window}期</strong>，${getWindowDesc(r.window)}你的家庭情况对这个方向${r.familyScore >= 7 ? '适配良好' : r.familyScore >= 5 ? '基本适配' : '存在一些限制'}。`
     : `${r.rationale}。你是${pName}，${hollandMatch}。`;
 
+  let scctNote = '';
+  if (r.scctModifier > 0.5) {
+    scctNote = '<div style="font-size:12px;color:var(--accent3);margin-top:6px;">✦ 与你的自我认知高度匹配</div>';
+  } else if (r.scctModifier < -0.5) {
+    scctNote = '<div style="font-size:12px;color:var(--accent2);margin-top:6px;">⚠ 与你的自我预期有一定差距</div>';
+  }
+
   return `
   <div class="major-card ${isTop ? 'top-pick' : ''}">
     <div class="major-name">${r.name}</div>
@@ -1708,6 +1805,7 @@ function renderMajorCard(r, isTop) {
     <div class="major-occs">💼 ${r.occs.join(' · ')}</div>
     ${r.top_universities && r.top_universities.length ? `<div class="major-unis">🏫 <span>推荐高校：</span>${r.top_universities.join(' · ')}</div>` : ''}
     <div class="major-detail">${detail}</div>
+    ${scctNote}
     <div class="major-pitfall">⚠️ ${r.pitfall}</div>
     <div class="major-summary" id="summary-${r.name}"><span class="summary-dot">···</span></div>
     <div style="display:flex; gap:8px; margin-top:12px;">
@@ -1862,6 +1960,13 @@ async function generateReport(majorName) {
   const big5 = state.bigFive;
   const big5Desc = big5 ? `
 - 大五人格：开放性${big5.O}/10、尽责性${big5.C}/10、外向性${big5.E}/10、宜人性${big5.A}/10、情绪稳定${big5.N}/10` : '';
+  const scct = state.scct || {};
+  const scctDesc = Object.keys(scct).length ? `
+- 自我效能领域：${(scct.efficacy_domain || []).join('、') || '未填'}
+- 学习信心：${scct.efficacy_confidence === 3 ? '高' : scct.efficacy_confidence === 2 ? '中' : '偏低'}
+- 结果期望：${(scct.outcome_expect || []).join('、') || '未填'}
+- 目标清晰度：${scct.goal_clarity === 3 ? '非常清晰' : scct.goal_clarity === 2 ? '有大致方向' : '迷茫'}
+- 环境支持：${scct.support_perception === 3 ? '家庭很支持' : scct.support_perception === 2 ? '家庭放手' : '有家庭干预'}` : '';
   const prompt = `你是一位专业的职业规划顾问，请为以下学生生成一份详细的职业规划报告。
 
 重要要求：
@@ -1874,7 +1979,7 @@ async function generateReport(majorName) {
 - 科目：${state.subject}
 - 人格主导型：${primaryName}${hollandSecName ? '，次要类型：' + hollandSecName : ''}
 - 社交能量：${(profile.ei||0) > 0 ? '偏外向（喜欢团队协作和社交场合）' : '偏内向（更适合独立思考和深度工作）'}
-- 决策风格：${(profile.tf||0) > 0 ? '逻辑思维型（重视客观数据和逻辑推导）' : '情感导向型（重视人际关系和价值观契合）'}${big5Desc}
+- 决策风格：${(profile.tf||0) > 0 ? '逻辑思维型（重视客观数据和逻辑推导）' : '情感导向型（重视人际关系和价值观契合）'}${big5Desc}${scctDesc}
 
 ## 目标专业：${majorName}
 
@@ -1895,7 +2000,7 @@ async function generateReport(majorName) {
 1. **专业概览**（200字）：这个专业学什么，毕业后做什么
 2. **AI时代生存分析**（250字）：结合AI生存分，分析这个专业在AI时代的价值和风险
 3. **行业窗口期判断**（250字）：结合五维数据，分析国内外趋势，判断现在入场是否合适
-4. **个人匹配度分析**（250字）：结合该学生的具体人格特质（${primaryName}，${(profile.ei||0) > 0 ? '外向' : '内向'}，${(profile.tf||0) > 0 ? '逻辑型' : '情感型'}），分析适合度和潜在挑战
+4. **个人匹配度分析**（250字）：结合学生的人格特质、大五人格和自我认知（自我效能领域、结果期望、目标清晰度），分析适合度。如果学生目标不清晰，要建议选择可迁移性强的方向。如果学生的自我效能领域与该专业所需能力不匹配，要明确指出风险
 5. **职业发展路径**（300字）：毕业后1年、3年、5年、10年的典型发展路径
 6. **行动建议**（250字）：在校期间重点培养哪些能力，避开哪些坑
 
@@ -2162,6 +2267,8 @@ async function generateFuture(majorName) {
   const isLogical = (profile.tf || 0) >= 0;
   const big5Future = state.bigFive;
   const big5FutureDesc = big5Future ? `\n- 大五人格：开放性${big5Future.O}/10、尽责性${big5Future.C}/10、外向性${big5Future.E}/10、宜人性${big5Future.A}/10、情绪稳定${big5Future.N}/10` : '';
+  const scctFuture = state.scct || {};
+  const scctFutureDesc = Object.keys(scctFuture).length ? `\n- 结果期望：${(scctFuture.outcome_expect || []).join('、') || '未填'}\n- 目标清晰度：${scctFuture.goal_clarity === 3 ? '非常清晰' : scctFuture.goal_clarity === 2 ? '有大致方向' : '迷茫'}` : '';
 
   const prompt = `你是一位擅长写作的职业规划师。请用第一人称，为以下学生写一段「10年后的一天」场景描述。
 
@@ -2169,7 +2276,7 @@ async function generateFuture(majorName) {
 - 现在是2026年，即将参加高考
 - 分数段：${state.scoreRange}
 - 目标专业：${majorName}
-- 人格特质：${primaryName}，${isIntrovert ? '偏内向' : '偏外向'}，${isLogical ? '逻辑思维型' : '情感导向型'}${big5FutureDesc}
+- 人格特质：${primaryName}，${isIntrovert ? '偏内向' : '偏外向'}，${isLogical ? '逻辑思维型' : '情感导向型'}${big5FutureDesc}${scctFutureDesc}
 
 ## 专业数据
 - AI生存分：${major.ai_score || major.ai_default}/10
