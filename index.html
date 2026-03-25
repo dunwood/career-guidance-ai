@@ -522,12 +522,14 @@ footer a { color:var(--accent); text-decoration:none; }
   <p class="screen-sub" id="resultSummary"></p>
 
   <div class="dim-legend">
-    <div class="dim-legend-title">★ 越多越好 · 四个维度说明</div>
+    <div class="dim-legend-title">★ 越多越好 · 六个维度说明</div>
     <div class="dim-legend-grid">
       <div><strong>AI生存</strong> — 这个方向的工作有多难被AI替代</div>
       <div><strong>窗口期</strong> — 现在入学、4年后毕业，时机踩得准不准</div>
       <div><strong>家庭适配</strong> — 你的家庭资源和风险偏好与这个方向的匹配度</div>
       <div><strong>人格匹配</strong> — 你的性格特质与这个方向日常工作状态的契合度</div>
+      <div><strong>国家战略</strong> — 这个方向是否踩中国家重点培育的赛道</div>
+      <div><strong>可迁移性</strong> — 学了这个专业，未来的路有多宽</div>
     </div>
   </div>
 
@@ -1272,11 +1274,20 @@ async function runCalculation() {
     // SCCT 修正融入人格匹配分
     const personalityWithSCCT = Math.max(1, Math.min(10, personalityScore + scctMod * 0.5));
 
-    // 分数门槛因子（等比缩放惩罚，避免极端压分）
+    // 分数门槛因子（等比缩放惩罚）
     const scoreTier = m.score_tier || 3;
+    const scoreDiff = studentScore - scoreTier;  // 正数 = 分数高于门槛
+
+    // 分数不够的惩罚（每差 1 档扣 15%）
     const underPenalty = Math.max(0, (scoreTier - studentScore)) * 0.15;
-    const overPenalty = Math.min(0.15, Math.max(0, (studentScore - scoreTier) - 1) * 0.05);
-    const penaltyFactor = Math.max(0.3, 1 - underPenalty - overPenalty);
+
+    // 分数远超门槛的惩罚（加重：差 1 档不扣，差 2 档扣 20%，差 3 档扣 40%，差 4 档扣 55%）
+    let overPenalty = 0;
+    if (scoreDiff >= 2) overPenalty = 0.20;
+    if (scoreDiff >= 3) overPenalty = 0.40;
+    if (scoreDiff >= 4) overPenalty = 0.55;
+
+    const penaltyFactor = Math.max(0.2, 1 - underPenalty - overPenalty);
 
     return {
       ...m,
@@ -1367,6 +1378,18 @@ async function runCalculation() {
   scored.slice(0, 10).forEach((m, i) => {
     const d = m.topsisDimScores;
     console.log(`  ${i+1}. ${m.name}: closeness=${m.topsisCloseness}, 6维=[${d.ai},${d.window},${d.family},${d.personality},${d.policy},${d.transfer}], penalty=${m._penaltyFactor ? m._penaltyFactor.toFixed(2) : '1.00'}`);
+  });
+
+  // 分数门槛惩罚分布
+  console.log('[v3.0] 分数门槛惩罚分布:');
+  const penaltyBuckets = {};
+  scored.forEach(m => {
+    const pf = m._penaltyFactor ? m._penaltyFactor.toFixed(2) : '1.00';
+    if (!penaltyBuckets[pf]) penaltyBuckets[pf] = [];
+    penaltyBuckets[pf].push(m.name);
+  });
+  Object.entries(penaltyBuckets).sort().forEach(([pf, names]) => {
+    console.log(`  penaltyFactor=${pf}: ${names.length}个专业 (${names.slice(0, 3).join(', ')}${names.length > 3 ? '...' : ''})`);
   });
 
   document.getElementById('loadingText').textContent = '生成报告中…';
@@ -1951,6 +1974,8 @@ function renderMajorCard(r, isTop) {
       ${scoreItem('窗口期', r.windowScore, 10, windowSubContent(r))}
       ${scoreItem('家庭适配', r.familyScore, 10, familySubContent(r))}
       ${scoreItem('人格匹配', r.personalityScore, 10, personalitySubContent(r))}
+      ${scoreItem('国家战略', r.topsisDimScores ? r.topsisDimScores.policy : Math.round(calcDimPolicy(r) * 10) / 10, 10, policySubContent(r))}
+      ${scoreItem('可迁移性', r.topsisDimScores ? r.topsisDimScores.transfer : Math.round(calcDimTransfer(r) * 10) / 10, 10, transferSubContent(r))}
     </div>
     <div class="major-occs">💼 ${r.occs.join(' · ')}</div>
     ${r.top_universities && r.top_universities.length ? `<div class="major-unis">🏫 <span>推荐高校：</span>${r.top_universities.join(' · ')}</div>` : ''}
@@ -2053,6 +2078,46 @@ function personalitySubContent(r) {
   }
 
   return html;
+}
+
+function policySubContent(r) {
+  return `
+    <div class="sub-row">
+      <span class="sub-label">战略契合</span>
+      <div class="sub-bar"><div class="sub-bar-fill" style="width:${(r.strategic_align || 5) * 10}%"></div></div>
+      <span class="sub-val">${r.strategic_align || 5}</span>
+    </div>
+    <div class="sub-row">
+      <span class="sub-label">存续安全</span>
+      <div class="sub-bar"><div class="sub-bar-fill" style="width:${(r.major_survival || 5) * 10}%"></div></div>
+      <span class="sub-val">${r.major_survival || 5}</span>
+    </div>
+    <div class="sub-row">
+      <span class="sub-label">人才缺口</span>
+      <div class="sub-bar"><div class="sub-bar-fill" style="width:${Math.min(100, (r.talent_gap_scale || 0) / 30)}%"></div></div>
+      <span class="sub-val">${r.talent_gap_scale || 0}万</span>
+    </div>
+  `;
+}
+
+function transferSubContent(r) {
+  return `
+    <div class="sub-row">
+      <span class="sub-label">跨行业</span>
+      <div class="sub-bar"><div class="sub-bar-fill" style="width:${(r.transferability || 5) * 10}%"></div></div>
+      <span class="sub-val">${r.transferability || 5}</span>
+    </div>
+    <div class="sub-row">
+      <span class="sub-label">考研灵活</span>
+      <div class="sub-bar"><div class="sub-bar-fill" style="width:${(r.grad_flexibility || 5) * 10}%"></div></div>
+      <span class="sub-val">${r.grad_flexibility || 5}</span>
+    </div>
+    <div class="sub-row">
+      <span class="sub-label">交叉潜力</span>
+      <div class="sub-bar"><div class="sub-bar-fill" style="width:${(r.cross_potential || 5) * 10}%"></div></div>
+      <span class="sub-val">${r.cross_potential || 5}</span>
+    </div>
+  `;
 }
 
 function scoreItem(label, val, max, subContent) {
