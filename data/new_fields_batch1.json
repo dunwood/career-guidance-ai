@@ -1,0 +1,808 @@
+[
+  {
+    "name": "计算机科学与技术",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 500,
+    "major_survival": 10,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "人工智能",
+    "ai_collab_score": 10,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 400,
+    "major_survival": 10,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 10,
+    "required_ability": [
+      "logic",
+      "creative"
+    ]
+  },
+  {
+    "name": "软件工程",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "mature",
+    "strategic_align": 9,
+    "talent_gap_scale": 300,
+    "major_survival": 10,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "数据科学与大数据技术",
+    "ai_collab_score": 10,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 350,
+    "major_survival": 10,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 10,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
+  },
+  {
+    "name": "网络安全",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 200,
+    "major_survival": 10,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "电子信息工程",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 9,
+    "talent_gap_scale": 150,
+    "major_survival": 9,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "通信工程",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "自动化",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 120,
+    "major_survival": 9,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "机械工程",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 80,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "土木工程",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "declining",
+    "strategic_align": 5,
+    "talent_gap_scale": 20,
+    "major_survival": 6,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "建筑学",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 15,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "creative",
+      "logic"
+    ]
+  },
+  {
+    "name": "化学工程与工艺",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 25,
+    "major_survival": 7,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "生物工程",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 50,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "memory",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "环境科学与工程",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 60,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
+  },
+  {
+    "name": "材料科学与工程",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 70,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "电气工程及其自动化",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 90,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "新能源科学与工程",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 150,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "智能制造工程",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 100,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "临床医学",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 3,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 200,
+    "major_survival": 10,
+    "transferability": 4,
+    "grad_flexibility": 2,
+    "cross_potential": 8,
+    "required_ability": [
+      "memory",
+      "hands_on",
+      "social"
+    ]
+  },
+  {
+    "name": "口腔医学",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 3,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 50,
+    "major_survival": 9,
+    "transferability": 4,
+    "grad_flexibility": 2,
+    "cross_potential": 6,
+    "required_ability": [
+      "hands_on",
+      "memory"
+    ]
+  },
+  {
+    "name": "药学",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 80,
+    "major_survival": 8,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 8,
+    "required_ability": [
+      "memory",
+      "logic"
+    ]
+  },
+  {
+    "name": "护理学",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 300,
+    "major_survival": 9,
+    "transferability": 5,
+    "grad_flexibility": 4,
+    "cross_potential": 5,
+    "required_ability": [
+      "hands_on",
+      "social",
+      "memory"
+    ]
+  },
+  {
+    "name": "中医学",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 4,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 40,
+    "major_survival": 8,
+    "transferability": 4,
+    "grad_flexibility": 3,
+    "cross_potential": 6,
+    "required_ability": [
+      "memory",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "生物医学工程",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 60,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "公共卫生与预防医学",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "memory",
+      "logic",
+      "social"
+    ]
+  },
+  {
+    "name": "工商管理",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 150,
+    "major_survival": 7,
+    "transferability": 8,
+    "grad_flexibility": 9,
+    "cross_potential": 7,
+    "required_ability": [
+      "social",
+      "language"
+    ]
+  },
+  {
+    "name": "金融学",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 120,
+    "major_survival": 8,
+    "transferability": 8,
+    "grad_flexibility": 9,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
+  },
+  {
+    "name": "会计学",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 80,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
+  },
+  {
+    "name": "经济学",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 9,
+    "grad_flexibility": 10,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "language"
+    ]
+  },
+  {
+    "name": "国际经济与贸易",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 60,
+    "major_survival": 6,
+    "transferability": 7,
+    "grad_flexibility": 8,
+    "cross_potential": 6,
+    "required_ability": [
+      "language",
+      "social"
+    ]
+  },
+  {
+    "name": "市场营销",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 100,
+    "major_survival": 7,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 7,
+    "required_ability": [
+      "social",
+      "creative"
+    ]
+  },
+  {
+    "name": "人力资源管理",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 70,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 8,
+    "cross_potential": 6,
+    "required_ability": [
+      "social",
+      "language"
+    ]
+  },
+  {
+    "name": "电子商务",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 90,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "social",
+      "logic"
+    ]
+  },
+  {
+    "name": "物流管理",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 80,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
+  },
+  {
+    "name": "法学",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 50,
+    "major_survival": 8,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 8,
+    "required_ability": [
+      "language",
+      "memory",
+      "logic"
+    ]
+  },
+  {
+    "name": "心理学",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 6,
+    "talent_gap_scale": 40,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "social",
+      "memory"
+    ]
+  },
+  {
+    "name": "社会工作",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 30,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 5,
+    "required_ability": [
+      "social",
+      "language"
+    ]
+  },
+  {
+    "name": "教育学",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "language",
+      "social"
+    ]
+  },
+  {
+    "name": "学前教育",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 120,
+    "major_survival": 8,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 5,
+    "required_ability": [
+      "social",
+      "creative"
+    ]
+  },
+  {
+    "name": "汉语言文学",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 20,
+    "major_survival": 7,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 7,
+    "required_ability": [
+      "language",
+      "memory"
+    ]
+  },
+  {
+    "name": "英语",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 4,
+    "talent_gap_scale": 15,
+    "major_survival": 6,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "language",
+      "memory"
+    ]
+  },
+  {
+    "name": "翻译",
+    "ai_collab_score": 4,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 4,
+    "talent_gap_scale": 10,
+    "major_survival": 5,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 5,
+    "required_ability": [
+      "language",
+      "memory"
+    ]
+  },
+  {
+    "name": "新闻传播学",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 25,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 8,
+    "cross_potential": 7,
+    "required_ability": [
+      "language",
+      "creative",
+      "social"
+    ]
+  },
+  {
+    "name": "视觉传达设计",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 30,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "creative",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "产品设计",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 35,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "creative",
+      "logic"
+    ]
+  },
+  {
+    "name": "数字媒体艺术",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 40,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 9,
+    "required_ability": [
+      "creative",
+      "hands_on"
+    ]
+  },
+  {
+    "name": "历史学",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "declining",
+    "strategic_align": 3,
+    "talent_gap_scale": 2,
+    "major_survival": 5,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 5,
+    "required_ability": [
+      "memory",
+      "language"
+    ]
+  },
+  {
+    "name": "哲学",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "declining",
+    "strategic_align": 3,
+    "talent_gap_scale": 1,
+    "major_survival": 5,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "language"
+    ]
+  },
+  {
+    "name": "数字经济",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 300,
+    "major_survival": 9,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
+  },
+  {
+    "name": "金融科技",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 100,
+    "major_survival": 9,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
+  }
+]

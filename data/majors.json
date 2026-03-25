@@ -32,7 +32,20 @@
       "上海交通大学",
       "哈尔滨工业大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 500,
+    "major_survival": 10,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "人工智能",
@@ -67,7 +80,20 @@
       "上海交通大学",
       "南京大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 10,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 400,
+    "major_survival": 10,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 10,
+    "required_ability": [
+      "logic",
+      "creative"
+    ]
   },
   {
     "name": "软件工程",
@@ -102,7 +128,20 @@
       "北京大学",
       "清华大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "mature",
+    "strategic_align": 9,
+    "talent_gap_scale": 300,
+    "major_survival": 10,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "数据科学与大数据技术",
@@ -137,7 +176,20 @@
       "中南大学",
       "电子科技大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 10,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 350,
+    "major_survival": 10,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 10,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "网络安全",
@@ -172,7 +224,20 @@
       "国防科技大学",
       "浙江大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 200,
+    "major_survival": 10,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "电子信息工程",
@@ -207,7 +272,20 @@
       "北京邮电大学",
       "东南大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 9,
+    "talent_gap_scale": 150,
+    "major_survival": 9,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "通信工程",
@@ -242,7 +320,20 @@
       "清华大学",
       "东南大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "自动化",
@@ -277,7 +368,20 @@
       "北京航空航天大学",
       "上海交通大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 120,
+    "major_survival": 9,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "机械工程",
@@ -312,7 +416,20 @@
       "华中科技大学",
       "西安交通大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 80,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "土木工程",
@@ -347,7 +464,20 @@
       "哈尔滨工业大学",
       "浙江大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "declining",
+    "strategic_align": 5,
+    "talent_gap_scale": 20,
+    "major_survival": 6,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "建筑学",
@@ -382,7 +512,20 @@
       "天津大学",
       "华南理工大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 15,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "creative",
+      "logic"
+    ]
   },
   {
     "name": "化学工程与工艺",
@@ -417,7 +560,20 @@
       "北京化工大学",
       "南京工业大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 25,
+    "major_survival": 7,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "生物工程",
@@ -452,7 +608,21 @@
       "天津大学",
       "华东理工大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 50,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "memory",
+      "hands_on"
+    ]
   },
   {
     "name": "环境科学与工程",
@@ -487,7 +657,20 @@
       "南京大学",
       "北京大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 60,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "材料科学与工程",
@@ -522,7 +705,20 @@
       "哈尔滨工业大学",
       "上海交通大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 70,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "电气工程及其自动化",
@@ -557,7 +753,20 @@
       "浙江大学",
       "华北电力大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 90,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "新能源科学与工程",
@@ -592,7 +801,20 @@
       "上海交通大学",
       "浙江大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 150,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "智能制造工程",
@@ -627,7 +849,20 @@
       "北京理工大学",
       "同济大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 10,
+    "talent_gap_scale": 100,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "临床医学",
@@ -662,7 +897,21 @@
       "上海交通大学",
       "浙江大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 3,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 200,
+    "major_survival": 10,
+    "transferability": 4,
+    "grad_flexibility": 2,
+    "cross_potential": 8,
+    "required_ability": [
+      "memory",
+      "hands_on",
+      "social"
+    ]
   },
   {
     "name": "口腔医学",
@@ -697,7 +946,20 @@
       "武汉大学",
       "南京医科大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 3,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 50,
+    "major_survival": 9,
+    "transferability": 4,
+    "grad_flexibility": 2,
+    "cross_potential": 6,
+    "required_ability": [
+      "hands_on",
+      "memory"
+    ]
   },
   {
     "name": "药学",
@@ -732,7 +994,20 @@
       "沈阳药科大学",
       "浙江大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 80,
+    "major_survival": 8,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 8,
+    "required_ability": [
+      "memory",
+      "logic"
+    ]
   },
   {
     "name": "护理学",
@@ -767,7 +1042,21 @@
       "北京大学",
       "四川大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 300,
+    "major_survival": 9,
+    "transferability": 5,
+    "grad_flexibility": 4,
+    "cross_potential": 5,
+    "required_ability": [
+      "hands_on",
+      "social",
+      "memory"
+    ]
   },
   {
     "name": "中医学",
@@ -802,7 +1091,20 @@
       "广州中医药大学",
       "成都中医药大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 4,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 40,
+    "major_survival": 8,
+    "transferability": 4,
+    "grad_flexibility": 3,
+    "cross_potential": 6,
+    "required_ability": [
+      "memory",
+      "hands_on"
+    ]
   },
   {
     "name": "生物医学工程",
@@ -837,7 +1139,20 @@
       "华中科技大学",
       "四川大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 60,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "公共卫生与预防医学",
@@ -872,7 +1187,21 @@
       "南京医科大学",
       "中山大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "memory",
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "工商管理",
@@ -907,7 +1236,20 @@
       "上海交通大学",
       "中山大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 150,
+    "major_survival": 7,
+    "transferability": 8,
+    "grad_flexibility": 9,
+    "cross_potential": 7,
+    "required_ability": [
+      "social",
+      "language"
+    ]
   },
   {
     "name": "金融学",
@@ -942,7 +1284,20 @@
       "复旦大学",
       "南开大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 120,
+    "major_survival": 8,
+    "transferability": 8,
+    "grad_flexibility": 9,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "会计学",
@@ -977,7 +1332,20 @@
       "中央财经大学",
       "东北财经大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 80,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "经济学",
@@ -1012,7 +1380,20 @@
       "清华大学",
       "南开大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 9,
+    "grad_flexibility": 10,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "language"
+    ]
   },
   {
     "name": "国际经济与贸易",
@@ -1047,7 +1428,20 @@
       "北京大学",
       "复旦大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 60,
+    "major_survival": 6,
+    "transferability": 7,
+    "grad_flexibility": 8,
+    "cross_potential": 6,
+    "required_ability": [
+      "language",
+      "social"
+    ]
   },
   {
     "name": "市场营销",
@@ -1082,7 +1476,20 @@
       "北京大学",
       "南开大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 100,
+    "major_survival": 7,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 7,
+    "required_ability": [
+      "social",
+      "creative"
+    ]
   },
   {
     "name": "人力资源管理",
@@ -1117,7 +1524,20 @@
       "中山大学",
       "武汉大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 70,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 8,
+    "cross_potential": 6,
+    "required_ability": [
+      "social",
+      "language"
+    ]
   },
   {
     "name": "电子商务",
@@ -1152,7 +1572,20 @@
       "厦门大学",
       "武汉大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 90,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "social",
+      "logic"
+    ]
   },
   {
     "name": "物流管理",
@@ -1187,7 +1620,20 @@
       "浙江大学",
       "南开大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 80,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "法学",
@@ -1222,7 +1668,21 @@
       "清华大学",
       "武汉大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 50,
+    "major_survival": 8,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 8,
+    "required_ability": [
+      "language",
+      "memory",
+      "logic"
+    ]
   },
   {
     "name": "心理学",
@@ -1257,7 +1717,20 @@
       "华东师范大学",
       "西南大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 6,
+    "talent_gap_scale": 40,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "social",
+      "memory"
+    ]
   },
   {
     "name": "社会工作",
@@ -1292,7 +1765,20 @@
       "复旦大学",
       "中山大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 30,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 5,
+    "required_ability": [
+      "social",
+      "language"
+    ]
   },
   {
     "name": "教育学",
@@ -1327,7 +1813,20 @@
       "南京师范大学",
       "华中师范大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "language",
+      "social"
+    ]
   },
   {
     "name": "学前教育",
@@ -1362,7 +1861,20 @@
       "东北师范大学",
       "华中师范大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 120,
+    "major_survival": 8,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 5,
+    "required_ability": [
+      "social",
+      "creative"
+    ]
   },
   {
     "name": "汉语言文学",
@@ -1397,7 +1909,20 @@
       "南京大学",
       "浙江大学"
     ],
-    "track": "文科"
+    "track": "文科",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 20,
+    "major_survival": 7,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 7,
+    "required_ability": [
+      "language",
+      "memory"
+    ]
   },
   {
     "name": "英语",
@@ -1432,7 +1957,20 @@
       "南京大学",
       "广东外语外贸大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 4,
+    "talent_gap_scale": 15,
+    "major_survival": 6,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "language",
+      "memory"
+    ]
   },
   {
     "name": "翻译",
@@ -1467,7 +2005,20 @@
       "北京大学",
       "南京大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 4,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 4,
+    "talent_gap_scale": 10,
+    "major_survival": 5,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 5,
+    "required_ability": [
+      "language",
+      "memory"
+    ]
   },
   {
     "name": "新闻传播学",
@@ -1502,7 +2053,21 @@
       "华中科技大学",
       "清华大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 25,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 8,
+    "cross_potential": 7,
+    "required_ability": [
+      "language",
+      "creative",
+      "social"
+    ]
   },
   {
     "name": "视觉传达设计",
@@ -1537,7 +2102,20 @@
       "同济大学",
       "江南大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 30,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "creative",
+      "hands_on"
+    ]
   },
   {
     "name": "产品设计",
@@ -1572,7 +2150,20 @@
       "湖南大学",
       "浙江大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 35,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "creative",
+      "logic"
+    ]
   },
   {
     "name": "数字媒体艺术",
@@ -1607,7 +2198,20 @@
       "浙江大学",
       "北京师范大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 40,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 9,
+    "required_ability": [
+      "creative",
+      "hands_on"
+    ]
   },
   {
     "name": "历史学",
@@ -1642,7 +2246,20 @@
       "南京大学",
       "南开大学"
     ],
-    "track": "文科"
+    "track": "文科",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "declining",
+    "strategic_align": 3,
+    "talent_gap_scale": 2,
+    "major_survival": 5,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 5,
+    "required_ability": [
+      "memory",
+      "language"
+    ]
   },
   {
     "name": "哲学",
@@ -1677,7 +2294,20 @@
       "南京大学",
       "北京师范大学"
     ],
-    "track": "文科"
+    "track": "文科",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "declining",
+    "strategic_align": 3,
+    "talent_gap_scale": 1,
+    "major_survival": 5,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "language"
+    ]
   },
   {
     "name": "数字经济",
@@ -1712,7 +2342,20 @@
       "复旦大学",
       "厦门大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 300,
+    "major_survival": 9,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "金融科技",
@@ -1747,7 +2390,20 @@
       "南开大学",
       "中国人民大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 100,
+    "major_survival": 9,
+    "transferability": 8,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "航空航天工程",
@@ -1791,7 +2447,20 @@
       "哈尔滨工业大学",
       "清华大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 30,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "船舶与海洋工程",
@@ -1835,7 +2504,20 @@
       "武汉理工大学",
       "西北工业大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 8,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 5,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "核工程与核技术",
@@ -1879,7 +2561,20 @@
       "哈尔滨工程大学",
       "上海交通大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 8,
+    "talent_gap_scale": 5,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 5,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "地质工程",
@@ -1923,7 +2618,20 @@
       "成都理工大学",
       "长安大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 3,
+    "major_survival": 7,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "采矿工程",
@@ -1966,7 +2674,20 @@
       "东北大学",
       "重庆大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 5,
+    "ai_pivot_score": 3,
+    "lifecycle_stage": "declining",
+    "strategic_align": 4,
+    "talent_gap_scale": 2,
+    "major_survival": 4,
+    "transferability": 3,
+    "grad_flexibility": 4,
+    "cross_potential": 5,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "石油工程",
@@ -2010,7 +2731,20 @@
       "东北石油大学",
       "西安石油大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 4,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 3,
+    "major_survival": 6,
+    "transferability": 4,
+    "grad_flexibility": 4,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "测绘工程",
@@ -2054,7 +2788,20 @@
       "同济大学",
       "中南大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 10,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "农业工程",
@@ -2098,7 +2845,20 @@
       "西北农林科技大学",
       "华南农业大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 15,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 5,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "食品科学与工程",
@@ -2142,7 +2902,21 @@
       "华南理工大学",
       "浙江大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 20,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on",
+      "memory"
+    ]
   },
   {
     "name": "轻工技术与工程",
@@ -2186,7 +2960,20 @@
       "陕西科技大学",
       "大连工业大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 8,
+    "major_survival": 6,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 6,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "纺织工程",
@@ -2230,7 +3017,20 @@
       "浙江理工大学",
       "武汉纺织大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 10,
+    "major_survival": 6,
+    "transferability": 5,
+    "grad_flexibility": 5,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "印刷工程",
@@ -2274,7 +3074,20 @@
       "天津科技大学",
       "上海理工大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 4,
+    "ai_pivot_score": 3,
+    "lifecycle_stage": "declining",
+    "strategic_align": 3,
+    "talent_gap_scale": 1,
+    "major_survival": 3,
+    "transferability": 4,
+    "grad_flexibility": 5,
+    "cross_potential": 5,
+    "required_ability": [
+      "hands_on",
+      "logic"
+    ]
   },
   {
     "name": "交通运输",
@@ -2318,7 +3131,20 @@
       "同济大学",
       "长安大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 40,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "车辆工程",
@@ -2362,7 +3188,20 @@
       "同济大学",
       "湖南大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 50,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "道路桥梁与渡河工程",
@@ -2405,7 +3244,20 @@
       "哈尔滨工业大学",
       "西南交通大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 25,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 5,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "城乡规划",
@@ -2449,7 +3301,21 @@
       "天津大学",
       "华南理工大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 20,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "creative",
+      "social"
+    ]
   },
   {
     "name": "风景园林",
@@ -2493,7 +3359,20 @@
       "东南大学",
       "南京林业大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 15,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "creative",
+      "hands_on"
+    ]
   },
   {
     "name": "水利水电工程",
@@ -2537,7 +3416,20 @@
       "大连理工大学",
       "天津大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 15,
+    "major_survival": 8,
+    "transferability": 6,
+    "grad_flexibility": 5,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "港口航道与海岸工程",
@@ -2581,7 +3473,20 @@
       "武汉大学",
       "中国海洋大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 8,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 5,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "安全工程",
@@ -2625,7 +3530,20 @@
       "北京理工大学",
       "河南理工大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 30,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "生物技术",
@@ -2669,7 +3587,21 @@
       "复旦大学",
       "浙江大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 100,
+    "major_survival": 9,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 10,
+    "required_ability": [
+      "logic",
+      "memory",
+      "hands_on"
+    ]
   },
   {
     "name": "生态学",
@@ -2713,7 +3645,20 @@
       "复旦大学",
       "中山大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 20,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "memory",
+      "logic"
+    ]
   },
   {
     "name": "海洋科学",
@@ -2757,7 +3702,20 @@
       "中山大学",
       "浙江大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 10,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "大气科学",
@@ -2801,7 +3759,20 @@
       "中国海洋大学",
       "兰州大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 8,
+    "major_survival": 7,
+    "transferability": 6,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "地理科学",
@@ -2845,7 +3816,20 @@
       "武汉大学",
       "华东师范大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 15,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "天文学",
@@ -2889,7 +3873,20 @@
       "北京师范大学",
       "上海交通大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 2,
+    "major_survival": 7,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "物理学",
@@ -2933,7 +3930,20 @@
       "南京大学",
       "上海交通大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 9,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 30,
+    "major_survival": 9,
+    "transferability": 9,
+    "grad_flexibility": 8,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "化学",
@@ -2977,7 +3987,21 @@
       "南开大学",
       "南京大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 25,
+    "major_survival": 8,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "memory",
+      "hands_on"
+    ]
   },
   {
     "name": "数学",
@@ -3020,7 +4044,19 @@
       "南开大学",
       "中国科学技术大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 10,
+    "ai_pivot_score": 10,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 100,
+    "major_survival": 10,
+    "transferability": 10,
+    "grad_flexibility": 9,
+    "cross_potential": 10,
+    "required_ability": [
+      "logic"
+    ]
   },
   {
     "name": "统计学",
@@ -3064,7 +4100,19 @@
       "厦门大学",
       "东北师范大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 10,
+    "ai_pivot_score": 10,
+    "lifecycle_stage": "growth",
+    "strategic_align": 9,
+    "talent_gap_scale": 150,
+    "major_survival": 10,
+    "transferability": 10,
+    "grad_flexibility": 9,
+    "cross_potential": 10,
+    "required_ability": [
+      "logic"
+    ]
   },
   {
     "name": "精算学",
@@ -3108,7 +4156,20 @@
       "复旦大学",
       "上海财经大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 5,
+    "major_survival": 8,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "保险学",
@@ -3152,7 +4213,20 @@
       "复旦大学",
       "西南财经大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 20,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "税务",
@@ -3196,7 +4270,20 @@
       "厦门大学",
       "上海财经大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 15,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "审计学",
@@ -3240,7 +4327,20 @@
       "上海财经大学",
       "西南财经大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 25,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "memory"
+    ]
   },
   {
     "name": "财务管理",
@@ -3284,7 +4384,20 @@
       "中央财经大学",
       "西南财经大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 50,
+    "major_survival": 8,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "供应链管理",
@@ -3328,7 +4441,20 @@
       "北京交通大学",
       "大连理工大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 100,
+    "major_survival": 8,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "工业工程",
@@ -3372,7 +4498,20 @@
       "西安交通大学",
       "华中科技大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 8,
+    "talent_gap_scale": 60,
+    "major_survival": 8,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "质量管理工程",
@@ -3416,7 +4555,20 @@
       "上海交通大学",
       "同济大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 7,
+    "talent_gap_scale": 30,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "标准化工程",
@@ -3460,7 +4612,20 @@
       "南京理工大学",
       "济南大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 20,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 8,
+    "required_ability": [
+      "logic",
+      "social"
+    ]
   },
   {
     "name": "包装工程",
@@ -3504,7 +4669,21 @@
       "北京印刷学院",
       "陕西科技大学"
     ],
-    "track": "理科"
+    "track": "理科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 12,
+    "major_survival": 6,
+    "transferability": 6,
+    "grad_flexibility": 5,
+    "cross_potential": 7,
+    "required_ability": [
+      "logic",
+      "creative",
+      "hands_on"
+    ]
   },
   {
     "name": "广告学",
@@ -3548,7 +4727,21 @@
       "复旦大学",
       "厦门大学"
     ],
-    "track": "文科"
+    "track": "文科",
+    "ai_collab_score": 8,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 6,
+    "talent_gap_scale": 40,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "creative",
+      "social",
+      "language"
+    ]
   },
   {
     "name": "公共关系",
@@ -3592,7 +4785,20 @@
       "中山大学",
       "华中科技大学"
     ],
-    "track": "文科"
+    "track": "文科",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 25,
+    "major_survival": 7,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "social",
+      "language"
+    ]
   },
   {
     "name": "播音与主持艺术",
@@ -3636,7 +4842,21 @@
       "上海戏剧学院",
       "浙江传媒学院"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 5,
+    "lifecycle_stage": "mature",
+    "strategic_align": 4,
+    "talent_gap_scale": 5,
+    "major_survival": 6,
+    "transferability": 6,
+    "grad_flexibility": 5,
+    "cross_potential": 6,
+    "required_ability": [
+      "language",
+      "social",
+      "creative"
+    ]
   },
   {
     "name": "戏剧影视文学",
@@ -3679,7 +4899,21 @@
       "上海戏剧学院",
       "南京艺术学院"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 8,
+    "major_survival": 6,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 7,
+    "required_ability": [
+      "creative",
+      "language",
+      "memory"
+    ]
   },
   {
     "name": "动画",
@@ -3723,7 +4957,20 @@
       "吉林动画学院",
       "四川美术学院"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 50,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 9,
+    "required_ability": [
+      "creative",
+      "hands_on"
+    ]
   },
   {
     "name": "游戏设计",
@@ -3767,7 +5014,21 @@
       "四川美术学院",
       "广州美术学院"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 60,
+    "major_survival": 8,
+    "transferability": 7,
+    "grad_flexibility": 6,
+    "cross_potential": 9,
+    "required_ability": [
+      "creative",
+      "logic",
+      "hands_on"
+    ]
   },
   {
     "name": "网络与新媒体",
@@ -3811,7 +5072,21 @@
       "华中科技大学",
       "上海交通大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 9,
+    "ai_pivot_score": 8,
+    "lifecycle_stage": "growth",
+    "strategic_align": 7,
+    "talent_gap_scale": 80,
+    "major_survival": 8,
+    "transferability": 8,
+    "grad_flexibility": 7,
+    "cross_potential": 9,
+    "required_ability": [
+      "creative",
+      "language",
+      "social"
+    ]
   },
   {
     "name": "文化产业管理",
@@ -3855,7 +5130,21 @@
       "上海交通大学",
       "中央财经大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 7,
+    "lifecycle_stage": "growth",
+    "strategic_align": 6,
+    "talent_gap_scale": 30,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 8,
+    "required_ability": [
+      "social",
+      "creative",
+      "language"
+    ]
   },
   {
     "name": "旅游管理",
@@ -3899,7 +5188,20 @@
       "陕西师范大学",
       "暨南大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 7,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 5,
+    "talent_gap_scale": 100,
+    "major_survival": 7,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 7,
+    "required_ability": [
+      "social",
+      "language"
+    ]
   },
   {
     "name": "酒店管理",
@@ -3943,6 +5245,19 @@
       "上海师范大学",
       "天津商业大学"
     ],
-    "track": "文理兼收"
+    "track": "文理兼收",
+    "ai_collab_score": 6,
+    "ai_pivot_score": 6,
+    "lifecycle_stage": "mature",
+    "strategic_align": 4,
+    "talent_gap_scale": 80,
+    "major_survival": 6,
+    "transferability": 7,
+    "grad_flexibility": 7,
+    "cross_potential": 6,
+    "required_ability": [
+      "social",
+      "hands_on"
+    ]
   }
 ]
