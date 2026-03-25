@@ -1901,21 +1901,112 @@ function renderResults() {
   });
 }
 
-async function generateSummary(major, profile) {
-  const hollandName = { R:'实用型', I:'研究型', A:'艺术型', S:'社会型', E:'企业型', C:'常规型' };
-  const primaryName = hollandName[profile.primary] || '';
+// ══════════════════════════════════════════════════════
+// v3.0 Phase5：统一 AI Prompt 构建函数
+// ══════════════════════════════════════════════════════
+function buildUserProfileForAI() {
+  const profile = state.profile || {};
+  const big5 = state.bigFive || {};
+  const scct = state.scct || {};
+  const weights = state.weights || {};
 
-  const big5Sum = state.bigFive;
-  const big5SumDesc = big5Sum ? `\n大五人格：O${big5Sum.O} C${big5Sum.C} E${big5Sum.E} A${big5Sum.A} N${big5Sum.N}` : '';
-  const scctSum = state.scct || {};
-  const scctSumDesc = Object.keys(scctSum).length ? `\nSCCT修正：${major.scctModifier > 0 ? '+' : ''}${major.scctModifier || 0}（结果期望：${(scctSum.outcome_expect || []).join('、') || '未填'}）` : '';
-  const prompt = `用一句话（30字以内）总结这个专业对该学生的适合度。
-专业：${major.name}
-AI生存分：${major.aiScore}/10
-窗口期分：${major.window_score}/10
-人格匹配：${major.personalityScore}/10
-学生类型：${primaryName}${big5SumDesc}${scctSumDesc}
-只输出这一句话，不要任何其他内容。`;
+  const hollandName = { R:'实用型', I:'研究型', A:'艺术型', S:'社会型', E:'企业型', C:'常规型' };
+  const primaryName = hollandName[profile.primary] || '未知';
+  const secondaryName = hollandName[profile.secondary] || '未知';
+
+  const big5Levels = (val) => val >= 7 ? '高' : val >= 4 ? '中' : '低';
+  const big5Desc = big5.O != null
+    ? `开放性${big5Levels(big5.O)}(${big5.O})、尽责性${big5Levels(big5.C)}(${big5.C})、外向性${big5Levels(big5.E)}(${big5.E})、宜人性${big5Levels(big5.A)}(${big5.A})、情绪稳定${big5Levels(big5.N)}(${big5.N})`
+    : '未测';
+
+  const efficacyDomainNames = {
+    logic:'数理逻辑', language:'语言文字', hands_on:'动手实践',
+    social:'人际沟通', creative:'艺术创作', memory:'记忆理解'
+  };
+  const efficacyDomains = (scct.efficacy_domain || []).map(d => efficacyDomainNames[d] || d).join('、') || '未填';
+  const confidenceDesc = scct.efficacy_confidence === 3 ? '高（有信心学好新东西）'
+    : scct.efficacy_confidence === 1 ? '偏低（担心跟不上）' : '中等（相信努力能学好）';
+
+  const expectNames = {
+    money:'高收入', security:'稳定安全', status:'社会地位',
+    achievement:'成就感', freedom:'自由灵活', meaning:'帮助他人'
+  };
+  const expectDesc = (scct.outcome_expect || []).map(e => expectNames[e] || e).join('、') || '未填';
+  const clarityDesc = scct.goal_clarity === 3 ? '非常清楚，有明确方向'
+    : scct.goal_clarity === 1 ? '迷茫，还没想好' : '有大致方向，但不确定';
+
+  const weightNames = { ai:'AI抗性', window:'窗口期', family:'家庭适配', personality:'人格匹配', policy:'国家战略', transfer:'可迁移性' };
+  const topWeight = Object.entries(weights).sort((a, b) => b[1] - a[1]);
+  const weightDesc = topWeight.slice(0, 3).map(([k, v]) => `${weightNames[k]}${Math.round(v * 100)}%`).join('、');
+
+  return `## 学生完整画像
+
+### 基本信息
+- 分数段：${state.scoreRange}
+- 科目：${state.subject}
+
+### 人格特质
+- 霍兰德主导型：${primaryName}（${profile.primary || '?'}）
+- 霍兰德次导型：${secondaryName}（${profile.secondary || '?'}）
+- 社交能量：${(profile.ei||0) > 0 ? '偏外向' : '偏内向'}
+- 决策风格：${(profile.tf||0) > 0 ? '逻辑思维型' : '情感导向型'}
+
+### 大五人格
+- ${big5Desc}
+
+### 自我认知（SCCT）
+- 擅长领域：${efficacyDomains}
+- 学习信心：${confidenceDesc}
+- 最看重：${expectDesc}
+- 目标清晰度：${clarityDesc}
+
+### 系统为该学生生成的评估权重（前三项最重要）
+- ${weightDesc}`;
+}
+
+function buildMajorDataForAI(major) {
+  const r = major;
+  const ds = r.topsisDimScores;
+  return `## 目标专业：${r.name}
+
+### 六维 TOPSIS 评分
+- AI冲击综合：${ds ? ds.ai : (r.aiScore || 5)}/10
+- 窗口期综合：${ds ? ds.window : (r.windowScore || 5)}/10
+- 家庭适配：${ds ? ds.family : (r.familyScore || 5)}/10
+- 人格匹配：${ds ? ds.personality : (r.personalityScore || 5)}/10
+- 国家战略：${ds ? ds.policy : (r.strategic_align || 5)}/10
+- 可迁移性：${ds ? ds.transfer : (r.transferability || 5)}/10
+
+### 专业详细数据
+- AI生存分：${r.ai_score || r.aiScore || 5}/10（${r.ai_reason || ''}）
+- 人机协作增值：${r.ai_collab_score || 5}/10
+- 转型弹性：${r.ai_pivot_score || 5}/10
+- 窗口期详情：政策${r.policy_score || 5}/10、国际${r.intl_score || 5}/10、就业${r.employ_score || 5}/10、薪资${r.salary_score || 5}/10、缺口${r.talent_score || 5}/10
+- 行业生命周期：${r.lifecycle_stage || 'mature'}
+- 国家战略契合：${r.strategic_align || 5}/10
+- 人才缺口：${r.talent_gap_scale || 0}万人
+- 专业存续安全：${r.major_survival || 5}/10
+- 跨行业通用性：${r.transferability || 5}/10
+- 考研灵活度：${r.grad_flexibility || 5}/10
+- 交叉潜力：${r.cross_potential || 5}/10
+- 对口职业：${(r.occs || []).join('、')}
+- 推荐高校：${(r.top_universities || []).join('、')}
+- 避坑提示：${r.pitfall || ''}`;
+}
+
+async function generateSummary(major, profile) {
+  const userProfile = buildUserProfileForAI();
+  const prompt = `用一句话（30字以内）总结这个专业对该学生的适合度和核心理由。
+
+${userProfile}
+
+${buildMajorDataForAI(major)}
+
+要求：
+- 只输出一句话，不要任何其他内容
+- 要结合学生的具体特质（如人格类型、擅长领域、看重什么）来说
+- 不要泛泛而谈，要有针对性
+- 如果有明显不匹配的地方，要直接指出`;
 
   try {
     const apiKey = state.apiKey || localStorage.getItem('deepseek_api_key');
@@ -2169,57 +2260,48 @@ async function generateReport(majorName) {
   showReportModal('loading');
 
   const profile = state.profile || {};
-  const primaryName = HOLLAND_NAMES[profile.primary] || '未知';
-
-  const hollandSecName = HOLLAND_NAMES[profile.secondary] || '';
-  const big5 = state.bigFive;
-  const big5Desc = big5 ? `
-- 大五人格：开放性${big5.O}/10、尽责性${big5.C}/10、外向性${big5.E}/10、宜人性${big5.A}/10、情绪稳定${big5.N}/10` : '';
   const scct = state.scct || {};
-  const scctDesc = Object.keys(scct).length ? `
-- 自我效能领域：${(scct.efficacy_domain || []).join('、') || '未填'}
-- 学习信心：${scct.efficacy_confidence === 3 ? '高' : scct.efficacy_confidence === 2 ? '中' : '偏低'}
-- 结果期望：${(scct.outcome_expect || []).join('、') || '未填'}
-- 目标清晰度：${scct.goal_clarity === 3 ? '非常清晰' : scct.goal_clarity === 2 ? '有大致方向' : '迷茫'}
-- 环境支持：${scct.support_perception === 3 ? '家庭很支持' : scct.support_perception === 2 ? '家庭放手' : '有家庭干预'}` : '';
-  const prompt = `你是一位专业的职业规划顾问，请为以下学生生成一份详细的职业规划报告。
+  const userProfile = buildUserProfileForAI();
+  const majorData = buildMajorDataForAI({ ...major, ...(state.results || []).find(r => r.name === majorName) });
 
-重要要求：
-- 报告必须严格基于该学生的具体条件（人格类型、科目、分数段），不同条件的学生应该得到截然不同的报告内容
-- 不要偏向热门专业或高薪专业，要根据该学生的实际情况客观分析
-- 第四部分"个人匹配度分析"必须明确说明这位${primaryName}性格的学生在这个专业里的优势和具体挑战
+  const prompt = `你是一位专业的职业规划顾问，擅长结合多维度数据为学生提供个性化的择业分析。请为以下学生生成一份详细的职业规划报告。
 
-## 学生基本信息
-- 分数段：${state.scoreRange}
-- 科目：${state.subject}
-- 人格主导型：${primaryName}${hollandSecName ? '，次要类型：' + hollandSecName : ''}
-- 社交能量：${(profile.ei||0) > 0 ? '偏外向（喜欢团队协作和社交场合）' : '偏内向（更适合独立思考和深度工作）'}
-- 决策风格：${(profile.tf||0) > 0 ? '逻辑思维型（重视客观数据和逻辑推导）' : '情感导向型（重视人际关系和价值观契合）'}${big5Desc}${scctDesc}
+${userProfile}
 
-## 目标专业：${majorName}
-
-## 专业评分数据
-- AI生存分：${major.ai_score}/10（${major.ai_reason}）
-- 窗口期综合分：${major.window_score}/10
-  - 政策信号：${major.policy_score}/10
-  - 国际趋势：${major.intl_score}/10
-  - 就业信号：${major.employ_score}/10
-  - 薪资信号：${major.salary_score}/10
-  - 人才缺口：${major.talent_score}/10
-- 窗口期说明：${major.window_note}
-- 避坑提示：${major.pitfall}
+${majorData}
 
 ## 报告要求
-请生成一份约1500字的职业规划报告，包含以下六个部分：
 
-1. **专业概览**（200字）：这个专业学什么，毕业后做什么
-2. **AI时代生存分析**（250字）：结合AI生存分，分析这个专业在AI时代的价值和风险
-3. **行业窗口期判断**（250字）：结合五维数据，分析国内外趋势，判断现在入场是否合适
-4. **个人匹配度分析**（250字）：结合学生的人格特质、大五人格和自我认知（自我效能领域、结果期望、目标清晰度），分析适合度。如果学生目标不清晰，要建议选择可迁移性强的方向。如果学生的自我效能领域与该专业所需能力不匹配，要明确指出风险
-5. **职业发展路径**（300字）：毕业后1年、3年、5年、10年的典型发展路径
-6. **行动建议**（250字）：在校期间重点培养哪些能力，避开哪些坑
+请生成一份约1500字的职业规划报告，包含以下七个部分：
 
-语言要求：直接有判断，用数据支撑，对学生说话，结尾给明确总结建议`;
+1. **专业概览**（150字）：这个专业学什么，毕业后做什么，在中国的行业现状。
+
+2. **AI时代生存分析**（200字）：结合AI冲击三维数据（生存分、协作增值、转型弹性），分析这个专业在AI时代的真实处境。不要只说"有风险"或"安全"，要具体说明哪些工作内容会被替代、哪些会被增强。
+
+3. **行业窗口期与国家战略**（200字）：结合窗口期五维数据和国家战略契合度，分析现在入场是否合适。引用具体的政策方向和人才缺口数据。如果行业处于${major.lifecycle_stage || 'mature'}期，说明这意味着什么。
+
+4. **个人匹配度深度分析**（250字）：这是最重要的部分。结合学生的全部画像——霍兰德类型、大五人格五维、SCCT自我效能领域和结果期望——分析该学生与这个专业的匹配度。
+   - 如果学生的擅长领域与专业所需能力匹配，要明确指出
+   - 如果学生的大五人格与专业工作模式匹配/不匹配，要具体说明
+   - 如果学生目标不清晰，要建议关注该专业的可迁移性（${major.transferability || 5}/10）
+   - 如果学生的结果期望与该专业能提供的不一致，要诚实指出
+
+5. **职业发展路径**（250字）：毕业后1年、3年、5年、10年的典型发展路径。要具体，给出职位名称和薪资范围参考。
+
+6. **行动建议**（200字）：在校期间重点培养哪些能力，考什么证，做什么实习，避开什么坑。
+
+7. **Plan B 备选路径**（200字）：
+   - 如果这个专业竞争太激烈或分数不够，最接近的备选专业是什么？为什么？
+   - 如果学了之后发现不喜欢，最容易转向的方向是什么？
+   - 给出"最佳→备选→兜底"三级方案
+
+语言要求：
+- 直接有判断，不说废话
+- 对学生说话，用"你"而不是"该生"
+- 好的方面和风险都要说，不要全是正面
+- 结尾用一句话给出明确的总结建议`;
+
+  console.log('[v3.0] Report prompt 预览:', prompt.substring(0, 300) + '...');
 
   try {
     const apiKey = state.apiKey || localStorage.getItem('deepseek_api_key');
@@ -2482,50 +2564,38 @@ async function generateFuture(majorName) {
   showFutureModal('loading');
 
   const profile = state.profile || {};
-  const hollandName = { R:'实用型', I:'研究型', A:'艺术型', S:'社会型', E:'企业型', C:'常规型' };
-  const primaryName = hollandName[profile.primary] || '研究型';
-  const isIntrovert = (profile.ei || 0) <= 0;
-  const isLogical = (profile.tf || 0) >= 0;
-  const big5Future = state.bigFive;
-  const big5FutureDesc = big5Future ? `\n- 大五人格：开放性${big5Future.O}/10、尽责性${big5Future.C}/10、外向性${big5Future.E}/10、宜人性${big5Future.A}/10、情绪稳定${big5Future.N}/10` : '';
-  const scctFuture = state.scct || {};
-  const scctFutureDesc = Object.keys(scctFuture).length ? `\n- 结果期望：${(scctFuture.outcome_expect || []).join('、') || '未填'}\n- 目标清晰度：${scctFuture.goal_clarity === 3 ? '非常清晰' : scctFuture.goal_clarity === 2 ? '有大致方向' : '迷茫'}` : '';
+  const scct = state.scct || {};
+  const userProfile = buildUserProfileForAI();
+  const majorData = buildMajorDataForAI({ ...major, ...(state.results || []).find(r => r.name === majorName) });
 
   const prompt = `你是一位擅长写作的职业规划师。请用第一人称，为以下学生写一段「10年后的一天」场景描述。
 
-## 学生信息
-- 现在是2026年，即将参加高考
-- 分数段：${state.scoreRange}
-- 目标专业：${majorName}
-- 人格特质：${primaryName}，${isIntrovert ? '偏内向' : '偏外向'}，${isLogical ? '逻辑思维型' : '情感导向型'}${big5FutureDesc}${scctFutureDesc}
+${userProfile}
 
-## 专业数据
-- AI生存分：${major.ai_score || major.ai_default}/10
-- 窗口期：${major.window_note || major.window || ''}
-- 对口职业：${major.occs ? major.occs.join('、') : ''}
+${majorData}
 
 ## 写作要求
+
 写一段400-500字的第一人称场景，描述2036年的某个普通工作日。
 
 格式：
 **2036年，我35岁。**
 
-[描述那天早上起来的状态和心情]
+[描述那天早上的状态——要体现这个人的性格特质（${(profile.ei||0) > 0 ? '外向' : '内向'}、${(profile.tf||0) > 0 ? '逻辑型' : '情感型'}）]
 
-[描述工作内容——要具体，要体现AI时代这个职业的真实变化]
+[描述工作内容——要具体，要体现AI时代的真实变化（人机协作增值=${major.ai_collab_score || 5}/10）。如果AI协作增值高，写AI如何让你的工作更强大；如果低，写你如何应对AI带来的竞争]
 
-[描述一个工作中遇到的具体场景或挑战]
+[描述一个工作中遇到的具体场景或挑战——要和这个专业的对口职业相关]
 
-[描述下班后的状态，收入水平，生活质量]
+[描述下班后的状态——要呼应学生最看重的东西（${(scct.outcome_expect || []).join('/')}）。如果看重收入，写收入水平；如果看重自由，写生活方式；如果看重意义，写工作带来的满足感]
 
 **回头看，当年选择${majorName}...**
-[用2-3句话总结这10年的感受，要真实，不要全是正面，要有真实的得失]
+[用2-3句话总结。要真实——如果可迁移性高（${major.transferability || 5}/10），写路越走越宽的感受；如果低，写专注带来的深度。不要全是正面，写一个真实的遗憾或取舍]
 
-写作风格要求：
-- 真实感强，不要像广告
-- 要体现AI对这个职业的真实影响（好的和坏的都要写）
-- 语气像一个真实的人在回忆，不是教科书
-- 如果这个专业AI风险高，要如实反映在场景里`;
+写作风格：
+- 真实感强，像一个真实的人在回忆
+- 要体现AI对这个职业的真实影响
+- 语气符合这个人的性格（${(profile.ei||0) > 0 ? '外向开朗' : '沉稳内敛'}）`;
 
   try {
     const apiKey = state.apiKey || localStorage.getItem('deepseek_api_key');
