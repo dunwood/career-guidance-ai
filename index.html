@@ -601,6 +601,7 @@ footer a { color:var(--accent); text-decoration:none; }
   <div class="screen-label">评估结果</div>
   <h2 class="screen-title">你的<span>专业罗盘</span></h2>
   <p class="screen-sub" id="resultSummary"></p>
+  <div id="modeLabelBadge"></div>
 
   <div class="dim-legend">
     <div class="dim-legend-title">★ 越多越好 · 六个维度说明</div>
@@ -1628,17 +1629,47 @@ async function runCalculation() {
 
   document.getElementById('loadingText').textContent = '正在计算六维 TOPSIS 评分…';
 
-  // 计算人格画像（霍兰德 + MBTI）
-  const profile = calcPersonalityProfile(state.personality);
+  // 计算人格画像 & 大五（按模式选择数据源）
+  let profile, bigFive;
+
+  if (state.assessMode === 'pro') {
+    // ═══ 专业模式：使用精确数据 ═══
+    const proH = state.proHolland;
+    profile = {
+      holland: proH.profile,
+      primary: proH.primary,
+      secondary: proH.secondary,
+      tertiary: proH.tertiary,
+      ei: (state.proBigFive.profile ? (state.proBigFive.profile.E - 5) : 0),
+      tf: (state.proBigFive.profile ? (5 - state.proBigFive.profile.A) : 0)
+    };
+
+    const proB5 = state.proBigFive.profile || {};
+    bigFive = {
+      O: proB5.O || 5,
+      C: proB5.C || 5,
+      E: proB5.E || 5,
+      A: proB5.A || 5,
+      N: proB5.N_stability || 5
+    };
+
+    state.scct = mapProSCCTToQuickFormat(state.proSCCT);
+    state.valuesProfile = state.proValues.profile || {};
+
+    console.log('[v3.0 Pro] 使用专业测评数据');
+    console.log('[v3.0 Pro] Holland精确画像:', profile.holland);
+    console.log('[v3.0 Pro] 大五精确画像:', bigFive);
+    console.log('[v3.0 Pro] 价值观画像:', state.valuesProfile);
+  } else {
+    // ═══ 快速模式：使用原有逻辑（完全不变）═══
+    profile = calcPersonalityProfile(state.personality);
+    bigFive = calcBigFive(state.personality, profile.ei, profile.tf);
+    console.log('[v3.0] 大五人格:', bigFive);
+    console.log('[v3.0] SCCT 数据:', state.scct);
+  }
+
   state.profile = profile;
-
-  // v3.0 新增：大五人格推导
-  const bigFive = calcBigFive(state.personality, profile.ei, profile.tf);
   state.bigFive = bigFive;
-  console.log('[v3.0] 大五人格:', bigFive);
-
-  // SCCT 数据存储
-  console.log('[v3.0] SCCT 数据:', state.scct);
 
   // v3.0 Phase4：推导个性化权重（仅存储，task35 中用于 TOPSIS 排序）
   const weights = deriveWeights();
@@ -2111,6 +2142,18 @@ function calcDimTransfer(m) {
 // ══════════════════════════════════════════════════════
 // v3.0 Fuzzy AHP 权重推导
 // ══════════════════════════════════════════════════════
+function mapProSCCTToQuickFormat(proSCCT) {
+  const efficacy_domain = proSCCT[1] || [];
+  const confidenceRaw = proSCCT[2] || 3;
+  const efficacy_confidence = confidenceRaw >= 4 ? 3 : confidenceRaw >= 3 ? 2 : 1;
+  const outcome_expect = proSCCT[7] || [];
+  const clarityRaw = proSCCT[12] || 3;
+  const goal_clarity = clarityRaw >= 4 ? 3 : clarityRaw >= 3 ? 2 : 1;
+  const supportMap = { 'support':3, 'suggest':3, 'hands_off':2, 'interfere':1, 'conflict':1 };
+  const support_perception = supportMap[proSCCT[14]] || 2;
+  return { efficacy_domain, efficacy_confidence, outcome_expect, goal_clarity, support_perception };
+}
+
 function deriveWeights() {
   const s = state.scct || {};
   const expects = s.outcome_expect || [];
@@ -2135,6 +2178,16 @@ function deriveWeights() {
   if (!expects.length && clarity === 2) {
     w.ai = 1.2; w.window = 1.2; w.family = 1.5;
     w.personality = 2.0; w.policy = 1.0; w.transfer = 1.0;
+  }
+
+  // v3.0 Pro：价值观精调（仅在专业模式下生效）
+  if (state.assessMode === 'pro' && state.valuesProfile) {
+    const vp = state.valuesProfile;
+    if (vp.achievement >= 7) { w.personality += 0.5; w.ai += 0.3; }
+    if (vp.independence >= 7) { w.transfer += 0.5; w.personality += 0.3; }
+    if (vp.status >= 7)       { w.policy += 0.5; w.window += 0.3; }
+    if (vp.altruism >= 7)     { w.personality += 0.5; w.family += 0.2; }
+    if (vp.security >= 7)     { w.family += 0.5; w.ai += 0.3; }
   }
 
   // 归一化
@@ -2264,6 +2317,13 @@ function renderResults() {
   document.getElementById('resultSummary').textContent =
     `人格主导：${pName}${sName ? ' · 次导：' + sName : ''} ${filterNote}`;
 
+  // 测评模式标识
+  const modeLabel = state.assessMode === 'pro'
+    ? '<div style="display:inline-block;padding:4px 12px;background:linear-gradient(135deg,var(--accent3),#7c3aed);color:white;border-radius:20px;font-size:11px;letter-spacing:1px;margin-bottom:12px;">🎓 专业测评</div>'
+    : '<div style="display:inline-block;padding:4px 12px;background:var(--surface);border:1px solid var(--border);color:var(--muted);border-radius:20px;font-size:11px;letter-spacing:1px;margin-bottom:12px;">⚡ 快速测评</div>';
+  const modeLabelEl = document.getElementById('modeLabelBadge');
+  if (modeLabelEl) modeLabelEl.innerHTML = modeLabel;
+
   // v3.0 Phase4：权重面板（插入到 resultSummary 后面的容器中）
   const weightsHTML = renderWeightsPanel();
   const weightsContainer = document.getElementById('weightsPanel');
@@ -2348,6 +2408,24 @@ function buildUserProfileForAI() {
   const topWeight = Object.entries(weights).sort((a, b) => b[1] - a[1]);
   const weightDesc = topWeight.slice(0, 3).map(([k, v]) => `${weightNames[k]}${Math.round(v * 100)}%`).join('、');
 
+  let proText = '';
+  if (state.assessMode === 'pro') {
+    proText = '\n\n### 专业测评详细数据（精确度高于快速版）';
+    if (state.proHolland && state.proHolland.profile) {
+      const hp = state.proHolland.profile;
+      proText += `\n- 霍兰德精确画像：R实用${hp.R}、I研究${hp.I}、A艺术${hp.A}、S社会${hp.S}、E企业${hp.E}、C常规${hp.C}`;
+      proText += `\n- 三字母代码：${state.proHolland.primary}${state.proHolland.secondary}${state.proHolland.tertiary}`;
+    }
+    if (state.valuesProfile) {
+      const vp = state.valuesProfile;
+      const valNames = { achievement:'成就导向', independence:'独立导向', status:'地位导向', altruism:'利他导向', security:'安全导向' };
+      const sorted = Object.entries(vp).sort((a,b) => b[1]-a[1]);
+      proText += `\n- 职业价值观：${sorted.map(([k,v]) => `${valNames[k]}${v}/10`).join('、')}`;
+      proText += `\n- 主导价值：${valNames[sorted[0][0]]}`;
+    }
+    proText += '\n- 测评模式：专业版（130+题，精度高）';
+  }
+
   return `## 学生完整画像
 
 ### 基本信息
@@ -2370,7 +2448,7 @@ function buildUserProfileForAI() {
 - 目标清晰度：${clarityDesc}
 
 ### 系统为该学生生成的评估权重（前三项最重要）
-- ${weightDesc}`;
+- ${weightDesc}${proText}`;
 }
 
 function buildMajorDataForAI(major) {
@@ -2660,6 +2738,37 @@ function personalitySubContent(r) {
     html += '</div>';
   }
 
+  // v3.0 Pro：霍兰德六维精确画像 + 职业价值观画像
+  if (state.assessMode === 'pro') {
+    const hollandProfile = state.proHolland ? state.proHolland.profile : {};
+    const hollandNames = { R:'实用型', I:'研究型', A:'艺术型', S:'社会型', E:'企业型', C:'常规型' };
+    html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">';
+    html += '<div style="font-size:11px;color:var(--accent3);margin-bottom:6px;">霍兰德六维精确画像</div>';
+    ['R','I','A','S','E','C'].forEach(type => {
+      const val = hollandProfile[type] || 5;
+      html += `<div class="sub-row">
+        <span class="sub-label">${hollandNames[type]}</span>
+        <div class="sub-bar"><div class="sub-bar-fill" style="width:${val * 10}%"></div></div>
+        <span class="sub-val">${val}</span>
+      </div>`;
+    });
+    html += '</div>';
+
+    if (state.valuesProfile) {
+      const valNames = { achievement:'成就', independence:'独立', status:'地位', altruism:'利他', security:'安全' };
+      html += '<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border);">';
+      html += '<div style="font-size:11px;color:var(--accent2);margin-bottom:6px;">职业价值观画像</div>';
+      Object.entries(state.valuesProfile).forEach(([key, val]) => {
+        html += `<div class="sub-row">
+          <span class="sub-label">${valNames[key] || key}</span>
+          <div class="sub-bar"><div class="sub-bar-fill" style="width:${val * 10}%;background:var(--accent2);"></div></div>
+          <span class="sub-val">${val}</span>
+        </div>`;
+      });
+      html += '</div>';
+    }
+  }
+
   return html;
 }
 
@@ -2791,7 +2900,7 @@ ${majorData}
 - 直接有判断，不说废话
 - 对学生说话，用"你"而不是"该生"
 - 好的方面和风险都要说，不要全是正面
-- 结尾用一句话给出明确的总结建议`;
+- 结尾用一句话给出明确的总结建议${state.assessMode === 'pro' ? '\n\n注意：该学生完成了130+题的专业测评（而非20题快速版），数据精确度较高，请充分利用霍兰德六维精确画像和职业价值观数据进行深度分析。' : ''}`;
 
   console.log('[v3.0] Report prompt 预览:', prompt.substring(0, 300) + '...');
 
