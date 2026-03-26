@@ -1064,6 +1064,205 @@ const PRO_BIGFIVE_QS = [
 ];
 
 // ══════════════════════════════════════════════════════
+// 专业版 SCCT 扩展（15 题）
+// ══════════════════════════════════════════════════════
+const PRO_SCCT_QS = [
+  {
+    id:1, dim:'efficacy', text:'你觉得自己在哪些领域学起来最轻松？',
+    sub:'可多选', type:'multi',
+    options:[
+      {text:'数理逻辑（数学、物理、编程）',value:'logic'},
+      {text:'语言文字（语文、英语、写作）',value:'language'},
+      {text:'动手实践（实验、制作、运动）',value:'hands_on'},
+      {text:'人际沟通（演讲、组织、说服）',value:'social'},
+      {text:'艺术创作（绘画、音乐、设计）',value:'creative'},
+      {text:'记忆理解（历史、政治、生物）',value:'memory'}
+    ]
+  },
+  {
+    id:2, dim:'efficacy', text:'面对全新的学科领域，你通常的感受是？',
+    type:'single',
+    options:[
+      {text:'有信心学好，以前也是这样过来的',value:5},
+      {text:'有点紧张，但相信努力就能学好',value:4},
+      {text:'要看是什么领域，有的行有的不行',value:3},
+      {text:'比较担心，怕自己跟不上',value:2},
+      {text:'很不自信，经常觉得自己不够聪明',value:1}
+    ]
+  },
+  {
+    id:3, dim:'efficacy', text:'当学习遇到困难时，你通常会？',
+    type:'single',
+    options:[
+      {text:'越挫越勇，一定要搞懂',value:5},
+      {text:'会坚持一段时间，实在不行再换方法',value:4},
+      {text:'看难度，太难了就先跳过',value:3},
+      {text:'比较容易气馁，想放弃',value:2},
+      {text:'会很沮丧，觉得自己不适合',value:1}
+    ]
+  },
+  {
+    id:4, dim:'efficacy', text:'你在以下哪些事情上做得比同龄人好？',
+    sub:'可多选', type:'multi',
+    options:[
+      {text:'逻辑分析和解题',value:'logic_perf'},
+      {text:'写作和语言表达',value:'language_perf'},
+      {text:'动手制作和操作',value:'hands_perf'},
+      {text:'组织活动和带团队',value:'lead_perf'},
+      {text:'创意想法和审美',value:'creative_perf'},
+      {text:'记忆力和理解力',value:'memory_perf'}
+    ]
+  },
+  {
+    id:5, dim:'efficacy', text:'你在学校最有成就感的经历是？',
+    type:'single',
+    options:[
+      {text:'解出了一道很难的题',value:'problem_solving'},
+      {text:'写了一篇被表扬的文章',value:'writing'},
+      {text:'完成了一个实践项目',value:'project'},
+      {text:'帮助同学或参与集体活动',value:'helping'},
+      {text:'创作了一件满意的作品',value:'creating'},
+      {text:'考试取得了好成绩',value:'exam'}
+    ]
+  },
+  {
+    id:6, dim:'efficacy', text:'你觉得自己大学里最可能擅长的学习方式是？',
+    type:'single',
+    options:[
+      {text:'听课记笔记，系统学习理论',value:'theory'},
+      {text:'做实验做项目，边做边学',value:'practice'},
+      {text:'和同学讨论，互相启发',value:'discuss'},
+      {text:'自己找资料深入研究',value:'self_study'},
+      {text:'看视频和案例，直观理解',value:'visual'}
+    ]
+  },
+  {
+    id:7, dim:'outcome', text:'你期望未来的工作带给你什么？',
+    sub:'最多选 2 项', type:'multi_max2',
+    options:[
+      {text:'高收入和财务自由',value:'money'},
+      {text:'稳定安全的生活',value:'security'},
+      {text:'社会地位和他人尊重',value:'status'},
+      {text:'成就感和自我实现',value:'achievement'},
+      {text:'自由和灵活的时间',value:'freedom'},
+      {text:'帮助他人、有社会意义',value:'meaning'}
+    ]
+  },
+  {
+    id:8, dim:'outcome', text:'如果收入差不多，你更愿意？',
+    type:'single',
+    options:[
+      {text:'在大公司做一颗高效的螺丝钉',value:'corp_stable'},
+      {text:'在创业公司做核心骨干',value:'startup_core'},
+      {text:'自己当老板，承担风险',value:'entrepreneur'},
+      {text:'在政府或事业单位服务社会',value:'public_service'},
+      {text:'做自由职业，按自己节奏来',value:'freelance'}
+    ]
+  },
+  {
+    id:9, dim:'outcome', text:'你觉得成功的定义更接近哪个？',
+    type:'single',
+    options:[
+      {text:'赚到足够多的钱',value:'wealth'},
+      {text:'在自己的领域成为专家',value:'expertise'},
+      {text:'对社会产生了积极影响',value:'impact'},
+      {text:'过上自己想要的生活',value:'lifestyle'},
+      {text:'获得周围人的认可和尊重',value:'recognition'}
+    ]
+  },
+  {
+    id:10, dim:'outcome', text:'10年后你最希望自己是什么状态？',
+    type:'single',
+    options:[
+      {text:'经济自由，有选择的权利',value:'financial_free'},
+      {text:'在专业领域有话语权',value:'authority'},
+      {text:'家庭幸福，工作生活平衡',value:'balance'},
+      {text:'做着自己热爱的事业',value:'passion'},
+      {text:'帮助了很多人，受人尊敬',value:'respected'}
+    ]
+  },
+  {
+    id:11, dim:'outcome', text:'你更怕哪种职业风险？',
+    type:'single',
+    options:[
+      {text:'收入不稳定，生活没保障',value:'fear_income'},
+      {text:'做不喜欢的事，每天很痛苦',value:'fear_mismatch'},
+      {text:'被AI替代，找不到工作',value:'fear_ai'},
+      {text:'一直在底层，没有成长空间',value:'fear_ceiling'},
+      {text:'工作太忙，失去生活',value:'fear_burnout'}
+    ]
+  },
+  {
+    id:12, dim:'goal', text:'关于未来想做什么，你现在的状态是？',
+    type:'single',
+    options:[
+      {text:'非常清楚，有明确的职业方向',value:5},
+      {text:'有大致方向，但还需要确认',value:4},
+      {text:'有几个感兴趣的方向，拿不定主意',value:3},
+      {text:'比较迷茫，不知道自己适合什么',value:2},
+      {text:'完全没想过，走一步算一步',value:1}
+    ]
+  },
+  {
+    id:13, dim:'goal', text:'你身边有没有让你想成为的"榜样"？',
+    type:'single',
+    options:[
+      {text:'有，我很清楚想成为什么样的人',value:'clear_model'},
+      {text:'有一些佩服的人，但还没想好要像谁',value:'vague_model'},
+      {text:'没有特别的榜样',value:'no_model'}
+    ]
+  },
+  {
+    id:14, dim:'goal', text:'你觉得家人、老师对你选专业的态度是？',
+    type:'single',
+    options:[
+      {text:'很支持，会帮我分析和出主意',value:'support'},
+      {text:'有建议但尊重我的选择',value:'suggest'},
+      {text:'基本放手让我自己决定',value:'hands_off'},
+      {text:'有干预，我的想法不一定能实现',value:'interfere'},
+      {text:'有很大分歧，经常为此争论',value:'conflict'}
+    ]
+  },
+  {
+    id:15, dim:'goal', text:'如果你的理想专业和家人的期望不同，你会？',
+    type:'single',
+    options:[
+      {text:'坚持自己的选择',value:'insist'},
+      {text:'尝试说服家人',value:'persuade'},
+      {text:'找一个双方都能接受的折中方案',value:'compromise'},
+      {text:'先听家人的，以后再调整',value:'comply'},
+      {text:'很纠结，不知道该听谁的',value:'confused'}
+    ]
+  }
+];
+
+// ══════════════════════════════════════════════════════
+// 职业价值观量表（20 题，Super 理论）
+// ══════════════════════════════════════════════════════
+const PRO_VALUES_QS = [
+  {id:1, dim:'achievement', text:'能不断挑战自己的能力极限'},
+  {id:2, dim:'achievement', text:'做出的成果能被行业认可'},
+  {id:3, dim:'achievement', text:'有机会解决别人解决不了的难题'},
+  {id:4, dim:'achievement', text:'能看到自己每年都在明显进步'},
+  {id:5, dim:'independence', text:'能自己决定工作内容和方式'},
+  {id:6, dim:'independence', text:'不需要每天准时打卡上下班'},
+  {id:7, dim:'independence', text:'可以拒绝不想做的工作任务'},
+  {id:8, dim:'independence', text:'工作中有很大的创造和发挥空间'},
+  {id:9, dim:'status', text:'在行业里有影响力和话语权'},
+  {id:10, dim:'status', text:'拥有令人羡慕的头衔和职位'},
+  {id:11, dim:'status', text:'能管理和领导一个团队'},
+  {id:12, dim:'status', text:'收入能排在同龄人的前列'},
+  {id:13, dim:'altruism', text:'工作能直接帮助到有需要的人'},
+  {id:14, dim:'altruism', text:'做的事情对社会有正面意义'},
+  {id:15, dim:'altruism', text:'能看到自己的工作改善了别人的生活'},
+  {id:16, dim:'altruism', text:'宁可少赚一些也要做有意义的事'},
+  {id:17, dim:'security', text:'收入稳定可预期，不会大起大落'},
+  {id:18, dim:'security', text:'不用担心突然失业'},
+  {id:19, dim:'security', text:'有完善的福利保障（医疗、养老等）'},
+  {id:20, dim:'security', text:'工作压力不要太大，能兼顾生活'}
+];
+
+// ══════════════════════════════════════════════════════
 // 状态管理
 // ══════════════════════════════════════════════════════
 let state = {
@@ -2907,10 +3106,151 @@ function calcProBigFiveProfile() {
   console.log('[v3.0 Pro] 情绪稳定性（反转）:', profile.N_stability);
 }
 function renderProSCCTQuestion() {
-  document.getElementById('proSCCTArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">职业认知量表即将上线（task45）</p>';
+  const i = state.proSCCTStep;
+  const q = PRO_SCCT_QS[i];
+  const total = PRO_SCCT_QS.length;
+  const pct = ((i + 1) / total) * 100;
+  const area = document.getElementById('proSCCTArea');
+  const prevBtn = i > 0 ? `<div style="text-align:center;margin-top:12px;"><span onclick="state.proSCCTStep--;renderProSCCTQuestion()" style="font-size:13px;color:var(--muted);cursor:pointer;text-decoration:underline;">← 上一题</span></div>` : '';
+
+  if (q.type === 'multi' || q.type === 'multi_max2') {
+    const maxSelect = q.type === 'multi_max2' ? 2 : 10;
+    const selected = state.proSCCT[q.id] || [];
+    area.innerHTML = `
+      <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+      <div class="question-num">第 ${i+1} 题 / 共 ${total} 题</div>
+      <div class="question-text">${q.text}</div>
+      ${q.sub ? `<div style="font-size:12px;color:var(--muted);margin-bottom:16px;">${q.sub}</div>` : ''}
+      <div class="options-grid">
+        ${q.options.map(opt => {
+          const isSel = selected.includes(opt.value);
+          return `<div class="option-card ${isSel ? 'selected' : ''}" onclick="toggleProSCCT(${q.id},'${opt.value}',${maxSelect})">${opt.text}</div>`;
+        }).join('')}
+      </div>
+      <button class="btn" onclick="nextProSCCT()" style="margin-top:16px;" ${selected.length===0?'disabled':''}>
+        ${i < total - 1 ? '下一题 →' : '继续 →'}
+      </button>
+      ${prevBtn}
+    `;
+  } else {
+    area.innerHTML = `
+      <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+      <div class="question-num">第 ${i+1} 题 / 共 ${total} 题</div>
+      <div class="question-text">${q.text}</div>
+      <div class="options-grid">
+        ${q.options.map(opt => `
+          <div class="option-card" onclick="answerProSCCT(${q.id},${typeof opt.value === 'string' ? "'"+opt.value+"'" : opt.value})">${opt.text}</div>
+        `).join('')}
+      </div>
+      ${prevBtn}
+    `;
+  }
 }
+
+function answerProSCCT(id, value) {
+  state.proSCCT[id] = value;
+  nextProSCCT();
+}
+
+function toggleProSCCT(id, value, maxSelect) {
+  if (!state.proSCCT[id]) state.proSCCT[id] = [];
+  const arr = state.proSCCT[id];
+  const idx = arr.indexOf(value);
+  if (idx >= 0) arr.splice(idx, 1);
+  else { if (arr.length >= maxSelect) arr.shift(); arr.push(value); }
+  state.proSCCT[id] = arr;
+  renderProSCCTQuestion();
+}
+
+function nextProSCCT() {
+  if (state.proSCCTStep < PRO_SCCT_QS.length - 1) {
+    state.proSCCTStep++;
+    renderProSCCTQuestion();
+  } else {
+    console.log('[v3.0 Pro] SCCT 扩展答案:', state.proSCCT);
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-pro-values').classList.add('active');
+    state.proValuesStep = 0;
+    renderProValuesQuestion();
+  }
+}
+
 function renderProValuesQuestion() {
-  document.getElementById('proValuesArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">价值观量表即将上线（task45）</p>';
+  const i = state.proValuesStep;
+  const q = PRO_VALUES_QS[i];
+  const total = PRO_VALUES_QS.length;
+  const pct = ((i + 1) / total) * 100;
+  const area = document.getElementById('proValuesArea');
+
+  let encouragement = '';
+  if (i === 0) encouragement = '🏁 最后一部分！还剩 20 题';
+  if (i === 10) encouragement = '⚡ 过半了！';
+  if (i === 16) encouragement = '✨ 最后 4 题！';
+
+  area.innerHTML = `
+    <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+    ${encouragement ? `<div style="text-align:center;font-size:13px;color:var(--accent3);margin:8px 0;">${encouragement}</div>` : ''}
+    <div class="question-num">第 ${i+1} 题 / 共 ${total} 题</div>
+    <div class="question-sub" style="font-size:12px;color:var(--muted);margin-bottom:12px;">在理想的工作中，以下事项对你有多重要？</div>
+    <div class="question-text" style="font-size:16px;margin-bottom:20px;">${q.text}</div>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      ${[1,2,3,4,5].map(score => `
+        <div onclick="answerProValues(${q.id},'${q.dim}',${score})"
+          style="width:56px;height:56px;border-radius:12px;
+          border:1.5px solid var(--border);display:flex;flex-direction:column;
+          align-items:center;justify-content:center;cursor:pointer;
+          transition:all .2s;background:var(--surface);"
+          onmouseover="this.style.borderColor='var(--accent3)'"
+          onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:18px;font-weight:700;color:var(--text);">${score}</div>
+          <div style="font-size:9px;color:var(--muted);">${['','不重要','不太重要','一般','比较重要','非常重要'][score]}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:16px;font-size:11px;color:var(--muted);">
+      <span>完全不重要</span>
+      <span>非常重要</span>
+    </div>
+    ${i > 0 ? `<div style="text-align:center;margin-top:16px;"><span onclick="state.proValuesStep--;renderProValuesQuestion()" style="font-size:13px;color:var(--muted);cursor:pointer;text-decoration:underline;">← 上一题</span></div>` : ''}
+  `;
+}
+
+function answerProValues(id, dim, score) {
+  if (!state.proValues.answers) state.proValues.answers = {};
+  state.proValues.answers[id] = { dim, score };
+
+  if (state.proValuesStep < PRO_VALUES_QS.length - 1) {
+    state.proValuesStep++;
+    renderProValuesQuestion();
+  } else {
+    calcProValuesProfile();
+    console.log('[v3.0 Pro] 专业测评全部完成！');
+    runCalculation();
+  }
+}
+
+function calcProValuesProfile() {
+  const answers = state.proValues.answers || {};
+  const scores = { achievement:0, independence:0, status:0, altruism:0, security:0 };
+  const counts = { achievement:0, independence:0, status:0, altruism:0, security:0 };
+
+  Object.values(answers).forEach(a => {
+    scores[a.dim] += a.score;
+    counts[a.dim]++;
+  });
+
+  const profile = {};
+  Object.keys(scores).forEach(dim => {
+    profile[dim] = counts[dim] ? Math.round((scores[dim] / (counts[dim] * 5)) * 100) / 10 : 5;
+  });
+
+  const sorted = Object.entries(profile).sort((a, b) => b[1] - a[1]);
+  state.proValues.profile = profile;
+  state.proValues.primary = sorted[0][0];
+  state.proValues.secondary = sorted[1][0];
+
+  console.log('[v3.0 Pro] 职业价值观画像:', profile);
+  console.log('[v3.0 Pro] 主导价值:', sorted[0], '次导:', sorted[1]);
 }
 
 // ══════════════════════════════════════════════════════
