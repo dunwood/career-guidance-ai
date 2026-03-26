@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "dim": "N",
+    "text": "我的情绪起伏比较大",
+    "reverse": false
+  },
+  {
+    "id": 2,
+    "dim": "C",
+    "text": "我经常拖延到最后一刻才开始",
+    "reverse": true
+  },
+  {
+    "id": 3,
+    "dim": "E",
+    "text": "我乐于成为大家关注的焦点",
+    "reverse": false
+  },
+  {
+    "id": 4,
+    "dim": "A",
+    "text": "我觉得竞争比合作更重要",
+    "reverse": true
+  },
+  {
+    "id": 5,
+    "dim": "O",
+    "text": "我更喜欢熟悉的事物而非新奇的",
+    "reverse": true
+  },
+  {
+    "id": 6,
+    "dim": "C",
+    "text": "我容易被手机分散注意力",
+    "reverse": true
+  },
+  {
+    "id": 7,
+    "dim": "O",
+    "text": "我对艺术和美的事物很敏感",
+    "reverse": false
+  },
+  {
+    "id": 8,
+    "dim": "N",
+    "text": "我经常后悔自己说过的话",
+    "reverse": false
+  },
+  {
+    "id": 9,
+    "dim": "A",
+    "text": "我不太在意别人怎么看我",
+    "reverse": true
+  },
+  {
+    "id": 10,
+    "dim": "E",
+    "text": "我在陌生人面前比较沉默",
+    "reverse": true
+  },
+  {
+    "id": 11,
+    "dim": "A",
+    "text": "我觉得太善良容易被人欺负",
+    "reverse": true
+  },
+  {
+    "id": 12,
+    "dim": "O",
+    "text": "我不太喜欢改变已有的习惯",
+    "reverse": true
+  },
+  {
+    "id": 13,
+    "dim": "E",
+    "text": "我在聚会上通常是话比较多的人",
+    "reverse": false
+  },
+  {
+    "id": 14,
+    "dim": "N",
+    "text": "我很少感到紧张或不安",
+    "reverse": true
+  },
+  {
+    "id": 15,
+    "dim": "C",
+    "text": "我的房间和桌面通常很整洁",
+    "reverse": false
+  },
+  {
+    "id": 16,
+    "dim": "N",
+    "text": "小事情有时会让我烦躁很久",
+    "reverse": false
+  },
+  {
+    "id": 17,
+    "dim": "A",
+    "text": "我很容易感受到别人的情绪",
+    "reverse": false
+  },
+  {
+    "id": 18,
+    "dim": "C",
+    "text": "我做作业会仔细检查后再交",
+    "reverse": false
+  },
+  {
+    "id": 19,
+    "dim": "O",
+    "text": "我觉得想象力没什么实际用处",
+    "reverse": true
+  },
+  {
+    "id": 20,
+    "dim": "E",
+    "text": "我更喜欢独处而不是参加聚会",
+    "reverse": true
+  },
+  {
+    "id": 21,
+    "dim": "O",
+    "text": "我觉得理论讨论很无聊",
+    "reverse": true
+  },
+  {
+    "id": 22,
+    "dim": "C",
+    "text": "我有时会忘记重要的约定",
+    "reverse": true
+  },
+  {
+    "id": 23,
+    "dim": "A",
+    "text": "我在意别人的感受，说话会注意分寸",
+    "reverse": false
+  },
+  {
+    "id": 24,
+    "dim": "N",
+    "text": "别人的批评不太影响我的心情",
+    "reverse": true
+  },
+  {
+    "id": 25,
+    "dim": "E",
+    "text": "我话不多，比较安静",
+    "reverse": true
+  },
+  {
+    "id": 26,
+    "dim": "E",
+    "text": "我不太喜欢成为别人注意的对象",
+    "reverse": true
+  },
+  {
+    "id": 27,
+    "dim": "C",
+    "text": "我答应的事情一定会做到",
+    "reverse": false
+  },
+  {
+    "id": 28,
+    "dim": "O",
+    "text": "我对诗歌和文学不太感兴趣",
+    "reverse": true
+  },
+  {
+    "id": 29,
+    "dim": "N",
+    "text": "我能很快从挫折中恢复过来",
+    "reverse": true
+  },
+  {
+    "id": 30,
+    "dim": "A",
+    "text": "我愿意花时间帮助别人",
+    "reverse": false
+  },
+  {
+    "id": 31,
+    "dim": "O",
+    "text": "我经常会冒出天马行空的想法",
+    "reverse": false
+  },
+  {
+    "id": 32,
+    "dim": "A",
+    "text": "我有时会说一些让别人不舒服的话",
+    "reverse": true
+  },
+  {
+    "id": 33,
+    "dim": "C",
+    "text": "我善于制定目标并坚持执行",
+    "reverse": false
+  },
+  {
+    "id": 34,
+    "dim": "E",
+    "text": "我精力充沛，喜欢忙碌的生活",
+    "reverse": false
+  },
+  {
+    "id": 35,
+    "dim": "N",
+    "text": "我觉得自己情绪比较稳定",
+    "reverse": true
+  },
+  {
+    "id": 36,
+    "dim": "N",
+    "text": "我在压力下仍能保持冷静",
+    "reverse": true
+  },
+  {
+    "id": 37,
+    "dim": "E",
+    "text": "我觉得社交活动让我很疲惫",
+    "reverse": true
+  },
+  {
+    "id": 38,
+    "dim": "C",
+    "text": "我的东西经常找不到放在哪里",
+    "reverse": true
+  },
+  {
+    "id": 39,
+    "dim": "A",
+    "text": "我很少和人发生争执",
+    "reverse": false
+  },
+  {
+    "id": 40,
+    "dim": "O",
+    "text": "我喜欢尝试新的做事方式",
+    "reverse": false
+  },
+  {
+    "id": 41,
+    "dim": "C",
+    "text": "我做事有计划，很少临时抱佛脚",
+    "reverse": false
+  },
+  {
+    "id": 42,
+    "dim": "O",
+    "text": "我喜欢接触不同文化和观点",
+    "reverse": false
+  },
+  {
+    "id": 43,
+    "dim": "E",
+    "text": "我喜欢主动认识新朋友",
+    "reverse": false
+  },
+  {
+    "id": 44,
+    "dim": "A",
+    "text": "别人的问题跟我没什么关系",
+    "reverse": true
+  },
+  {
+    "id": 45,
+    "dim": "N",
+    "text": "我经常感到焦虑或担心",
+    "reverse": false
+  },
+  {
+    "id": 46,
+    "dim": "N",
+    "text": "遇到压力时我容易感到崩溃",
+    "reverse": false
+  },
+  {
+    "id": 47,
+    "dim": "E",
+    "text": "我在人多的场合感到很自在",
+    "reverse": false
+  },
+  {
+    "id": 48,
+    "dim": "A",
+    "text": "我相信大多数人本性是善良的",
+    "reverse": false
+  },
+  {
+    "id": 49,
+    "dim": "C",
+    "text": "我做事经常半途而废",
+    "reverse": true
+  },
+  {
+    "id": 50,
+    "dim": "O",
+    "text": "我喜欢思考抽象的概念和理论",
+    "reverse": false
+  }
+]

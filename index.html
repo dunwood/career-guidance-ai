@@ -1008,6 +1008,62 @@ const PRO_HOLLAND_QS = [
 ];
 
 // ══════════════════════════════════════════════════════
+// 专业版大五人格 IPIP-50（50 题，打乱顺序，含反向标记）
+// ══════════════════════════════════════════════════════
+const PRO_BIGFIVE_QS = [
+  {id:1,dim:"N",text:"我的情绪起伏比较大",reverse:false},
+  {id:2,dim:"C",text:"我经常拖延到最后一刻才开始",reverse:true},
+  {id:3,dim:"E",text:"我乐于成为大家关注的焦点",reverse:false},
+  {id:4,dim:"A",text:"我觉得竞争比合作更重要",reverse:true},
+  {id:5,dim:"O",text:"我更喜欢熟悉的事物而非新奇的",reverse:true},
+  {id:6,dim:"C",text:"我容易被手机分散注意力",reverse:true},
+  {id:7,dim:"O",text:"我对艺术和美的事物很敏感",reverse:false},
+  {id:8,dim:"N",text:"我经常后悔自己说过的话",reverse:false},
+  {id:9,dim:"A",text:"我不太在意别人怎么看我",reverse:true},
+  {id:10,dim:"E",text:"我在陌生人面前比较沉默",reverse:true},
+  {id:11,dim:"A",text:"我觉得太善良容易被人欺负",reverse:true},
+  {id:12,dim:"O",text:"我不太喜欢改变已有的习惯",reverse:true},
+  {id:13,dim:"E",text:"我在聚会上通常是话比较多的人",reverse:false},
+  {id:14,dim:"N",text:"我很少感到紧张或不安",reverse:true},
+  {id:15,dim:"C",text:"我的房间和桌面通常很整洁",reverse:false},
+  {id:16,dim:"N",text:"小事情有时会让我烦躁很久",reverse:false},
+  {id:17,dim:"A",text:"我很容易感受到别人的情绪",reverse:false},
+  {id:18,dim:"C",text:"我做作业会仔细检查后再交",reverse:false},
+  {id:19,dim:"O",text:"我觉得想象力没什么实际用处",reverse:true},
+  {id:20,dim:"E",text:"我更喜欢独处而不是参加聚会",reverse:true},
+  {id:21,dim:"O",text:"我觉得理论讨论很无聊",reverse:true},
+  {id:22,dim:"C",text:"我有时会忘记重要的约定",reverse:true},
+  {id:23,dim:"A",text:"我在意别人的感受，说话会注意分寸",reverse:false},
+  {id:24,dim:"N",text:"别人的批评不太影响我的心情",reverse:true},
+  {id:25,dim:"E",text:"我话不多，比较安静",reverse:true},
+  {id:26,dim:"E",text:"我不太喜欢成为别人注意的对象",reverse:true},
+  {id:27,dim:"C",text:"我答应的事情一定会做到",reverse:false},
+  {id:28,dim:"O",text:"我对诗歌和文学不太感兴趣",reverse:true},
+  {id:29,dim:"N",text:"我能很快从挫折中恢复过来",reverse:true},
+  {id:30,dim:"A",text:"我愿意花时间帮助别人",reverse:false},
+  {id:31,dim:"O",text:"我经常会冒出天马行空的想法",reverse:false},
+  {id:32,dim:"A",text:"我有时会说一些让别人不舒服的话",reverse:true},
+  {id:33,dim:"C",text:"我善于制定目标并坚持执行",reverse:false},
+  {id:34,dim:"E",text:"我精力充沛，喜欢忙碌的生活",reverse:false},
+  {id:35,dim:"N",text:"我觉得自己情绪比较稳定",reverse:true},
+  {id:36,dim:"N",text:"我在压力下仍能保持冷静",reverse:true},
+  {id:37,dim:"E",text:"我觉得社交活动让我很疲惫",reverse:true},
+  {id:38,dim:"C",text:"我的东西经常找不到放在哪里",reverse:true},
+  {id:39,dim:"A",text:"我很少和人发生争执",reverse:false},
+  {id:40,dim:"O",text:"我喜欢尝试新的做事方式",reverse:false},
+  {id:41,dim:"C",text:"我做事有计划，很少临时抱佛脚",reverse:false},
+  {id:42,dim:"O",text:"我喜欢接触不同文化和观点",reverse:false},
+  {id:43,dim:"E",text:"我喜欢主动认识新朋友",reverse:false},
+  {id:44,dim:"A",text:"别人的问题跟我没什么关系",reverse:true},
+  {id:45,dim:"N",text:"我经常感到焦虑或担心",reverse:false},
+  {id:46,dim:"N",text:"遇到压力时我容易感到崩溃",reverse:false},
+  {id:47,dim:"E",text:"我在人多的场合感到很自在",reverse:false},
+  {id:48,dim:"A",text:"我相信大多数人本性是善良的",reverse:false},
+  {id:49,dim:"C",text:"我做事经常半途而废",reverse:true},
+  {id:50,dim:"O",text:"我喜欢思考抽象的概念和理论",reverse:false}
+];
+
+// ══════════════════════════════════════════════════════
 // 状态管理
 // ══════════════════════════════════════════════════════
 let state = {
@@ -2764,7 +2820,91 @@ function calcProHollandProfile() {
   console.log('[v3.0 Pro] 主导:', sorted[0], '次导:', sorted[1], '第三:', sorted[2]);
 }
 function renderProBigFiveQuestion() {
-  document.getElementById('proBigFiveArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">大五人格量表即将上线（task44）</p>';
+  const i = state.proBigFiveStep;
+  const q = PRO_BIGFIVE_QS[i];
+  const total = PRO_BIGFIVE_QS.length;
+  const pct = ((i + 1) / total) * 100;
+  const area = document.getElementById('proBigFiveArea');
+
+  let encouragement = '';
+  if (i === 12) encouragement = '🎯 完成 25%，你的画像越来越清晰！';
+  if (i === 25) encouragement = '⚡ 已经过半！';
+  if (i === 37) encouragement = '🔥 还剩 13 题！';
+  if (i === 46) encouragement = '✨ 最后 4 题了！';
+
+  area.innerHTML = `
+    <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+    ${encouragement ? `<div style="text-align:center;font-size:13px;color:var(--accent3);margin:8px 0;">${encouragement}</div>` : ''}
+    <div class="question-num">第 ${i + 1} 题 / 共 ${total} 题</div>
+    <div class="question-text" style="font-size:16px;margin-bottom:20px;">${q.text}</div>
+    <div class="question-sub" style="font-size:12px;color:var(--muted);margin-bottom:16px;">以下描述符合你的程度？</div>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      ${[1,2,3,4,5].map(score => `
+        <div onclick="answerProBigFive(${q.id},'${q.dim}',${score},${q.reverse})"
+          style="width:56px;height:56px;border-radius:12px;
+          border:1.5px solid var(--border);display:flex;flex-direction:column;
+          align-items:center;justify-content:center;cursor:pointer;
+          transition:all .2s;background:var(--surface);"
+          onmouseover="this.style.borderColor='var(--accent3)'"
+          onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:18px;font-weight:700;color:var(--text);">${score}</div>
+          <div style="font-size:9px;color:var(--muted);">${['','非常不符','不太符合','一般','比较符合','非常符合'][score]}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:16px;font-size:11px;color:var(--muted);">
+      <span>非常不符合</span>
+      <span>非常符合</span>
+    </div>
+    ${i > 0 ? `
+      <div style="text-align:center;margin-top:16px;">
+        <span onclick="state.proBigFiveStep--;renderProBigFiveQuestion()"
+          style="font-size:13px;color:var(--muted);cursor:pointer;text-decoration:underline;">
+          ← 上一题
+        </span>
+      </div>
+    ` : ''}
+  `;
+}
+
+function answerProBigFive(id, dim, score, reverse) {
+  if (!state.proBigFive.answers) state.proBigFive.answers = {};
+  const finalScore = reverse ? (6 - score) : score;
+  state.proBigFive.answers[id] = { dim, score: finalScore };
+
+  if (state.proBigFiveStep < PRO_BIGFIVE_QS.length - 1) {
+    state.proBigFiveStep++;
+    renderProBigFiveQuestion();
+  } else {
+    calcProBigFiveProfile();
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-pro-scct').classList.add('active');
+    state.proSCCTStep = 0;
+    renderProSCCTQuestion();
+  }
+}
+
+function calcProBigFiveProfile() {
+  const answers = state.proBigFive.answers || {};
+  const scores = { O:0, C:0, E:0, A:0, N:0 };
+  const counts = { O:0, C:0, E:0, A:0, N:0 };
+
+  Object.values(answers).forEach(a => {
+    scores[a.dim] += a.score;
+    counts[a.dim]++;
+  });
+
+  const profile = {};
+  Object.keys(scores).forEach(dim => {
+    profile[dim] = counts[dim] ? Math.round((scores[dim] / (counts[dim] * 5)) * 100) / 10 : 5;
+  });
+
+  profile.N_stability = Math.round((10 - profile.N) * 10) / 10;
+
+  state.proBigFive.profile = profile;
+
+  console.log('[v3.0 Pro] 大五精确画像:', profile);
+  console.log('[v3.0 Pro] 情绪稳定性（反转）:', profile.N_stability);
 }
 function renderProSCCTQuestion() {
   document.getElementById('proSCCTArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">职业认知量表即将上线（task45）</p>';
