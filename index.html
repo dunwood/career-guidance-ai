@@ -391,22 +391,103 @@ footer a { color:var(--accent); text-decoration:none; }
         <div class="choice-desc">关注日常工作内容、成就感来源、这条路苦不苦</div>
       </div>
     </div>
-    <button class="btn" onclick="goToStep(1)">开始评估 →</button>
-    <button class="btn" onclick="startReverse()" style="margin-top:8px;background:transparent;border:1.5px solid var(--accent3);color:var(--accent3);">
+    <!-- 两个主入口并排 -->
+    <div style="display:flex;gap:10px;margin-bottom:10px;">
+      <button class="btn" onclick="startQuickMode()" style="flex:1;padding:18px 12px;">
+        <div style="font-size:18px;margin-bottom:4px;">⚡ 快速测评</div>
+        <div style="font-size:12px;opacity:0.7;font-weight:normal;">20题 · 3-5分钟</div>
+      </button>
+      <button class="btn" onclick="startProMode()" style="flex:1;padding:18px 12px;background:linear-gradient(135deg,var(--accent3),#7c3aed);">
+        <div style="font-size:18px;margin-bottom:4px;">🎓 专业测评</div>
+        <div style="font-size:12px;opacity:0.7;font-weight:normal;">130+题 · 30-35分钟</div>
+      </button>
+    </div>
+
+    <!-- 次要入口 -->
+    <button class="btn secondary" onclick="startReverse()" style="margin-top:8px;border-color:var(--accent3);color:var(--accent3);">
       🎯 我已有心仪专业，测适合度
     </button>
-    <div style="text-align:center; margin-top:12px;">
-      <a href="warning.html" style="font-size:13px; color:var(--accent); text-decoration:none; letter-spacing:1px;">
+    <div style="text-align:center;margin-top:12px;">
+      <a href="warning.html" style="font-size:13px;color:var(--accent);text-decoration:none;letter-spacing:1px;">
         ⚠️ 先看专业避雷榜
       </a>
-    </div>
-    <div style="text-align:center;margin-top:8px;">
-      <a href="conflict.html"
-        style="font-size:13px;color:var(--accent2);text-decoration:none;letter-spacing:1px;">
+      <span style="color:var(--muted);margin:0 8px;">·</span>
+      <a href="conflict.html" style="font-size:13px;color:var(--accent2);text-decoration:none;letter-spacing:1px;">
         👨‍👩‍👧 家庭分歧诊断
       </a>
     </div>
   </div>
+</div>
+
+<!-- ══ 屏幕 pro-intro：专业测评介绍 ══ -->
+<div class="screen" id="screen-pro-intro">
+  <div class="screen-label">专业测评</div>
+  <h2 class="screen-title">深度了解<span>真实的你</span></h2>
+  <p class="screen-sub">基于四套国际权威职业心理学量表，为你生成高精度个人画像</p>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;">
+    <div style="font-size:13px;line-height:2.2;color:var(--text);">
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+        <span>📋 霍兰德职业兴趣量表</span>
+        <span style="color:var(--muted);">48题</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+        <span>🧠 大五人格量表（IPIP-50）</span>
+        <span style="color:var(--muted);">50题</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+        <span>🎯 职业认知与价值观</span>
+        <span style="color:var(--muted);">15题</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;padding:8px 0;">
+        <span>💎 职业价值观量表</span>
+        <span style="color:var(--muted);">20题</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);border-radius:12px;padding:16px;margin-bottom:20px;font-size:13px;color:var(--accent3);line-height:1.8;">
+    💡 专业测评比快速测评精准 3-5 倍。每道题都基于经过数十年验证的国际标准量表，结果更能反映真实的你。
+  </div>
+
+  <div style="text-align:center;color:var(--muted);font-size:13px;margin-bottom:20px;">
+    ⏱️ 预计用时 30-35 分钟 · 请找一个安静不被打扰的时间完成
+  </div>
+
+  <button class="btn" onclick="startProAssessment()" style="background:linear-gradient(135deg,var(--accent3),#7c3aed);">
+    开始专业测评 →
+  </button>
+  <button class="btn secondary" onclick="goToStep(0)" style="margin-top:8px;">
+    ← 返回首页
+  </button>
+</div>
+
+<!-- ══ 占位屏幕：专业版霍兰德 ══ -->
+<div class="screen" id="screen-pro-holland">
+  <div class="screen-label">专业测评 · 第一部分</div>
+  <h2 class="screen-title">霍兰德<span>职业兴趣</span></h2>
+  <div id="proHollandArea"></div>
+</div>
+
+<!-- ══ 占位屏幕：专业版大五人格 ══ -->
+<div class="screen" id="screen-pro-bigfive">
+  <div class="screen-label">专业测评 · 第二部分</div>
+  <h2 class="screen-title">大五<span>人格特质</span></h2>
+  <div id="proBigFiveArea"></div>
+</div>
+
+<!-- ══ 占位屏幕：专业版 SCCT ══ -->
+<div class="screen" id="screen-pro-scct">
+  <div class="screen-label">专业测评 · 第三部分</div>
+  <h2 class="screen-title">职业<span>认知与期望</span></h2>
+  <div id="proSCCTArea"></div>
+</div>
+
+<!-- ══ 占位屏幕：职业价值观 ══ -->
+<div class="screen" id="screen-pro-values">
+  <div class="screen-label">专业测评 · 第四部分</div>
+  <h2 class="screen-title">职业<span>价值观</span></h2>
+  <div id="proValuesArea"></div>
 </div>
 
 <!-- ══ 屏幕 Reverse：反向测评 ══ -->
@@ -877,6 +958,7 @@ const SCCT_QS = [
 // ══════════════════════════════════════════════════════
 let state = {
   mode: 'parent',       // parent / student
+  assessMode: 'quick',  // 'quick' 快速测评 | 'pro' 专业测评
   scoreRange: '',
   subject: '',
   family: {},           // family answers
@@ -890,7 +972,15 @@ let state = {
   profile: null,        // personality profile from calcPersonalityProfile
   occupationsDB: {},    // loaded from ai-career-risk
   results: [],
-  resultMode: 'parent'
+  resultMode: 'parent',
+  proHolland: {},       // 专业版霍兰德 48 题答案
+  proHollandStep: 0,
+  proBigFive: {},       // 专业版大五 50 题答案
+  proBigFiveStep: 0,
+  proSCCT: {},          // 专业版 SCCT 15 题答案
+  proSCCTStep: 0,
+  proValues: {},        // 职业价值观 20 题答案
+  proValuesStep: 0,
 };
 
 // ══════════════════════════════════════════════════════
@@ -1045,7 +1135,17 @@ function answerFamily(key, value, el) {
       state.familyStep++;
       renderFamilyQuestion();
     } else {
-      goToStep(3);
+      if (state.assessMode === 'pro') {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('screen-pro-holland').classList.add('active');
+        state.proHollandStep = 0;
+        renderProHollandQuestion();
+      } else {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('screen3').classList.add('active');
+        state.personalityStep = 0;
+        renderPersonalityQuestion();
+      }
     }
   }, 300);
 }
@@ -2494,10 +2594,43 @@ function showAllMajors() {
 function restart() {
   state = { ...state, scoreRange:'', subject:'', family:{}, personality:[],
     familyStep:0, personalityStep:0, scct:{}, scctStep:0, weights:null, results:[], resultMode: 'normal', mode: 'normal',
-    reverseMajor: '' };
+    reverseMajor: '', assessMode: 'quick',
+    proHolland:{}, proHollandStep:0, proBigFive:{}, proBigFiveStep:0,
+    proSCCT:{}, proSCCTStep:0, proValues:{}, proValuesStep:0 };
   renderFamilyQuestion();
   renderPersonalityQuestion();
   goToStep(0);
+}
+
+// ══════════════════════════════════════════════════════
+// 模式选择
+// ══════════════════════════════════════════════════════
+function startQuickMode() {
+  state.assessMode = 'quick';
+  goToStep(1);  // 进入基本信息页（现有流程）
+}
+
+function startProMode() {
+  state.assessMode = 'pro';
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-pro-intro').classList.add('active');
+}
+
+function startProAssessment() {
+  goToStep(1);  // 从基本信息开始，两个模式相同
+}
+
+function renderProHollandQuestion() {
+  document.getElementById('proHollandArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">霍兰德量表即将上线（task43）</p>';
+}
+function renderProBigFiveQuestion() {
+  document.getElementById('proBigFiveArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">大五人格量表即将上线（task44）</p>';
+}
+function renderProSCCTQuestion() {
+  document.getElementById('proSCCTArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">职业认知量表即将上线（task45）</p>';
+}
+function renderProValuesQuestion() {
+  document.getElementById('proValuesArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">价值观量表即将上线（task45）</p>';
 }
 
 // ══════════════════════════════════════════════════════
