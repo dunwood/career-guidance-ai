@@ -954,6 +954,60 @@ const SCCT_QS = [
 ];
 
 // ══════════════════════════════════════════════════════
+// 专业版霍兰德 48 题（RIASEC，打乱顺序）
+// ══════════════════════════════════════════════════════
+const PRO_HOLLAND_QS = [
+  {id:1,type:"S",text:"倾听朋友的烦恼并开导他"},
+  {id:2,type:"I",text:"分析一组数据找出规律"},
+  {id:3,type:"R",text:"操作3D打印机制作模型"},
+  {id:4,type:"E",text:"模拟创业做一个商业计划"},
+  {id:5,type:"C",text:"核对一份数据表确保没有错误"},
+  {id:6,type:"A",text:"拍摄并剪辑一段短视频"},
+  {id:7,type:"R",text:"学习汽车发动机的工作原理"},
+  {id:8,type:"I",text:"用逻辑推理破解一个谜题"},
+  {id:9,type:"A",text:"为学校活动设计海报"},
+  {id:10,type:"E",text:"谈判争取更好的合作条件"},
+  {id:11,type:"S",text:"组织班级活动让大家参与"},
+  {id:12,type:"C",text:"按照流程一步步完成实验报告"},
+  {id:13,type:"I",text:"设计一个实验验证自己的假设"},
+  {id:14,type:"R",text:"拆开一个旧手机看内部结构"},
+  {id:15,type:"E",text:"说服别人加入你的兴趣小组"},
+  {id:16,type:"A",text:"设计一个APP的界面和配色"},
+  {id:17,type:"S",text:"辅导同学解决学习困难"},
+  {id:18,type:"C",text:"制定详细的学习计划并执行"},
+  {id:19,type:"R",text:"在实验室操作精密仪器"},
+  {id:20,type:"A",text:"在舞台上表演话剧或朗诵"},
+  {id:21,type:"E",text:"策划一场活动并推广宣传"},
+  {id:22,type:"S",text:"参与社区公益活动"},
+  {id:23,type:"I",text:"研究一个数学难题直到解出来"},
+  {id:24,type:"C",text:"整理归档班级的各种文件"},
+  {id:25,type:"C",text:"把书架上的书按分类整理好"},
+  {id:26,type:"S",text:"带领新同学熟悉校园环境"},
+  {id:27,type:"I",text:"研究宇宙的起源和演化"},
+  {id:28,type:"A",text:"写一首诗或一个短篇故事"},
+  {id:29,type:"R",text:"在户外搭建帐篷或简易结构"},
+  {id:30,type:"E",text:"组织一个团队完成比赛项目"},
+  {id:31,type:"R",text:"自己动手做木工家具"},
+  {id:32,type:"S",text:"教小朋友学习基础知识"},
+  {id:33,type:"C",text:"按规定格式填写各种表格"},
+  {id:34,type:"E",text:"在班会上说服大家接受你的方案"},
+  {id:35,type:"A",text:"学习一种乐器并演奏"},
+  {id:36,type:"I",text:"深入了解一种疾病的发病机制"},
+  {id:37,type:"A",text:"布置一个房间让它更有风格"},
+  {id:38,type:"R",text:"用工具修理家里的电器"},
+  {id:39,type:"E",text:"在辩论赛中争取评委支持"},
+  {id:40,type:"I",text:"学习编程解决一个复杂问题"},
+  {id:41,type:"S",text:"调解两个朋友之间的矛盾"},
+  {id:42,type:"C",text:"用表格记录和管理日常开支"},
+  {id:43,type:"E",text:"做班长管理班级日常事务"},
+  {id:44,type:"I",text:"阅读科学杂志了解最新发现"},
+  {id:45,type:"A",text:"画一幅风景画或人物素描"},
+  {id:46,type:"C",text:"校对一篇文章的格式和错别字"},
+  {id:47,type:"R",text:"组装一台电脑或机器人"},
+  {id:48,type:"S",text:"去养老院做志愿服务"}
+];
+
+// ══════════════════════════════════════════════════════
 // 状态管理
 // ══════════════════════════════════════════════════════
 let state = {
@@ -2621,7 +2675,93 @@ function startProAssessment() {
 }
 
 function renderProHollandQuestion() {
-  document.getElementById('proHollandArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">霍兰德量表即将上线（task43）</p>';
+  const i = state.proHollandStep;
+  const q = PRO_HOLLAND_QS[i];
+  const total = PRO_HOLLAND_QS.length;
+  const pct = ((i + 1) / total) * 100;
+  const area = document.getElementById('proHollandArea');
+
+  let encouragement = '';
+  if (i === 12) encouragement = '🎯 完成 25%，保持节奏！';
+  if (i === 24) encouragement = '⚡ 已经过半了，继续！';
+  if (i === 36) encouragement = '🔥 还剩 12 题，马上完成！';
+  if (i === 44) encouragement = '✨ 最后 4 题了！';
+
+  area.innerHTML = `
+    <div class="progress-wrap"><div class="progress-bar" style="width:${pct}%"></div></div>
+    ${encouragement ? `<div style="text-align:center;font-size:13px;color:var(--accent3);margin:8px 0;">${encouragement}</div>` : ''}
+    <div class="question-num">第 ${i + 1} 题 / 共 ${total} 题</div>
+    <div class="question-text" style="font-size:16px;margin-bottom:20px;">${q.text}</div>
+    <div class="question-sub" style="font-size:12px;color:var(--muted);margin-bottom:16px;">你对这个活动的喜欢程度？</div>
+    <div style="display:flex;gap:8px;justify-content:center;">
+      ${[1,2,3,4,5].map(score => `
+        <div onclick="answerProHolland(${q.id},'${q.type}',${score})"
+          style="width:56px;height:56px;border-radius:12px;
+          border:1.5px solid var(--border);display:flex;flex-direction:column;
+          align-items:center;justify-content:center;cursor:pointer;
+          transition:all .2s;background:var(--surface);"
+          onmouseover="this.style.borderColor='var(--accent3)'"
+          onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:18px;font-weight:700;color:var(--text);">${score}</div>
+          <div style="font-size:9px;color:var(--muted);">${['','很不喜欢','不太喜欢','一般','比较喜欢','非常喜欢'][score]}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:16px;font-size:11px;color:var(--muted);">
+      <span>非常不喜欢</span>
+      <span>非常喜欢</span>
+    </div>
+    ${i > 0 ? `
+      <div style="text-align:center;margin-top:16px;">
+        <span onclick="state.proHollandStep--;renderProHollandQuestion()"
+          style="font-size:13px;color:var(--muted);cursor:pointer;text-decoration:underline;">
+          ← 上一题
+        </span>
+      </div>
+    ` : ''}
+  `;
+}
+
+function answerProHolland(id, type, score) {
+  if (!state.proHolland.answers) state.proHolland.answers = {};
+  state.proHolland.answers[id] = { type, score };
+
+  if (state.proHollandStep < PRO_HOLLAND_QS.length - 1) {
+    state.proHollandStep++;
+    renderProHollandQuestion();
+  } else {
+    calcProHollandProfile();
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-pro-bigfive').classList.add('active');
+    state.proBigFiveStep = 0;
+    renderProBigFiveQuestion();
+  }
+}
+
+function calcProHollandProfile() {
+  const answers = state.proHolland.answers || {};
+  const scores = { R:0, I:0, A:0, S:0, E:0, C:0 };
+  const counts = { R:0, I:0, A:0, S:0, E:0, C:0 };
+
+  Object.values(answers).forEach(a => {
+    scores[a.type] += a.score;
+    counts[a.type]++;
+  });
+
+  const profile = {};
+  Object.keys(scores).forEach(type => {
+    profile[type] = counts[type] ? Math.round((scores[type] / (counts[type] * 5)) * 100) / 10 : 5;
+  });
+
+  const sorted = Object.entries(profile).sort((a, b) => b[1] - a[1]);
+
+  state.proHolland.profile = profile;
+  state.proHolland.primary = sorted[0][0];
+  state.proHolland.secondary = sorted[1][0];
+  state.proHolland.tertiary = sorted[2][0];
+
+  console.log('[v3.0 Pro] 霍兰德精确画像:', profile);
+  console.log('[v3.0 Pro] 主导:', sorted[0], '次导:', sorted[1], '第三:', sorted[2]);
 }
 function renderProBigFiveQuestion() {
   document.getElementById('proBigFiveArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:40px 0;">大五人格量表即将上线（task44）</p>';
